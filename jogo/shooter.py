@@ -109,7 +109,7 @@ class shoot:
                 self.ball_vy=pos[3]
 
 
-                pos = a.MagField(t,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,Ex,Ey)
+                pos = a.ElectricField(t,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,Ex,Ey)
 
                 if(shot==True):
 			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
