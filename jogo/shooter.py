@@ -65,7 +65,7 @@ class shoot:
 		self.ball_pos_y = self.ball_pos_y0 - v0*sin(self.sh_angle)*self.t + 0.5*g*self.t*self.t
 		
 		
-        def kutta(self, screen, shot,B):
+        def kutta(self, screen, shot,B,Ex,Ey):
                 lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
 
                 a = ctypes.CDLL('ElecMag.so')
@@ -108,6 +108,24 @@ class shoot:
                 self.ball_vx= pos[2]
                 self.ball_vy=pos[3]
 
+
+                pos = a.MagField(t,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,Ex,Ey)
+
+                if(shot==True):
+			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
+			self.ball_pos_y0 = self.sh_pos_y - end_point_y
+                        self.ball_pos_x = self.ball_pos_x0
+                        self.ball_pos_y = self.ball_pos_y0
+                        self.ball_vx = vel*cos(self.sh_angle)
+                        self.ball_vy = vel*sin(self.sh_angle)
+			self.t=0
+
+                ht = 0.5;
+		self.t=self.t+ht
+		self.ball_pos_x = pos[0] 
+		self.ball_pos_y = pos[1]
+                self.ball_vx= pos[2]
+                self.ball_vy=pos[3]
                 
 		
 		
