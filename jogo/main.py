@@ -5,7 +5,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
-GAY = (255,228,181)
+AQUA = (127,255,212)
 DSBLUE = (0,191,255)
 
 pygame.init()
@@ -132,13 +132,10 @@ def level1():
 			pos = s.get_ball_pos()
 			
                         if 200<pos[0]<300 and 150<pos[1]<200:
-                            pygame.draw.rect(screen,RED,((display_width/2)-100,(display_height/2)-50,200,50))
-                            font = pygame.font.Font(None, 50)
-                            text = font.render("   You lost!   ", 1, (20, 20, 20))
-                            textpos = text.get_rect()
-                            textpos.center = ((display_width/2),(display_height/2)-20)
-                            screen.blit(text, textpos)
                             defeat()
+
+                        if event.key == pygame.K_p:
+                            paused()
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
@@ -155,6 +152,29 @@ def level1():
 
 def defeat():
     
+    lost = True 
+
+    while lost:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        
+        pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
+        font = pygame.font.Font(None, 50)
+        text = font.render("   You lost!   ", 1, (20, 20, 20))
+        textpos = text.get_rect()
+        textpos.center = ((display_width/2),(display_height/2)-20)
+        screen.blit(text, textpos)
+        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+
+        pygame.display.update()
+        clock.tick(25)  
+
+def paused():
+    
     pause = True 
 
     while pause:
@@ -163,15 +183,13 @@ def defeat():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-                
-        #gameDisplay.fill(white)
         
-
-        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
-        button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+        button("Continue",(display_width/2)-150,(display_height/2),100,50,WHITE,GREEN,None)
+        button("Restart",(display_width/2)-50,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Menu",(display_width/2)+50,(display_height/2),100,50,WHITE,GREEN,game_intro)
 
         pygame.display.update()
-        clock.tick(15)  
+        clock.tick(25)  
 
 def about():
 
