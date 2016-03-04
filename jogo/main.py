@@ -18,6 +18,8 @@ screen = pygame.display.set_mode(size)
  
 pygame.display.set_caption("Bouncing Rectangle")
  
+pause = False 
+
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
@@ -82,6 +84,7 @@ def level1():
 	s = shoot()
 	shooter_angle=0
 	ball_on_screen=False
+        global pause
 
 	# Loop until the user clicks the close button.
 	done = False
@@ -105,7 +108,11 @@ def level1():
                                 elif event.key == pygame.K_b:
                                         B=-B
                                 elif event.key == pygame.K_e:
-                                        Ex=-Ex
+                                    Ex=-Ex
+                                elif event.key == pygame.K_p:
+                                    pause =  True
+                                    paused()
+                                        
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					shooter_angle=shooter_angle
@@ -133,9 +140,6 @@ def level1():
 			
                         if 200<pos[0]<300 and 150<pos[1]<200:
                             defeat()
-
-                        if event.key == pygame.K_p:
-                            paused()
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
@@ -173,9 +177,11 @@ def defeat():
         pygame.display.update()
         clock.tick(25)  
 
+def unpause():
+    global pause 
+    pause = False
+
 def paused():
-    
-    pause = True 
 
     while pause:
         for event in pygame.event.get():
@@ -184,7 +190,7 @@ def paused():
                 pygame.quit()
                 quit()
         
-        button("Continue",(display_width/2)-150,(display_height/2),100,50,WHITE,GREEN,None)
+        button("Continue",(display_width/2)-150,(display_height/2),100,50,WHITE,GREEN,unpause)
         button("Restart",(display_width/2)-50,(display_height/2),100,50,WHITE,GREEN,level1)
         button("Menu",(display_width/2)+50,(display_height/2),100,50,WHITE,GREEN,game_intro)
 
