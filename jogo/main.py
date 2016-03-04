@@ -5,6 +5,7 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+GAY = (255,228,181)
  
 pygame.init()
  
@@ -111,8 +112,8 @@ def level1():
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
-		
-		
+		pygame.draw.rect(screen,RED,(200,150,100,50))
+
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
                         s.kutta(screen,shot,B,Ex,Ey)
@@ -121,18 +122,52 @@ def level1():
 			
 			pos = s.get_ball_pos()
 			
+                        if 200<pos[0]<300 and 150<pos[1]<200:
+                            print "collision" 
+                            font = pygame.font.Font(None, 36)
+                            text = font.render("You lose, you die", 1, (10, 10, 10),WHITE)
+                            textpos = text.get_rect()
+                            textpos.center = ((display_width/2),150)
+                            screen.blit(text, textpos)
+                            paused()
+
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
  
+
 		# --- Wrap-ups
 		# Limit to 60 frames per second
 		clock.tick(60)
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
- 
+
+def paused():
+
+    largeText = pygame.font.SysFont("comicsansms",115)
+    TextSurf, TextRect = text_objects("Paused", largeText)
+    TextRect.center = ((display_width/2),(display_height/2))
+    screen.blit(TextSurf, TextRect)
+    pause = True 
+
+    while pause:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        #gameDisplay.fill(white)
+        
+
+        button("Restart",150,450,100,50,GREEN,RED,level1)
+        button("Menu",350,450,100,50,GAY,BLACK,game_intro)
+
+        pygame.display.update()
+        clock.tick(15)  
+
 def about():
 
     while True:

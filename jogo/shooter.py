@@ -136,6 +136,8 @@ class shoot:
                 self.ball_vx= pos[2]
                 self.ball_vy=pos[3]
 
+                
+
         
 		
 		
