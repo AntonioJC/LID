@@ -1,0 +1,1974 @@
+
+<!-- saved from url=(0057)https://pythonprogramming.net/adding-sounds-music-pygame/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<!-- 
+		palette:
+		dark blue: #003F72
+		yellow: #FFD166
+		salmon: #EF476F
+		offwhite: #e7d7d7
+		Light Blue: #118AB2
+		Light green: #7DDF64
+		-->
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Python Programming Tutorials</title>
+
+		<meta name="description" content="Python Programming tutorials from beginner to advanced on a massive variety of topics. All tutorials are free.">
+
+		<link rel="shortcut icon" href="https://pythonprogramming.net/static/favicon.ico">
+		<link rel="stylesheet" href="./sounds_and_music_files/materialize.min.css">
+        <link href="./sounds_and_music_files/icon" rel="stylesheet">
+        <meta name="google-site-verification" content="3fLok05gk5gGtWd_VSXbSSSH27F2kr1QqcxYz9vYq2k">
+
+		
+		  <!-- Compiled and minified CSS -->
+
+		<!-- Compiled and minified JavaScript -->
+
+		<script src="./sounds_and_music_files/ca-pub-1579050400541873.js"></script><script async="" src="./sounds_and_music_files/analytics.js"></script><script src="./sounds_and_music_files/jquery-2.1.4.min.js"></script>
+		<script src="./sounds_and_music_files/materialize.min.js"></script>
+
+		
+
+        <style>
+		@media (min-width:992px) {
+		#aside {
+			width:250px;
+		}
+		pre { tab-size: 4;}
+		.btn {background-color:#FFD166;
+			  color:#000;
+		      height:auto;
+			  font-color:#000;
+			  }
+		.btn:hover {background-color:#FFD166;
+					}
+
+
+		</style>
+				
+		<!-- Google Tracking -->
+		<script>
+			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			  ga('create', 'UA-51891827-1', 'auto');
+			  ga('send', 'pageview');
+
+		</script>
+		
+	<link rel="stylesheet" type="text/css" href="./sounds_and_music_files/prettify.css"></head>
+	
+	<body class="body">
+
+		<div class="navbar-fixed">
+			<nav style="background-color:#003F72">
+				<div class="nav-wrapper container">
+					<a href="https://pythonprogramming.net/" class="brand-logo"><img class="img-responsive" style="width:50px; height;50px; margin-top:5px" src="./sounds_and_music_files/mainlogowhitethick.jpg"></a>
+					<a href="https://pythonprogramming.net/adding-sounds-music-pygame/#" data-activates="navsidebar" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+					<ul class="right hide-on-med-and-down">
+					<li><i class="material-icons">search</i></li>
+					<li>
+						<form method="get" id="searchform" style="height:50px; padding-top:10px" action="https://pythonprogramming.net/search/?l=hi">
+							<input name="q" id="search" type="search" placeholder="search" style="font-size:16px">
+						</form>
+					</li>
+						
+			<li><a href="https://pythonprogramming.net/">Home</a></li>
+			<li><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="sudo apt-get upgrade" href="https://pythonprogramming.net/+=1/" data-tooltip-id="38573404-8138-e45f-3e5e-bf388b3856ab">+=1</a></li>
+			
+			<li><a href="https://pythonprogramming.net/community/">Community</a></li>
+				<li><a href="https://pythonprogramming.net/login/">Log in</a></li>
+                <li><a href="https://pythonprogramming.net/register/">Sign up</a></li>
+			
+
+					</ul>
+					<ul class="side-nav" id="navsidebar" style="left: -250px;">
+					<li>
+						<form method="get" id="searchform" style="height:50px; padding-top:10px" action="https://pythonprogramming.net/search/?l=hi">
+							<input name="q" id="search" type="search" placeholder="search" style="font-size:16px">
+						</form>
+					</li>
+						
+			<li><a href="https://pythonprogramming.net/">Home</a></li>
+			<li><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="sudo apt-get upgrade" href="https://pythonprogramming.net/+=1/" data-tooltip-id="25c7bd5a-0310-e4f8-3367-7f403ba49b7a">+=1</a></li>
+			
+			<li><a href="https://pythonprogramming.net/community/">Community</a></li>
+				<li><a href="https://pythonprogramming.net/login/">Log in</a></li>
+                <li><a href="https://pythonprogramming.net/register/">Sign up</a></li>
+			
+
+					</ul>
+				</div>
+			</nav>
+		</div>
+
+		<!-- main content -->
+		<div class="container" style="max-width:1500px; min-height:100%">
+					
+					
+					  
+					
+				
+					
+<!--       <pre class="prettyprint">             width="750" height="423"    -->
+
+    <div class="row">
+    <div class="col l8 m12 s12">
+
+
+      <div class="container-fluid" align="left">
+		
+
+
+	<script async="" src="./sounds_and_music_files/adsbygoogle.js"></script>
+						<!-- PythonProgramming Responsive -->
+						<ins class="adsbygoogle" style="display: block; height: 60px;" data-ad-client="ca-pub-1579050400541873" data-ad-slot="9483252723" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><iframe width="593" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+	 <br>
+	
+	
+
+
+		<!--<div class="progress" style="background-color:#ffebbe;height:20px;">
+			<div class="determinate" style="background-color:#FFD166;width: 0%;">
+				PyGame Progress:  0%
+			</div>
+		</div>-->
+	  <h2>Sounds and Music with PyGame</h2>
+	  <br>
+	  
+	  <div class="video-container"><iframe width="750" height="423" src="./sounds_and_music_files/8sCQQlqeOKY.html" frameborder="0" allowfullscreen=""></iframe></div><br>
+
+
+
+	<script async="" src="./sounds_and_music_files/adsbygoogle.js"></script>
+						<!-- PythonProgramming Responsive -->
+						<ins class="adsbygoogle" style="display: block; height: 60px;" data-ad-client="ca-pub-1579050400541873" data-ad-slot="9483252723" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><iframe width="593" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+	 <br>
+	
+	
+
+
+	  
+
+
+<p>Video games are meant to immerse the player into a sort of virtual reality. We do this mainly visually, but it can make a massive difference and be a massive improvement to your game if you add sounds as well. </p>
+
+<p>Sounds generally come in two major forms: Either "ambient" noise or as results of player actions. With PyGame, you get two choices: Music or Sounds. Music will just play in the background when you call it to, and sounds will play at any time you call them to play. We're going to cover both here by adding them both to our current game. First, we will use a simple tune from YouTube as our game's music and then we'll add a "crash" sound that we will play if we hit any of the blocks. </p>
+
+<p>To start, let's make a sound:</p>
+
+<pre class="prettyprint prettyprinted"><span class="pln">crash_sound </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="typ">Sound</span><span class="pun">(</span><span class="str">"crash.wav"</span><span class="pun">)</span></pre>
+
+<p>The above will assign the crash.wav sound file to play when we call crash_sound within PyGame's sound playing functionality. Notice the file is .wav. PyGame can handle .mp3 as well, but it is somewhat glitchy, and will work sometimes and other times it wont. For the safest bet, go with .wav. </p>
+
+<p>Now that we know how to call sounds, how can we do music?</p>
+
+<pre class="prettyprint prettyprinted"><span class="pln">pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="str">'jazz.wav'</span><span class="pun">)</span><span class="pln">
+pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">play</span><span class="pun">(-</span><span class="lit">1</span><span class="pun">)</span></pre>
+
+<p>The above code will play the music file indefinitely (though you can call it to stop). The -1 signals PyGame to just play forever, but, if you put, say, a 5 in there, then the music would play once and 5 more times. </p>
+
+<p>Now, we want the music to play, and it is, then we need the crash sound to play when crashed. Also, we'd like to stop the music if this is the case. </p>
+
+<p>So, within our crash function...</p>
+
+<pre class="prettyprint prettyprinted"><span class="kwd">def</span><span class="pln"> crash</span><span class="pun">():</span><span class="pln">
+    </span><span class="com">####################################</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="typ">Sound</span><span class="pun">.</span><span class="pln">play</span><span class="pun">(</span><span class="pln">crash_sound</span><span class="pun">)</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">stop</span><span class="pun">()</span><span class="pln">
+    </span><span class="com">####################################</span><span class="pln">
+    largeText </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">font</span><span class="pun">.</span><span class="typ">SysFont</span><span class="pun">(</span><span class="str">"comicsansms"</span><span class="pun">,</span><span class="lit">115</span><span class="pun">)</span><span class="pln">
+    </span><span class="typ">TextSurf</span><span class="pun">,</span><span class="pln"> </span><span class="typ">TextRect</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> text_objects</span><span class="pun">(</span><span class="str">"You Crashed"</span><span class="pun">,</span><span class="pln"> largeText</span><span class="pun">)</span></pre>
+
+<p>Above, we're calling PyGame to play the crash_sound, as well as to stop the music. This means the music will start over again if the game is re-played. </p>
+
+<p>Now, the only other thing we may want to do is learn how to pause/unpause music when the player pauses the game. This is easy enough.</p>
+
+<p>In our paused function:</p>
+<pre class="prettyprint prettyprinted"><span class="kwd">def</span><span class="pln"> paused</span><span class="pun">():</span><span class="pln">
+    </span><span class="com">############</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">pause</span><span class="pun">()</span><span class="pln">
+    </span><span class="com">#############</span></pre>
+
+<p>And then of course we must unpause it:</p>
+
+<pre class="prettyprint prettyprinted"><span class="kwd">def</span><span class="pln"> unpause</span><span class="pun">():</span><span class="pln">
+    </span><span class="kwd">global</span><span class="pln"> pause
+    </span><span class="com">#################</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">unpause</span><span class="pun">()</span><span class="pln">
+    </span><span class="com">#################</span><span class="pln">
+    pause </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">False</span></pre>
+
+
+
+<p>Full PyGame code: </p>
+<pre class="prettyprint prettyprinted"><span class="kwd">import</span><span class="pln"> pygame
+</span><span class="kwd">import</span><span class="pln"> time
+</span><span class="kwd">import</span><span class="pln"> random
+ 
+pygame</span><span class="pun">.</span><span class="pln">init</span><span class="pun">()</span><span class="pln">
+
+</span><span class="com">#############</span><span class="pln">
+crash_sound </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="typ">Sound</span><span class="pun">(</span><span class="str">"crash.wav"</span><span class="pun">)</span><span class="pln">
+</span><span class="com">#############</span><span class="pln">
+ 
+display_width </span><span class="pun">=</span><span class="pln"> </span><span class="lit">800</span><span class="pln">
+display_height </span><span class="pun">=</span><span class="pln"> </span><span class="lit">600</span><span class="pln">
+ 
+black </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+white </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">255</span><span class="pun">,</span><span class="lit">255</span><span class="pun">,</span><span class="lit">255</span><span class="pun">)</span><span class="pln">
+
+red </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">200</span><span class="pun">,</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+green </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="lit">200</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+
+bright_red </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">255</span><span class="pun">,</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+bright_green </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="lit">255</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+ 
+block_color </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">53</span><span class="pun">,</span><span class="lit">115</span><span class="pun">,</span><span class="lit">255</span><span class="pun">)</span><span class="pln">
+ 
+car_width </span><span class="pun">=</span><span class="pln"> </span><span class="lit">73</span><span class="pln">
+ 
+gameDisplay </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">set_mode</span><span class="pun">((</span><span class="pln">display_width</span><span class="pun">,</span><span class="pln">display_height</span><span class="pun">))</span><span class="pln">
+pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">set_caption</span><span class="pun">(</span><span class="str">'A bit Racey'</span><span class="pun">)</span><span class="pln">
+clock </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">time</span><span class="pun">.</span><span class="typ">Clock</span><span class="pun">()</span><span class="pln">
+ 
+carImg </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">image</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="str">'racecar.png'</span><span class="pun">)</span><span class="pln">
+gameIcon </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">image</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="str">'carIcon.png'</span><span class="pun">)</span><span class="pln">
+
+pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">set_icon</span><span class="pun">(</span><span class="pln">gameIcon</span><span class="pun">)</span><span class="pln">
+
+pause </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">False</span><span class="pln">
+</span><span class="com">#crash = True</span><span class="pln">
+ 
+</span><span class="kwd">def</span><span class="pln"> things_dodged</span><span class="pun">(</span><span class="pln">count</span><span class="pun">):</span><span class="pln">
+    font </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">font</span><span class="pun">.</span><span class="typ">SysFont</span><span class="pun">(</span><span class="str">"comicsansms"</span><span class="pun">,</span><span class="pln"> </span><span class="lit">25</span><span class="pun">)</span><span class="pln">
+    text </span><span class="pun">=</span><span class="pln"> font</span><span class="pun">.</span><span class="pln">render</span><span class="pun">(</span><span class="str">"Dodged: "</span><span class="pun">+</span><span class="pln">str</span><span class="pun">(</span><span class="pln">count</span><span class="pun">),</span><span class="pln"> </span><span class="kwd">True</span><span class="pun">,</span><span class="pln"> black</span><span class="pun">)</span><span class="pln">
+    gameDisplay</span><span class="pun">.</span><span class="pln">blit</span><span class="pun">(</span><span class="pln">text</span><span class="pun">,(</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">))</span><span class="pln">
+ 
+</span><span class="kwd">def</span><span class="pln"> things</span><span class="pun">(</span><span class="pln">thingx</span><span class="pun">,</span><span class="pln"> thingy</span><span class="pun">,</span><span class="pln"> thingw</span><span class="pun">,</span><span class="pln"> thingh</span><span class="pun">,</span><span class="pln"> color</span><span class="pun">):</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">draw</span><span class="pun">.</span><span class="pln">rect</span><span class="pun">(</span><span class="pln">gameDisplay</span><span class="pun">,</span><span class="pln"> color</span><span class="pun">,</span><span class="pln"> </span><span class="pun">[</span><span class="pln">thingx</span><span class="pun">,</span><span class="pln"> thingy</span><span class="pun">,</span><span class="pln"> thingw</span><span class="pun">,</span><span class="pln"> thingh</span><span class="pun">])</span><span class="pln">
+ 
+</span><span class="kwd">def</span><span class="pln"> car</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">):</span><span class="pln">
+    gameDisplay</span><span class="pun">.</span><span class="pln">blit</span><span class="pun">(</span><span class="pln">carImg</span><span class="pun">,(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">))</span><span class="pln">
+ 
+</span><span class="kwd">def</span><span class="pln"> text_objects</span><span class="pun">(</span><span class="pln">text</span><span class="pun">,</span><span class="pln"> font</span><span class="pun">):</span><span class="pln">
+    textSurface </span><span class="pun">=</span><span class="pln"> font</span><span class="pun">.</span><span class="pln">render</span><span class="pun">(</span><span class="pln">text</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">True</span><span class="pun">,</span><span class="pln"> black</span><span class="pun">)</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> textSurface</span><span class="pun">,</span><span class="pln"> textSurface</span><span class="pun">.</span><span class="pln">get_rect</span><span class="pun">()</span><span class="pln">
+ 
+ 
+</span><span class="kwd">def</span><span class="pln"> crash</span><span class="pun">():</span><span class="pln">
+    </span><span class="com">####################################</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="typ">Sound</span><span class="pun">.</span><span class="pln">play</span><span class="pun">(</span><span class="pln">crash_sound</span><span class="pun">)</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">stop</span><span class="pun">()</span><span class="pln">
+    </span><span class="com">####################################</span><span class="pln">
+    largeText </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">font</span><span class="pun">.</span><span class="typ">SysFont</span><span class="pun">(</span><span class="str">"comicsansms"</span><span class="pun">,</span><span class="lit">115</span><span class="pun">)</span><span class="pln">
+    </span><span class="typ">TextSurf</span><span class="pun">,</span><span class="pln"> </span><span class="typ">TextRect</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> text_objects</span><span class="pun">(</span><span class="str">"You Crashed"</span><span class="pun">,</span><span class="pln"> largeText</span><span class="pun">)</span><span class="pln">
+    </span><span class="typ">TextRect</span><span class="pun">.</span><span class="pln">center </span><span class="pun">=</span><span class="pln"> </span><span class="pun">((</span><span class="pln">display_width</span><span class="pun">/</span><span class="lit">2</span><span class="pun">),(</span><span class="pln">display_height</span><span class="pun">/</span><span class="lit">2</span><span class="pun">))</span><span class="pln">
+    gameDisplay</span><span class="pun">.</span><span class="pln">blit</span><span class="pun">(</span><span class="typ">TextSurf</span><span class="pun">,</span><span class="pln"> </span><span class="typ">TextRect</span><span class="pun">)</span><span class="pln">
+    
+
+    </span><span class="kwd">while</span><span class="pln"> </span><span class="kwd">True</span><span class="pun">:</span><span class="pln">
+        </span><span class="kwd">for</span><span class="pln"> </span><span class="kwd">event</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> pygame</span><span class="pun">.</span><span class="kwd">event</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">():</span><span class="pln">
+            </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">QUIT</span><span class="pun">:</span><span class="pln">
+                pygame</span><span class="pun">.</span><span class="pln">quit</span><span class="pun">()</span><span class="pln">
+                quit</span><span class="pun">()</span><span class="pln">
+                
+        
+
+        button</span><span class="pun">(</span><span class="str">"Play Again"</span><span class="pun">,</span><span class="lit">150</span><span class="pun">,</span><span class="lit">450</span><span class="pun">,</span><span class="lit">100</span><span class="pun">,</span><span class="lit">50</span><span class="pun">,</span><span class="pln">green</span><span class="pun">,</span><span class="pln">bright_green</span><span class="pun">,</span><span class="pln">game_loop</span><span class="pun">)</span><span class="pln">
+        button</span><span class="pun">(</span><span class="str">"Quit"</span><span class="pun">,</span><span class="lit">550</span><span class="pun">,</span><span class="lit">450</span><span class="pun">,</span><span class="lit">100</span><span class="pun">,</span><span class="lit">50</span><span class="pun">,</span><span class="pln">red</span><span class="pun">,</span><span class="pln">bright_red</span><span class="pun">,</span><span class="pln">quitgame</span><span class="pun">)</span><span class="pln">
+
+        pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">update</span><span class="pun">()</span><span class="pln">
+        clock</span><span class="pun">.</span><span class="pln">tick</span><span class="pun">(</span><span class="lit">15</span><span class="pun">)</span><span class="pln"> 
+
+</span><span class="kwd">def</span><span class="pln"> button</span><span class="pun">(</span><span class="pln">msg</span><span class="pun">,</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">,</span><span class="pln">w</span><span class="pun">,</span><span class="pln">h</span><span class="pun">,</span><span class="pln">ic</span><span class="pun">,</span><span class="pln">ac</span><span class="pun">,</span><span class="pln">action</span><span class="pun">=</span><span class="kwd">None</span><span class="pun">):</span><span class="pln">
+    mouse </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">mouse</span><span class="pun">.</span><span class="pln">get_pos</span><span class="pun">()</span><span class="pln">
+    click </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">mouse</span><span class="pun">.</span><span class="pln">get_pressed</span><span class="pun">()</span><span class="pln">
+
+    </span><span class="kwd">if</span><span class="pln"> x</span><span class="pun">+</span><span class="pln">w </span><span class="pun">&gt;</span><span class="pln"> mouse</span><span class="pun">[</span><span class="lit">0</span><span class="pun">]</span><span class="pln"> </span><span class="pun">&gt;</span><span class="pln"> x </span><span class="kwd">and</span><span class="pln"> y</span><span class="pun">+</span><span class="pln">h </span><span class="pun">&gt;</span><span class="pln"> mouse</span><span class="pun">[</span><span class="lit">1</span><span class="pun">]</span><span class="pln"> </span><span class="pun">&gt;</span><span class="pln"> y</span><span class="pun">:</span><span class="pln">
+        pygame</span><span class="pun">.</span><span class="pln">draw</span><span class="pun">.</span><span class="pln">rect</span><span class="pun">(</span><span class="pln">gameDisplay</span><span class="pun">,</span><span class="pln"> ac</span><span class="pun">,(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">,</span><span class="pln">w</span><span class="pun">,</span><span class="pln">h</span><span class="pun">))</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pln"> click</span><span class="pun">[</span><span class="lit">0</span><span class="pun">]</span><span class="pln"> </span><span class="pun">==</span><span class="pln"> </span><span class="lit">1</span><span class="pln"> </span><span class="kwd">and</span><span class="pln"> action </span><span class="pun">!=</span><span class="pln"> </span><span class="kwd">None</span><span class="pun">:</span><span class="pln">
+            action</span><span class="pun">()</span><span class="pln">         
+    </span><span class="kwd">else</span><span class="pun">:</span><span class="pln">
+        pygame</span><span class="pun">.</span><span class="pln">draw</span><span class="pun">.</span><span class="pln">rect</span><span class="pun">(</span><span class="pln">gameDisplay</span><span class="pun">,</span><span class="pln"> ic</span><span class="pun">,(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">,</span><span class="pln">w</span><span class="pun">,</span><span class="pln">h</span><span class="pun">))</span><span class="pln">
+    smallText </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">font</span><span class="pun">.</span><span class="typ">SysFont</span><span class="pun">(</span><span class="str">"comicsansms"</span><span class="pun">,</span><span class="lit">20</span><span class="pun">)</span><span class="pln">
+    textSurf</span><span class="pun">,</span><span class="pln"> textRect </span><span class="pun">=</span><span class="pln"> text_objects</span><span class="pun">(</span><span class="pln">msg</span><span class="pun">,</span><span class="pln"> smallText</span><span class="pun">)</span><span class="pln">
+    textRect</span><span class="pun">.</span><span class="pln">center </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x</span><span class="pun">+(</span><span class="pln">w</span><span class="pun">/</span><span class="lit">2</span><span class="pun">)),</span><span class="pln"> </span><span class="pun">(</span><span class="pln">y</span><span class="pun">+(</span><span class="pln">h</span><span class="pun">/</span><span class="lit">2</span><span class="pun">))</span><span class="pln"> </span><span class="pun">)</span><span class="pln">
+    gameDisplay</span><span class="pun">.</span><span class="pln">blit</span><span class="pun">(</span><span class="pln">textSurf</span><span class="pun">,</span><span class="pln"> textRect</span><span class="pun">)</span><span class="pln">
+    
+
+</span><span class="kwd">def</span><span class="pln"> quitgame</span><span class="pun">():</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">quit</span><span class="pun">()</span><span class="pln">
+    quit</span><span class="pun">()</span><span class="pln">
+
+</span><span class="kwd">def</span><span class="pln"> unpause</span><span class="pun">():</span><span class="pln">
+    </span><span class="kwd">global</span><span class="pln"> pause
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">unpause</span><span class="pun">()</span><span class="pln">
+    pause </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">False</span><span class="pln">
+    
+
+</span><span class="kwd">def</span><span class="pln"> paused</span><span class="pun">():</span><span class="pln">
+    </span><span class="com">############</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">pause</span><span class="pun">()</span><span class="pln">
+    </span><span class="com">#############</span><span class="pln">
+    largeText </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">font</span><span class="pun">.</span><span class="typ">SysFont</span><span class="pun">(</span><span class="str">"comicsansms"</span><span class="pun">,</span><span class="lit">115</span><span class="pun">)</span><span class="pln">
+    </span><span class="typ">TextSurf</span><span class="pun">,</span><span class="pln"> </span><span class="typ">TextRect</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> text_objects</span><span class="pun">(</span><span class="str">"Paused"</span><span class="pun">,</span><span class="pln"> largeText</span><span class="pun">)</span><span class="pln">
+    </span><span class="typ">TextRect</span><span class="pun">.</span><span class="pln">center </span><span class="pun">=</span><span class="pln"> </span><span class="pun">((</span><span class="pln">display_width</span><span class="pun">/</span><span class="lit">2</span><span class="pun">),(</span><span class="pln">display_height</span><span class="pun">/</span><span class="lit">2</span><span class="pun">))</span><span class="pln">
+    gameDisplay</span><span class="pun">.</span><span class="pln">blit</span><span class="pun">(</span><span class="typ">TextSurf</span><span class="pun">,</span><span class="pln"> </span><span class="typ">TextRect</span><span class="pun">)</span><span class="pln">
+    
+
+    </span><span class="kwd">while</span><span class="pln"> pause</span><span class="pun">:</span><span class="pln">
+        </span><span class="kwd">for</span><span class="pln"> </span><span class="kwd">event</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> pygame</span><span class="pun">.</span><span class="kwd">event</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">():</span><span class="pln">
+            </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">QUIT</span><span class="pun">:</span><span class="pln">
+                pygame</span><span class="pun">.</span><span class="pln">quit</span><span class="pun">()</span><span class="pln">
+                quit</span><span class="pun">()</span><span class="pln">
+
+
+        button</span><span class="pun">(</span><span class="str">"Continue"</span><span class="pun">,</span><span class="lit">150</span><span class="pun">,</span><span class="lit">450</span><span class="pun">,</span><span class="lit">100</span><span class="pun">,</span><span class="lit">50</span><span class="pun">,</span><span class="pln">green</span><span class="pun">,</span><span class="pln">bright_green</span><span class="pun">,</span><span class="pln">unpause</span><span class="pun">)</span><span class="pln">
+        button</span><span class="pun">(</span><span class="str">"Quit"</span><span class="pun">,</span><span class="lit">550</span><span class="pun">,</span><span class="lit">450</span><span class="pun">,</span><span class="lit">100</span><span class="pun">,</span><span class="lit">50</span><span class="pun">,</span><span class="pln">red</span><span class="pun">,</span><span class="pln">bright_red</span><span class="pun">,</span><span class="pln">quitgame</span><span class="pun">)</span><span class="pln">
+
+        pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">update</span><span class="pun">()</span><span class="pln">
+        clock</span><span class="pun">.</span><span class="pln">tick</span><span class="pun">(</span><span class="lit">15</span><span class="pun">)</span><span class="pln">   
+
+
+</span><span class="kwd">def</span><span class="pln"> game_intro</span><span class="pun">():</span><span class="pln">
+
+    intro </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">True</span><span class="pln">
+
+    </span><span class="kwd">while</span><span class="pln"> intro</span><span class="pun">:</span><span class="pln">
+        </span><span class="kwd">for</span><span class="pln"> </span><span class="kwd">event</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> pygame</span><span class="pun">.</span><span class="kwd">event</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">():</span><span class="pln">
+            </span><span class="com">#print(event)</span><span class="pln">
+            </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">QUIT</span><span class="pun">:</span><span class="pln">
+                pygame</span><span class="pun">.</span><span class="pln">quit</span><span class="pun">()</span><span class="pln">
+                quit</span><span class="pun">()</span><span class="pln">
+                
+        gameDisplay</span><span class="pun">.</span><span class="pln">fill</span><span class="pun">(</span><span class="pln">white</span><span class="pun">)</span><span class="pln">
+        largeText </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">font</span><span class="pun">.</span><span class="typ">SysFont</span><span class="pun">(</span><span class="str">"comicsansms"</span><span class="pun">,</span><span class="lit">115</span><span class="pun">)</span><span class="pln">
+        </span><span class="typ">TextSurf</span><span class="pun">,</span><span class="pln"> </span><span class="typ">TextRect</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> text_objects</span><span class="pun">(</span><span class="str">"A bit Racey"</span><span class="pun">,</span><span class="pln"> largeText</span><span class="pun">)</span><span class="pln">
+        </span><span class="typ">TextRect</span><span class="pun">.</span><span class="pln">center </span><span class="pun">=</span><span class="pln"> </span><span class="pun">((</span><span class="pln">display_width</span><span class="pun">/</span><span class="lit">2</span><span class="pun">),(</span><span class="pln">display_height</span><span class="pun">/</span><span class="lit">2</span><span class="pun">))</span><span class="pln">
+        gameDisplay</span><span class="pun">.</span><span class="pln">blit</span><span class="pun">(</span><span class="typ">TextSurf</span><span class="pun">,</span><span class="pln"> </span><span class="typ">TextRect</span><span class="pun">)</span><span class="pln">
+
+        button</span><span class="pun">(</span><span class="str">"GO!"</span><span class="pun">,</span><span class="lit">150</span><span class="pun">,</span><span class="lit">450</span><span class="pun">,</span><span class="lit">100</span><span class="pun">,</span><span class="lit">50</span><span class="pun">,</span><span class="pln">green</span><span class="pun">,</span><span class="pln">bright_green</span><span class="pun">,</span><span class="pln">game_loop</span><span class="pun">)</span><span class="pln">
+        button</span><span class="pun">(</span><span class="str">"Quit"</span><span class="pun">,</span><span class="lit">550</span><span class="pun">,</span><span class="lit">450</span><span class="pun">,</span><span class="lit">100</span><span class="pun">,</span><span class="lit">50</span><span class="pun">,</span><span class="pln">red</span><span class="pun">,</span><span class="pln">bright_red</span><span class="pun">,</span><span class="pln">quitgame</span><span class="pun">)</span><span class="pln">
+
+        pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">update</span><span class="pun">()</span><span class="pln">
+        clock</span><span class="pun">.</span><span class="pln">tick</span><span class="pun">(</span><span class="lit">15</span><span class="pun">)</span><span class="pln">
+        
+        
+    
+    
+
+    
+</span><span class="kwd">def</span><span class="pln"> game_loop</span><span class="pun">():</span><span class="pln">
+    </span><span class="kwd">global</span><span class="pln"> pause
+    </span><span class="com">############</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="str">'jazz.wav'</span><span class="pun">)</span><span class="pln">
+    pygame</span><span class="pun">.</span><span class="pln">mixer</span><span class="pun">.</span><span class="pln">music</span><span class="pun">.</span><span class="pln">play</span><span class="pun">(-</span><span class="lit">1</span><span class="pun">)</span><span class="pln">
+    </span><span class="com">############</span><span class="pln">
+    x </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">display_width </span><span class="pun">*</span><span class="pln"> </span><span class="lit">0.45</span><span class="pun">)</span><span class="pln">
+    y </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">display_height </span><span class="pun">*</span><span class="pln"> </span><span class="lit">0.8</span><span class="pun">)</span><span class="pln">
+ 
+    x_change </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+ 
+    thing_startx </span><span class="pun">=</span><span class="pln"> random</span><span class="pun">.</span><span class="pln">randrange</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln"> display_width</span><span class="pun">)</span><span class="pln">
+    thing_starty </span><span class="pun">=</span><span class="pln"> </span><span class="pun">-</span><span class="lit">600</span><span class="pln">
+    thing_speed </span><span class="pun">=</span><span class="pln"> </span><span class="lit">4</span><span class="pln">
+    thing_width </span><span class="pun">=</span><span class="pln"> </span><span class="lit">100</span><span class="pln">
+    thing_height </span><span class="pun">=</span><span class="pln"> </span><span class="lit">100</span><span class="pln">
+ 
+    thingCount </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+ 
+    dodged </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+ 
+    gameExit </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">False</span><span class="pln">
+ 
+    </span><span class="kwd">while</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> gameExit</span><span class="pun">:</span><span class="pln">
+ 
+        </span><span class="kwd">for</span><span class="pln"> </span><span class="kwd">event</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> pygame</span><span class="pun">.</span><span class="kwd">event</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">():</span><span class="pln">
+            </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">QUIT</span><span class="pun">:</span><span class="pln">
+                pygame</span><span class="pun">.</span><span class="pln">quit</span><span class="pun">()</span><span class="pln">
+                quit</span><span class="pun">()</span><span class="pln">
+ 
+            </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">KEYDOWN</span><span class="pun">:</span><span class="pln">
+                </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">key </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">K_LEFT</span><span class="pun">:</span><span class="pln">
+                    x_change </span><span class="pun">=</span><span class="pln"> </span><span class="pun">-</span><span class="lit">5</span><span class="pln">
+                </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">key </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">K_RIGHT</span><span class="pun">:</span><span class="pln">
+                    x_change </span><span class="pun">=</span><span class="pln"> </span><span class="lit">5</span><span class="pln">
+                </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">key </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">K_p</span><span class="pun">:</span><span class="pln">
+                    pause </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">True</span><span class="pln">
+                    paused</span><span class="pun">()</span><span class="pln">
+                    
+ 
+            </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">KEYUP</span><span class="pun">:</span><span class="pln">
+                </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">key </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">K_LEFT </span><span class="kwd">or</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">key </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">K_RIGHT</span><span class="pun">:</span><span class="pln">
+                    x_change </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+ 
+        x </span><span class="pun">+=</span><span class="pln"> x_change
+        gameDisplay</span><span class="pun">.</span><span class="pln">fill</span><span class="pun">(</span><span class="pln">white</span><span class="pun">)</span><span class="pln">
+ 
+        things</span><span class="pun">(</span><span class="pln">thing_startx</span><span class="pun">,</span><span class="pln"> thing_starty</span><span class="pun">,</span><span class="pln"> thing_width</span><span class="pun">,</span><span class="pln"> thing_height</span><span class="pun">,</span><span class="pln"> block_color</span><span class="pun">)</span><span class="pln">
+ 
+ 
+        
+        thing_starty </span><span class="pun">+=</span><span class="pln"> thing_speed
+        car</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">)</span><span class="pln">
+        things_dodged</span><span class="pun">(</span><span class="pln">dodged</span><span class="pun">)</span><span class="pln">
+ 
+        </span><span class="kwd">if</span><span class="pln"> x </span><span class="pun">&gt;</span><span class="pln"> display_width </span><span class="pun">-</span><span class="pln"> car_width </span><span class="kwd">or</span><span class="pln"> x </span><span class="pun">&lt;</span><span class="pln"> </span><span class="lit">0</span><span class="pun">:</span><span class="pln">
+            crash</span><span class="pun">()</span><span class="pln">
+ 
+        </span><span class="kwd">if</span><span class="pln"> thing_starty </span><span class="pun">&gt;</span><span class="pln"> display_height</span><span class="pun">:</span><span class="pln">
+            thing_starty </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pln"> </span><span class="pun">-</span><span class="pln"> thing_height
+            thing_startx </span><span class="pun">=</span><span class="pln"> random</span><span class="pun">.</span><span class="pln">randrange</span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="pln">display_width</span><span class="pun">)</span><span class="pln">
+            dodged </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+            thing_speed </span><span class="pun">+=</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+            thing_width </span><span class="pun">+=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">dodged </span><span class="pun">*</span><span class="pln"> </span><span class="lit">1.2</span><span class="pun">)</span><span class="pln">
+ 
+        </span><span class="kwd">if</span><span class="pln"> y </span><span class="pun">&lt;</span><span class="pln"> thing_starty</span><span class="pun">+</span><span class="pln">thing_height</span><span class="pun">:</span><span class="pln">
+            </span><span class="kwd">print</span><span class="pun">(</span><span class="str">'y crossover'</span><span class="pun">)</span><span class="pln">
+ 
+            </span><span class="kwd">if</span><span class="pln"> x </span><span class="pun">&gt;</span><span class="pln"> thing_startx </span><span class="kwd">and</span><span class="pln"> x </span><span class="pun">&lt;</span><span class="pln"> thing_startx </span><span class="pun">+</span><span class="pln"> thing_width </span><span class="kwd">or</span><span class="pln"> x</span><span class="pun">+</span><span class="pln">car_width </span><span class="pun">&gt;</span><span class="pln"> thing_startx </span><span class="kwd">and</span><span class="pln"> x </span><span class="pun">+</span><span class="pln"> car_width </span><span class="pun">&lt;</span><span class="pln"> thing_startx</span><span class="pun">+</span><span class="pln">thing_width</span><span class="pun">:</span><span class="pln">
+                </span><span class="kwd">print</span><span class="pun">(</span><span class="str">'x crossover'</span><span class="pun">)</span><span class="pln">
+                crash</span><span class="pun">()</span><span class="pln">
+        
+        pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">update</span><span class="pun">()</span><span class="pln">
+        clock</span><span class="pun">.</span><span class="pln">tick</span><span class="pun">(</span><span class="lit">60</span><span class="pun">)</span><span class="pln">
+
+game_intro</span><span class="pun">()</span><span class="pln">
+game_loop</span><span class="pun">()</span><span class="pln">
+pygame</span><span class="pun">.</span><span class="pln">quit</span><span class="pun">()</span><span class="pln">
+quit</span><span class="pun">()</span></pre>
+	  
+		
+
+		
+			
+				<br><a href="https://pythonprogramming.net/+=1/" target="blank">There exists <strong>1 challenge(s)</strong> for this tutorial. <button class="btn btn-success">Sign up to <strong>+=1</strong></button> for access to these, video downloads, and no ads.</a><br><br>
+			
+		
+
+		
+			
+				<br><a href="https://pythonprogramming.net/+=1/" target="blank">There exists <strong>2 quiz/question(s)</strong> for this tutorial. <button class="btn btn-success">Sign up to <strong>+=1</strong></button> for access to these, video downloads, and no ads.</a><br><br>
+			
+		
+		
+
+
+		
+		
+		<p>That is all for the PyGame basics series. You can choose another topic from the <a title="Home Page" href="https://pythonprogramming.net/?completed=/adding-sounds-music-pygame/"><button class="btn" style="background-color:#FFD166; color:#000000">Home Page</button></a></p><br>
+
+
+
+	<script async="" src="./sounds_and_music_files/adsbygoogle.js"></script>
+						<!-- PythonProgramming Responsive -->
+						<ins class="adsbygoogle" style="display: block; height: 60px;" data-ad-client="ca-pub-1579050400541873" data-ad-slot="9483252723" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><iframe width="593" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+	 <br>
+	
+	
+
+
+		
+		
+		<p>Alternatively, you can check out the PyOpenGL series, which uses OpenGL to create 3D renderings using PyGame: <a title="PyOpenGL" href="https://pythonprogramming.net/opengl-rotating-cube-example-pyopengl-tutorial/?completed=/adding-sounds-music-pygame/"><button class="btn" style="background-color:#FFD166; color:#000000">PyOpenGL Tutorials</button></a></p><br>
+
+
+
+	<script async="" src="./sounds_and_music_files/adsbygoogle.js"></script>
+						<!-- PythonProgramming Responsive -->
+						<ins class="adsbygoogle" style="display: block; height: 60px;" data-ad-client="ca-pub-1579050400541873" data-ad-slot="9483252723" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_3_expand" style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><ins id="aswift_3_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><iframe width="593" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+	 <br>
+	
+	
+
+
+		
+		
+		
+	  </div>
+
+
+</div>
+<div class="col l4 m12 s12">
+<br><br><br>
+
+  <ul class="collapsible popout" data-collapsible="accordion" style="font-size:85%; padding-left:50px">
+	
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+
+				     
+						 
+							
+								<li>
+								  <div class="collapsible-header">Introduction to PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-python-3-part-1-intro/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Displaying images with PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/displaying-images-pygame/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Moving an image around in PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-tutorial-moving-images-key-input/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Adding boundaries</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/adding-boundaries-pygame-video-game/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Displaying text to PyGame screen</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/displaying-text-pygame-screen/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Drawing objects with PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/drawing-objects-pygame-tutorial/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Crashing</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-crashing-objects/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Score</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/adding-score-pygame-video-game/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Drawing Objects and Shapes in PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-drawing-shapes-objects/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Creating a start menu</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-start-menu-tutorial/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 1, drawing the rectangle</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-buttons-part-1-button-rectangle/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 2, making the buttons interactive</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/making-interactive-pygame-buttons/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 3, adding text to the button</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/placing-text-pygame-buttons/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 4, creating a general PyGame button function</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-button-function/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 5, running functions on a button click</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-button-function-events/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Converting PyGame to an executable</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/converting-pygame-executable-cx_freeze/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Adding a pause function to our game and Game Over</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pause-game-pygame/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Icon</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/changing-pygame-icon/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+							    <li class="active">
+								  <div class="collapsible-header active" style="padding:2px">Sounds and Music with PyGame</div>
+								  <div class="collapsible-body" style="display: block; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">You are currently here.</div>
+								</li>  
+							
+						 
+					  
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+
+  </ul>
+
+
+</div>
+</div>	
+	
+	
+	
+
+	
+
+
+
+
+
+			</div>
+		
+
+		<!--login modal-->
+		
+<div id="modalLogin" class="modal">
+			<div class="modal-content">
+				<h2 class="center-align">Login</h2>
+				<div class="center-align">
+					<div class="divider"></div>
+					
+					<form class="col s12">
+						<div class="row center-align">
+							<div class="input-field col m10">
+								<input id="icon_prefix" type="text" class="validate">
+								<label for="icon_prefix">Username</label>
+							</div>
+							<div class="input-field col m10">
+								<input id="icon_password" type="password" class="validate">
+								<label for="icon_password">Password</label>
+							</div>
+						</div>
+					</form>
+					
+					
+					<div class="divider"></div>
+					<p>
+						<a href="https://pythonprogramming.net/adding-sounds-music-pygame/#" class="btn btn-flat white modal-close">Cancel</a> &nbsp;
+						<a href="https://pythonprogramming.net/adding-sounds-music-pygame/#" class="waves-effect waves-blue blue btn btn-flat modal-action modal-close">Login</a>
+					</p>
+					
+					
+				</div>
+			</div>
+		</div>
+
+
+		
+		<!--Register modal-->
+		
+		<div id="modalRegister" class="modal">
+			<div class="modal-content">
+				<h2 class="center-align">Sign up</h2>
+				<div class="center-align">
+					<div class="divider"></div>
+					
+					<form action="https://pythonprogramming.net/register/" method="post">
+							<div class="input-field col">
+								<input id="username" type="text" class="validate">
+								<label for="username">Username</label>
+							</div>
+							<div class="input-field col">
+								<input id="password" type="password" class="validate">
+								<label for="password">Password</label>
+							</div>
+							<div class="input-field col">
+								<input id="confirm" type="password" class="validate">
+								<label for="confirm">Repeat Password</label>
+							</div>
+							
+							<div class="input-field col">
+								<input id="email" type="text" class="validate">
+								<label for="email">Email</label>
+							</div>
+
+							<div class="divider"></div>
+							<p>
+								<a href="https://pythonprogramming.net/adding-sounds-music-pygame/#" class="btn btn-flat white modal-close">Cancel</a> &nbsp;
+								<button class="btn" type="submit" value="Register">Sign Up</button>
+							</p>
+
+					</form>
+
+					
+
+				</div>
+			</div>
+		</div>
+
+
+
+		
+		<script>
+			$(document).ready(function(){
+				$(".button-collapse").sideNav();
+				$('.modal-trigger').leanModal();
+				$('.collapsible').collapsible({
+				  accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+				});
+				$('#aside').pushpin({ top:110, bottom:500 });
+		  });
+		</script>
+		<script>
+		  $(document).ready(function(){
+			$('.collapsible').collapsible({
+			  accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			});
+			$('select').material_select();
+		  });
+	  </script>
+	  <script>
+		function goBack() {
+			window.history.back()
+		}
+	</script>
+	
+	  
+	
+
+<footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">You've reached the end!</h5>
+                
+                <p class="grey-text text-lighten-4">Contact: Harrison@pythonprogramming.net.</p>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="https://pythonprogramming.net/support-donate/">Support this Website!</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/pythonprogramming.net/">Facebook</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://twitter.com/sentdex">Twitter</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://plus.google.com/+sentdex">Google+</a></li>
+                </ul>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h6 class="white-text">Legal stuff:</h6>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="https://pythonprogramming.net/about/tos/">Terms and Conditions</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://pythonprogramming.net/about/privacy-policy/">Privacy Policy</a></li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+          <a href="https://xkcd.com/353/" target="blank"><p class="grey-text right" style="padding-right:10px">Programming is a superpower.</p></a>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2016 PythonProgramming.net
+            
+            </div>
+
+          </div>
+        </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="material-tooltip" id="38573404-8138-e45f-3e5e-bf388b3856ab"><span>sudo apt-get upgrade</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="material-tooltip" id="25c7bd5a-0310-e4f8-3367-7f403ba49b7a"><span>sudo apt-get upgrade</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="hiddendiv common"></div><div class="drag-target" style="left: 0px; touch-action: pan-y; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div></body></html>

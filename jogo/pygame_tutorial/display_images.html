@@ -1,0 +1,1738 @@
+
+<!-- saved from url=(0055)https://pythonprogramming.net/displaying-images-pygame/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<!-- 
+		palette:
+		dark blue: #003F72
+		yellow: #FFD166
+		salmon: #EF476F
+		offwhite: #e7d7d7
+		Light Blue: #118AB2
+		Light green: #7DDF64
+		-->
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Python Programming Tutorials</title>
+
+		<meta name="description" content="Python Programming tutorials from beginner to advanced on a massive variety of topics. All tutorials are free.">
+
+		<link rel="shortcut icon" href="https://pythonprogramming.net/static/favicon.ico">
+		<link rel="stylesheet" href="./display_images_files/materialize.min.css">
+        <link href="./display_images_files/icon" rel="stylesheet">
+        <meta name="google-site-verification" content="3fLok05gk5gGtWd_VSXbSSSH27F2kr1QqcxYz9vYq2k">
+
+		
+		  <!-- Compiled and minified CSS -->
+
+		<!-- Compiled and minified JavaScript -->
+
+		<script src="./display_images_files/ca-pub-1579050400541873.js"></script><script async="" src="./display_images_files/analytics.js"></script><script src="./display_images_files/jquery-2.1.4.min.js"></script>
+		<script src="./display_images_files/materialize.min.js"></script>
+
+		
+
+        <style>
+		@media (min-width:992px) {
+		#aside {
+			width:250px;
+		}
+		pre { tab-size: 4;}
+		.btn {background-color:#FFD166;
+			  color:#000;
+		      height:auto;
+			  font-color:#000;
+			  }
+		.btn:hover {background-color:#FFD166;
+					}
+
+
+		</style>
+				
+		<!-- Google Tracking -->
+		<script>
+			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			  ga('create', 'UA-51891827-1', 'auto');
+			  ga('send', 'pageview');
+
+		</script>
+		
+	<link rel="stylesheet" type="text/css" href="./display_images_files/prettify.css"></head>
+	
+	<body class="body">
+
+		<div class="navbar-fixed">
+			<nav style="background-color:#003F72">
+				<div class="nav-wrapper container">
+					<a href="https://pythonprogramming.net/" class="brand-logo"><img class="img-responsive" style="width:50px; height;50px; margin-top:5px" src="./display_images_files/mainlogowhitethick.jpg"></a>
+					<a href="https://pythonprogramming.net/displaying-images-pygame/#" data-activates="navsidebar" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+					<ul class="right hide-on-med-and-down">
+					<li><i class="material-icons">search</i></li>
+					<li>
+						<form method="get" id="searchform" style="height:50px; padding-top:10px" action="https://pythonprogramming.net/search/?l=hi">
+							<input name="q" id="search" type="search" placeholder="search" style="font-size:16px">
+						</form>
+					</li>
+						
+			<li><a href="https://pythonprogramming.net/">Home</a></li>
+			<li><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="sudo apt-get upgrade" href="https://pythonprogramming.net/+=1/" data-tooltip-id="93c86ac4-a0e0-7d9f-a094-9a2712efa71b">+=1</a></li>
+			
+			<li><a href="https://pythonprogramming.net/community/">Community</a></li>
+				<li><a href="https://pythonprogramming.net/login/">Log in</a></li>
+                <li><a href="https://pythonprogramming.net/register/">Sign up</a></li>
+			
+
+					</ul>
+					<ul class="side-nav" id="navsidebar" style="left: -250px;">
+					<li>
+						<form method="get" id="searchform" style="height:50px; padding-top:10px" action="https://pythonprogramming.net/search/?l=hi">
+							<input name="q" id="search" type="search" placeholder="search" style="font-size:16px">
+						</form>
+					</li>
+						
+			<li><a href="https://pythonprogramming.net/">Home</a></li>
+			<li><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="sudo apt-get upgrade" href="https://pythonprogramming.net/+=1/" data-tooltip-id="34cf78eb-4581-44b2-439b-8180b799dd5e">+=1</a></li>
+			
+			<li><a href="https://pythonprogramming.net/community/">Community</a></li>
+				<li><a href="https://pythonprogramming.net/login/">Log in</a></li>
+                <li><a href="https://pythonprogramming.net/register/">Sign up</a></li>
+			
+
+					</ul>
+				</div>
+			</nav>
+		</div>
+
+		<!-- main content -->
+		<div class="container" style="max-width:1500px; min-height:100%">
+					
+					
+					  
+					
+				
+					
+<!--       <pre class="prettyprint">             width="750" height="423"    -->
+
+    <div class="row">
+    <div class="col l8 m12 s12">
+
+
+      <div class="container-fluid" align="left">
+		
+
+
+	<script async="" src="./display_images_files/adsbygoogle.js"></script>
+						<!-- PythonProgramming Responsive -->
+						<ins class="adsbygoogle" style="display: block; height: 60px;" data-ad-client="ca-pub-1579050400541873" data-ad-slot="9483252723" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><iframe width="593" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+	 <br>
+	
+	
+
+
+		<!--<div class="progress" style="background-color:#ffebbe;height:20px;">
+			<div class="determinate" style="background-color:#FFD166;width: 0%;">
+				PyGame Progress:  0%
+			</div>
+		</div>-->
+		<img class="responsive-img" src="./display_images_files/pygame-displaying-images.png" alt="pygame displaying image">
+	  <h2>Displaying images with PyGame</h2>
+	  <br>
+	  
+	  <div class="video-container"><iframe width="750" height="423" src="./display_images_files/ZFo4mtLJEWs.html" frameborder="0" allowfullscreen="allowfullscreen"></iframe></div><br>
+
+
+
+	<script async="" src="./display_images_files/adsbygoogle.js"></script>
+						<!-- PythonProgramming Responsive -->
+						<ins class="adsbygoogle" style="display: block; height: 60px;" data-ad-client="ca-pub-1579050400541873" data-ad-slot="9483252723" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><iframe width="593" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+	 <br>
+	
+	
+
+
+	  
+<p>In this PyGame tutorial, we cover how to display custom-created game images to the screen. You can also draw objects to the screen using coordinates, which we will cover later. Here, we've created some award-winning graphics that we definitely want in our game, so we want to know how to get it to show up.</p>
+
+
+<pre class="prettyprint prettyprinted"><span class="kwd">import</span><span class="pln"> pygame
+
+
+pygame</span><span class="pun">.</span><span class="pln">init</span><span class="pun">()</span><span class="pln">
+
+
+display_width </span><span class="pun">=</span><span class="pln"> </span><span class="lit">800</span><span class="pln">
+display_height </span><span class="pun">=</span><span class="pln"> </span><span class="lit">600</span><span class="pln">
+
+gameDisplay </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">set_mode</span><span class="pun">((</span><span class="pln">display_width</span><span class="pun">,</span><span class="pln">display_height</span><span class="pun">))</span><span class="pln">
+pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">set_caption</span><span class="pun">(</span><span class="str">'A bit Racey'</span><span class="pun">)</span><span class="pln">
+
+black </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+white </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">255</span><span class="pun">,</span><span class="lit">255</span><span class="pun">,</span><span class="lit">255</span><span class="pun">)</span><span class="pln">
+
+clock </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">time</span><span class="pun">.</span><span class="typ">Clock</span><span class="pun">()</span><span class="pln">
+crashed </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">False</span><span class="pln">
+carImg </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">image</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="str">'racecar.png'</span><span class="pun">)</span><span class="pln">
+
+</span><span class="kwd">def</span><span class="pln"> car</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">):</span><span class="pln">
+    gameDisplay</span><span class="pun">.</span><span class="pln">blit</span><span class="pun">(</span><span class="pln">carImg</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">))</span><span class="pln">
+
+x </span><span class="pun">=</span><span class="pln">  </span><span class="pun">(</span><span class="pln">display_width </span><span class="pun">*</span><span class="pln"> </span><span class="lit">0.45</span><span class="pun">)</span><span class="pln">
+y </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">display_height </span><span class="pun">*</span><span class="pln"> </span><span class="lit">0.8</span><span class="pun">)</span><span class="pln">
+
+</span><span class="kwd">while</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> crashed</span><span class="pun">:</span><span class="pln">
+    </span><span class="kwd">for</span><span class="pln"> </span><span class="kwd">event</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> pygame</span><span class="pun">.</span><span class="kwd">event</span><span class="pun">.</span><span class="kwd">get</span><span class="pun">():</span><span class="pln">
+        </span><span class="kwd">if</span><span class="pln"> </span><span class="kwd">event</span><span class="pun">.</span><span class="pln">type </span><span class="pun">==</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">QUIT</span><span class="pun">:</span><span class="pln">
+            crashed </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">True</span><span class="pln">
+
+    gameDisplay</span><span class="pun">.</span><span class="pln">fill</span><span class="pun">(</span><span class="pln">white</span><span class="pun">)</span><span class="pln">
+    car</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">)</span><span class="pln">
+
+        
+    pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">update</span><span class="pun">()</span><span class="pln">
+    clock</span><span class="pun">.</span><span class="pln">tick</span><span class="pun">(</span><span class="lit">60</span><span class="pun">)</span><span class="pln">
+
+pygame</span><span class="pun">.</span><span class="pln">quit</span><span class="pun">()</span><span class="pln">
+quit</span><span class="pun">()</span></pre>
+<p>So, here we've gone ahead and embedded the new code in our existing script. First, we use:</p>
+<pre class="prettyprint prettyprinted"><span class="pln">display_width </span><span class="pun">=</span><span class="pln"> </span><span class="lit">800</span><span class="pln">
+display_height </span><span class="pun">=</span><span class="pln"> </span><span class="lit">600</span><span class="pln">
+
+gameDisplay </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">display</span><span class="pun">.</span><span class="pln">set_mode</span><span class="pun">((</span><span class="pln">display_width</span><span class="pun">,</span><span class="pln">display_height</span><span class="pun">))</span></pre>
+<p>The functioning here is the same as before, but this time we're not hard coding the resolution. We want to use this method so that we can reference the variables. We're going to see how useful that can be already in this script, but even more later on.</p>
+
+<p>Then, here:</p>
+<pre class="prettyprint prettyprinted"><span class="pln">black </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">,</span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+white </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="lit">255</span><span class="pun">,</span><span class="lit">255</span><span class="pun">,</span><span class="lit">255</span><span class="pun">)</span></pre>
+<p>We're defining our colors, using RGB formatting. If you want to know a bit more about RGB, check out the video.</p>
+
+<p>Next up:</p>
+<pre class="prettyprint prettyprinted"><span class="pln">carImg </span><span class="pun">=</span><span class="pln"> pygame</span><span class="pun">.</span><span class="pln">image</span><span class="pun">.</span><span class="pln">load</span><span class="pun">(</span><span class="str">'racecar.png'</span><span class="pun">)</span></pre>
+<p>Here, we load the racecar.png image to our carImg variable. racecar.png is an image that I have personally created. See the video for some tips to create an image, pull one from Google Images, or make your own. Chances are, you will do better than I did!</p>
+<pre class="prettyprint prettyprinted"><span class="kwd">def</span><span class="pln"> car</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">):</span><span class="pln">
+    gameDisplay</span><span class="pun">.</span><span class="pln">blit</span><span class="pun">(</span><span class="pln">carImg</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">))</span></pre>
+<p>Now, we define our car function, which really just places the car to the display. "Blit" basically just draws the image to the screen, but we still have yet to fully show it to the display. In graphics, generally, there is a lot done in the background, and only when every update is done is when the screen is visually updated.</p>
+<pre class="prettyprint prettyprinted"><span class="pln">x </span><span class="pun">=</span><span class="pln">  </span><span class="pun">(</span><span class="pln">display_width </span><span class="pun">*</span><span class="pln"> </span><span class="lit">0.45</span><span class="pun">)</span><span class="pln">
+y </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">display_height </span><span class="pun">*</span><span class="pln"> </span><span class="lit">0.8</span><span class="pun">)</span></pre>
+<p>Here, we've defined the starting points for our car. See how we used out previously-defined variables? We're already seeing how this could be useful, especially if we EVER want to change our resolution. A lot of people start out writing programs, thinking that some of the variables will just never be changed. I've done it a few times. Always wrong and regretful.</p>
+
+Now, within our while loop, we see the addition of:
+<pre class="prettyprint prettyprinted"><span class="pln">    gameDisplay</span><span class="pun">.</span><span class="pln">fill</span><span class="pun">(</span><span class="pln">white</span><span class="pun">)</span><span class="pln">
+    car</span><span class="pun">(</span><span class="pln">x</span><span class="pun">,</span><span class="pln">y</span><span class="pun">)</span></pre>
+<p>Here, we've filled our display with a color, white. What this does is cover everything in white. Paint the game white, so-to-speak. This will cover over any existing stuff. After that, we run our car function to draw the car to the screen. Always keep in mind the order here. If you drew the car first, then called the gameDisplay.fill function, you would have just covered your car and it would not show up.</p>
+
+<p>Also, if you'd like the same image I used:</p>
+<img class="responsive-img" src="./display_images_files/racecar.png" alt="pygame racecar image">
+
+	  
+		
+		
+		
+				
+		
+
+
+		
+
+		
+			
+				<br><a href="https://pythonprogramming.net/+=1/" target="blank">There exists <strong>1 quiz/question(s)</strong> for this tutorial. <button class="btn btn-success">Sign up to <strong>+=1</strong></button> for access to these, video downloads, and no ads.</a><br><br>
+			
+		
+		
+
+
+		
+<p>The next tutorial: <a title="Moving an image around in PyGame" href="https://pythonprogramming.net/pygame-tutorial-moving-images-key-input/?completed=/displaying-images-pygame/"><button class="btn" style="background-color:#FFD166; color:#000000">Moving an image around in PyGame</button></a></p><br>
+
+
+
+	<script async="" src="./display_images_files/adsbygoogle.js"></script>
+						<!-- PythonProgramming Responsive -->
+						<ins class="adsbygoogle" style="display: block; height: 60px;" data-ad-client="ca-pub-1579050400541873" data-ad-slot="9483252723" data-ad-format="auto" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:60px;margin:0;padding:0;position:relative;visibility:visible;width:593px;background-color:transparent"><iframe width="593" height="60" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;"></iframe></ins></ins></ins>
+						<script>
+						(adsbygoogle = window.adsbygoogle || []).push({});
+						</script>
+	 <br>
+	
+	
+
+
+	  </div>
+
+
+</div>
+<div class="col l4 m12 s12">
+<br><br><br>
+
+  <ul class="collapsible popout" data-collapsible="accordion" style="font-size:85%; padding-left:50px">
+	
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+
+				     
+						 
+							
+								<li>
+								  <div class="collapsible-header">Introduction to PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-python-3-part-1-intro/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+							    <li class="active">
+								  <div class="collapsible-header active" style="padding:2px">Displaying images with PyGame</div>
+								  <div class="collapsible-body" style="display: block; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">You are currently here.</div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Moving an image around in PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-tutorial-moving-images-key-input/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Adding boundaries</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/adding-boundaries-pygame-video-game/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Displaying text to PyGame screen</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/displaying-text-pygame-screen/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Drawing objects with PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/drawing-objects-pygame-tutorial/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Crashing</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-crashing-objects/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Score</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/adding-score-pygame-video-game/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Drawing Objects and Shapes in PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-drawing-shapes-objects/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Creating a start menu</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-start-menu-tutorial/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 1, drawing the rectangle</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-buttons-part-1-button-rectangle/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 2, making the buttons interactive</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/making-interactive-pygame-buttons/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 3, adding text to the button</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/placing-text-pygame-buttons/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 4, creating a general PyGame button function</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-button-function/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Buttons, part 5, running functions on a button click</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pygame-button-function-events/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Converting PyGame to an executable</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/converting-pygame-executable-cx_freeze/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Adding a pause function to our game and Game Over</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/pause-game-pygame/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">PyGame Icon</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/changing-pygame-icon/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+							
+								<li>
+								  <div class="collapsible-header">Sounds and Music with PyGame</div>
+								  <div class="collapsible-body" style="">
+										<p><a href="https://pythonprogramming.net/adding-sounds-music-pygame/"><button class="btn waves-effect waves-light right-align" style="background-color:#FFD166; color:#000000">Go
+									  </button></a></p>						
+								  </div>
+								</li>  
+							
+						 
+					  
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+				  
+			   
+			
+
+  </ul>
+
+
+</div>
+</div>	
+	
+	
+	
+
+	
+
+
+
+
+
+			</div>
+		
+
+		<!--login modal-->
+		
+<div id="modalLogin" class="modal">
+			<div class="modal-content">
+				<h2 class="center-align">Login</h2>
+				<div class="center-align">
+					<div class="divider"></div>
+					
+					<form class="col s12">
+						<div class="row center-align">
+							<div class="input-field col m10">
+								<input id="icon_prefix" type="text" class="validate">
+								<label for="icon_prefix">Username</label>
+							</div>
+							<div class="input-field col m10">
+								<input id="icon_password" type="password" class="validate">
+								<label for="icon_password">Password</label>
+							</div>
+						</div>
+					</form>
+					
+					
+					<div class="divider"></div>
+					<p>
+						<a href="https://pythonprogramming.net/displaying-images-pygame/#" class="btn btn-flat white modal-close">Cancel</a> &nbsp;
+						<a href="https://pythonprogramming.net/displaying-images-pygame/#" class="waves-effect waves-blue blue btn btn-flat modal-action modal-close">Login</a>
+					</p>
+					
+					
+				</div>
+			</div>
+		</div>
+
+
+		
+		<!--Register modal-->
+		
+		<div id="modalRegister" class="modal">
+			<div class="modal-content">
+				<h2 class="center-align">Sign up</h2>
+				<div class="center-align">
+					<div class="divider"></div>
+					
+					<form action="https://pythonprogramming.net/register/" method="post">
+							<div class="input-field col">
+								<input id="username" type="text" class="validate">
+								<label for="username">Username</label>
+							</div>
+							<div class="input-field col">
+								<input id="password" type="password" class="validate">
+								<label for="password">Password</label>
+							</div>
+							<div class="input-field col">
+								<input id="confirm" type="password" class="validate">
+								<label for="confirm">Repeat Password</label>
+							</div>
+							
+							<div class="input-field col">
+								<input id="email" type="text" class="validate">
+								<label for="email">Email</label>
+							</div>
+
+							<div class="divider"></div>
+							<p>
+								<a href="https://pythonprogramming.net/displaying-images-pygame/#" class="btn btn-flat white modal-close">Cancel</a> &nbsp;
+								<button class="btn" type="submit" value="Register">Sign Up</button>
+							</p>
+
+					</form>
+
+					
+
+				</div>
+			</div>
+		</div>
+
+
+
+		
+		<script>
+			$(document).ready(function(){
+				$(".button-collapse").sideNav();
+				$('.modal-trigger').leanModal();
+				$('.collapsible').collapsible({
+				  accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+				});
+				$('#aside').pushpin({ top:110, bottom:500 });
+		  });
+		</script>
+		<script>
+		  $(document).ready(function(){
+			$('.collapsible').collapsible({
+			  accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			});
+			$('select').material_select();
+		  });
+	  </script>
+	  <script>
+		function goBack() {
+			window.history.back()
+		}
+	</script>
+	
+	  
+	
+
+<footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">You've reached the end!</h5>
+                
+                <p class="grey-text text-lighten-4">Contact: Harrison@pythonprogramming.net.</p>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="https://pythonprogramming.net/support-donate/">Support this Website!</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/pythonprogramming.net/">Facebook</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://twitter.com/sentdex">Twitter</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://plus.google.com/+sentdex">Google+</a></li>
+                </ul>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h6 class="white-text">Legal stuff:</h6>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="https://pythonprogramming.net/about/tos/">Terms and Conditions</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://pythonprogramming.net/about/privacy-policy/">Privacy Policy</a></li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+          <a href="https://xkcd.com/353/" target="blank"><p class="grey-text right" style="padding-right:10px">Programming is a superpower.</p></a>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2016 PythonProgramming.net
+            
+            </div>
+
+          </div>
+        </footer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="material-tooltip" id="93c86ac4-a0e0-7d9f-a094-9a2712efa71b"><span>sudo apt-get upgrade</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="material-tooltip" id="34cf78eb-4581-44b2-439b-8180b799dd5e"><span>sudo apt-get upgrade</span><div class="backdrop" style="top: 0px; left: 0px;"></div></div><div class="hiddendiv common"></div><div class="drag-target" style="left: 0px; touch-action: pan-y; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div></body></html>

@@ -1,0 +1,4 @@
+Level 1:
+
+      Biblioteca: ElecMag1.so - vai incluir as funcoes Elec1() e Mag1() que vao incluir runge-kuttas para a simulacao dos campos de uma dada particula para o nivel 1 
+      		
