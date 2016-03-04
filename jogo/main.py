@@ -190,6 +190,12 @@ def paused():
                 pygame.quit()
                 quit()
         
+        pygame.draw.rect(screen,AQUA,((display_width/2)-150,(display_height/2)-50,300,50))
+        font = pygame.font.Font(None, 50)
+        text = font.render("   Game Paused   ", 1, (20, 20, 20))
+        textpos = text.get_rect()
+        textpos.center = ((display_width/2),(display_height/2)-20)
+        screen.blit(text, textpos)
         button("Continue",(display_width/2)-150,(display_height/2),100,50,WHITE,GREEN,unpause)
         button("Restart",(display_width/2)-50,(display_height/2),100,50,WHITE,GREEN,level1)
         button("Menu",(display_width/2)+50,(display_height/2),100,50,WHITE,GREEN,game_intro)
