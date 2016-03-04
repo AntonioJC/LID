@@ -69,7 +69,7 @@ class shoot:
                 lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
 
                 a = ctypes.CDLL('ElecMag.so')
-
+                """
 
                 # temos de relacionar os data types do c++ com os do python, entao identifica-se abaixo o tipo de cada argumento enviado para a funcao FullRK4 da biblioteca a para fazer esta conexao
                 # ----> Ver data-types em: https://docs.python.org/2/library/ctypes.html#fundamental-data-types !!
@@ -77,13 +77,14 @@ class shoot:
 
                 # o mesmo, mas agora para o retorno da funcao
                 a.MagField.restype = ctypes.POINTER(ctypes.c_double)
-
+                """
 
 		end_point_x = self.sh_length*cos(self.sh_angle)
 		end_point_y = self.sh_length*sin(self.sh_angle)
 		
 		# faz-se o teste de se a bola acabou de ser disparada, ou seja, para ver se e a primeira vez que a funcao esta a ser chamada de forma 
 		# a actualizar a posicao da bola dependendo do angulo do shooter
+                """             
                 vel = 4
 		if(shot==True):
 			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
@@ -107,10 +108,14 @@ class shoot:
 		self.ball_pos_y = pos[1]
                 self.ball_vx= pos[2]
                 self.ball_vy=pos[3]
+                """
 
+                a.ElectricField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
 
-                pos = a.ElectricField(t,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,Ex,Ey)
+                # o mesmo, mas agora para o retorno da funcao
+                a.ElectricField.restype = ctypes.POINTER(ctypes.c_double)
 
+                vel=4;
                 if(shot==True):
 			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
 			self.ball_pos_y0 = self.sh_pos_y - end_point_y
@@ -120,15 +125,18 @@ class shoot:
                         self.ball_vy = vel*sin(self.sh_angle)
 			self.t=0
 
-                ht = 0.5;
+               	pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 5, 5)
+
+                pos = a.ElectricField(self.t,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,Ex,Ey)
+
+                ht = .05;
 		self.t=self.t+ht
 		self.ball_pos_x = pos[0] 
 		self.ball_pos_y = pos[1]
                 self.ball_vx= pos[2]
                 self.ball_vy=pos[3]
-                
-		
-		
+
+        
 		
 		
 		

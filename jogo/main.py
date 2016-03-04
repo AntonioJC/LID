@@ -72,6 +72,8 @@ def level1():
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
+        Ex=4;
+        Ey=0.;
 	s = shoot()
 	shooter_angle=0
 	ball_on_screen=False
@@ -113,7 +115,7 @@ def level1():
 		
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
-                        s.kutta(screen,shot,B)
+                        s.kutta(screen,shot,B,Ex,Ey)
 			
 			shot = False
 			
@@ -126,7 +128,7 @@ def level1():
  
 		# --- Wrap-ups
 		# Limit to 60 frames per second
-		clock.tick(180)
+		clock.tick(60)
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
