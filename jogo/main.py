@@ -162,8 +162,8 @@ def paused():
         #gameDisplay.fill(white)
         
 
-        button("Restart",150,450,100,50,GREEN,RED,level1)
-        button("Menu",350,450,100,50,GAY,BLACK,game_intro)
+        button("Restart",(display_width/2)-100,450,100,50,GREEN,RED,level1)
+        button("Menu",(display_width/2),450,100,50,GAY,BLACK,game_intro)
 
         pygame.display.update()
         clock.tick(15)  
