@@ -73,10 +73,10 @@ class shoot:
 
                 # temos de relacionar os data types do c++ com os do python, entao identifica-se abaixo o tipo de cada argumento enviado para a funcao FullRK4 da biblioteca a para fazer esta conexao
                 # ----> Ver data-types em: https://docs.python.org/2/library/ctypes.html#fundamental-data-types !!
-                a.FullRK4.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
+                a.MagField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
 
                 # o mesmo, mas agora para o retorno da funcao
-                a.FullRK4.restype = ctypes.POINTER(ctypes.c_double)
+                a.MagField.restype = ctypes.POINTER(ctypes.c_double)
 
 
 		end_point_x = self.sh_length*cos(self.sh_angle)
@@ -100,7 +100,7 @@ class shoot:
                 # chamar a funcao do c++
 
                 h = 0.1 #step
-                pos = a.FullRK4(h,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,B)
+                pos = a.MagField(h,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,B)
 
 		self.t=self.t+h
 		self.ball_pos_x = pos[0] 

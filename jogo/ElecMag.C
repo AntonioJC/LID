@@ -3,7 +3,7 @@
 
 using namespace std;
 
-extern "C" double* FullRK4(double h, double x_0, double y_0, double vx_0, double vy_0, double Bz){
+extern "C" double* MagField(double h, double x_0, double y_0, double vx_0, double vy_0, double Bz){
 
   //SO quero movimento no plano xy
 
