@@ -14,6 +14,11 @@ lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sen
 
 a = ctypes.CDLL('ElecMag.so')
 
+#a = ctypes.CDLL('mydll.dll')
+
+#a = lib['myFunc']#my func is double myFunc(double);
+
+
 a.ElectricField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
 
 # o mesmo, mas agora para o retorno da funcao

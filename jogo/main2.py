@@ -76,6 +76,7 @@ def game_intro():
 # -------- Main Program Loop -----------
 def level1():
 
+	pygame.key.set_repeat(1,10)
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
@@ -107,12 +108,16 @@ def level1():
                             quit()	
 
 			if event.type == pygame.KEYDOWN:
+
 				if event.key == pygame.K_UP:
+
                                     if(ball_on_screen==False): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
-					shooter_angle = shooter_angle+0.05
+					shooter_angle = shooter_angle+0.05	
                                     else:
                                         ball_on_screen=False #para fazer nova jogada
+
 				elif event.key == pygame.K_DOWN:
+
                                     if(ball_on_screen==False):
 					shooter_angle = shooter_angle-0.05
                                     else:
