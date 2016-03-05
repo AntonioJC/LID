@@ -5,8 +5,13 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+ORANGE = (255,165,0)
 AQUA = (127,255,212)
 DSBLUE = (0,191,255)
+BLUE = (119,136,153)
+BROWN = (255,228,181)
+GRAY = (211,211,211)
+GOLD = (255,215,0)
 
 pygame.init()
  
@@ -129,7 +134,62 @@ def level1():
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
-		pygame.draw.rect(screen,DSBLUE,(200,150,100,50))
+
+                #desenhar o detector
+		#camadas up
+                pygame.draw.rect(screen,WHITE,(100,75,520,5))
+                pygame.draw.rect(screen,BLUE,(120,80,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,85,480,10))
+                pygame.draw.rect(screen,BLUE,(120,95,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,100,480,10))
+                pygame.draw.rect(screen,BLUE,(120,110,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,115,480,10))
+
+
+                pygame.draw.rect(screen,BLUE,(210,80,2,45))
+                pygame.draw.rect(screen,BLUE,(270,80,2,45))
+                pygame.draw.rect(screen,BLUE,(330,80,2,45))
+                pygame.draw.rect(screen,BLUE,(390,80,2,45))
+                pygame.draw.rect(screen,BLUE,(450,80,2,45))
+                pygame.draw.rect(screen,BLUE,(510,80,2,45)) 
+
+                #inner detector
+                pygame.draw.rect(screen,GRAY,(120,125,480,175))
+                pygame.draw.rect(screen,GOLD,(120,170,480,90))
+                
+               
+
+                #camadas down
+                pygame.draw.rect(screen,DSBLUE,(120,300,480,10))
+                pygame.draw.rect(screen,BLUE,(120,310,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,315,480,10))
+                pygame.draw.rect(screen,BLUE,(120,325,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,330,480,10))
+                pygame.draw.rect(screen,BLUE,(120,340,480,5))
+                pygame.draw.rect(screen,WHITE,(100,345,520,5))
+
+                pygame.draw.rect(screen,BLUE,(210,300,2,45))
+                pygame.draw.rect(screen,BLUE,(270,300,2,45))
+                pygame.draw.rect(screen,BLUE,(330,300,2,45))
+                pygame.draw.rect(screen,BLUE,(390,300,2,45))
+                pygame.draw.rect(screen,BLUE,(450,300,2,45))
+                pygame.draw.rect(screen,BLUE,(510,300,2,45)) 
+                 
+                #barreiras left
+                pygame.draw.rect(screen,WHITE,(0,180,100,60))
+
+                pygame.draw.rect(screen,BLUE,(115,80,5,265))
+                pygame.draw.rect(screen,WHITE,(110,75,5,270))
+                pygame.draw.rect(screen,BLUE,(105,80,5,265))
+                pygame.draw.rect(screen,WHITE,(100,75,5,270))
+
+                #barreiras right
+                pygame.draw.rect(screen,WHITE,(620,180,90,60))
+
+                pygame.draw.rect(screen,BLUE,(600,80,5,265))
+                pygame.draw.rect(screen,WHITE,(605,75,5,270))
+                pygame.draw.rect(screen,BLUE,(610,80,5,265))
+                pygame.draw.rect(screen,WHITE,(615,75,5,270))
                 
 
 		if ball_on_screen==True:
@@ -140,13 +200,14 @@ def level1():
 			
 			pos = s.get_ball_pos()
 			
-                        if 200<pos[0]<300 and 150<pos[1]<200:
-                            defeat()
+                        if 120<pos[0]<600 and 80<pos[1]<350:
+                            pygame.draw.rect(screen,RED,(600,400,20,20))
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
+                                defeat()
  
 
 		# --- Wrap-ups
