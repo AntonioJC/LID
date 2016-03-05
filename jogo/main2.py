@@ -8,6 +8,9 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 DARK_RED = (178,34,34)
 CORN_BLUE = (100,149,237)
+AQUA = (127,255,212)
+DSBLUE = (0,191,255)
+DARK_BLUE = (72,61,139)
  
 pygame.init()
  
@@ -69,9 +72,10 @@ def game_intro():
         pygame.display.update()
         clock.tick(15)
  
- 
+
 # -------- Main Program Loop -----------
 def level1():
+
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
@@ -106,9 +110,13 @@ def level1():
 				if event.key == pygame.K_UP:
                                     if(ball_on_screen==False): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
 					shooter_angle = shooter_angle+0.05
+                                    else:
+                                        ball_on_screen=False #para fazer nova jogada
 				elif event.key == pygame.K_DOWN:
                                     if(ball_on_screen==False):
 					shooter_angle = shooter_angle-0.05
+                                    else:
+                                        ball_on_screen=False #para fazer nova jogada
 				elif event.key == pygame.K_s:
 					shot=True
 					ball_on_screen=True
@@ -118,17 +126,47 @@ def level1():
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					shooter_angle=shooter_angle
 					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
- 
+
+
                 # Set the screen background
                 if ball_on_screen == False:
-                    screen.fill(BLACK)
+                    #screen.fill(BLACK)
+                    bg = pygame.image.load("bg.png")                
+                    screen.blit(bg, (0, 0))
+
+
+
+                # Explicacao do objectivo ##########################
+                pygame.draw.rect(screen,AQUA,(10,15,385,30))
+                font = pygame.font.Font(None, 30)
+                text = font.render("Objective: Reach the red threshold!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (200,30)
+                screen.blit(text, textpos)
+
+
 
 		# --- Criar efectivamente as cargas no screen ######
                 c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
+                font = pygame.font.Font(None, 30)
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2),(display_height/2-103))
+                screen.blit(text, textpos)
 
-                c2.create_charge(screen,-1000,display_width/2-100,display_height/2+100,CORN_BLUE)
+                c2.create_charge(screen,-1000,display_width/2-100,display_height/2+100,DARK_BLUE)
+                font = pygame.font.Font(None, 30)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2-100),(display_height/2+98))
+                screen.blit(text, textpos)
 
-                c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,WHITE)
+                c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,DARK_BLUE)
+                font = pygame.font.Font(None, 50)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2+200),(display_height/2-22))
+                screen.blit(text, textpos)
 
                 c_vec=[]
                 c_vec.append(c1)
@@ -138,6 +176,9 @@ def level1():
 
 		# Desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
+
+                # Desenhar patamar 
+		pygame.draw.rect(screen,RED,(display_width/2+270,display_height/2-20,20,2))
 		
 		
 		if ball_on_screen==True:
@@ -149,6 +190,9 @@ def level1():
 			shot = False
 			
 			pos = s.get_ball_pos()
+
+                        if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
+                            victory()
 			
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
@@ -161,6 +205,29 @@ def level1():
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
+
+def victory():
+    
+    lost = True 
+
+    while lost:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        
+        pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
+        font = pygame.font.Font(None, 50)
+        text = font.render("   You win!   ", 1, (20, 20, 20))
+        textpos = text.get_rect()
+        textpos.center = ((display_width/2),(display_height/2)-20)
+        screen.blit(text, textpos)
+        button("Again",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+
+        pygame.display.update()
+        clock.tick(10)
  
 def about():
 
