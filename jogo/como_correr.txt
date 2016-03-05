@@ -1,0 +1,15 @@
+g++ -shared -c -fPIC function.C -o function.o
+
+
+Criar a biblioteca partilhada:
+g++ -shared -Wl,-soname,library.so -o library.so function.o
+
+python teste.py
+
+
+
+
+
+PARA DLL'S:
+g++ -shared -o ElecMag.dll ElecMag.o charge.o
+
