@@ -2,12 +2,36 @@ import pygame
 from math import cos,sin
 import ctypes 
 from ctypes import *
+from charge import elec_charge
 
 # Define some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+
+lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
+
+a = ctypes.CDLL('ElecMag.so')
+
+# Campo magnetico ##########################################
+a.MagField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
+
+# o mesmo, mas agora para o retorno da funcao
+a.MagField.restype = ctypes.POINTER(ctypes.c_double)
+###########################################################
+
+
+#Campo eletrico ########################################
+a.ElectricField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
+
+# o mesmo, mas agora para o retorno da funcao
+a.ElectricField.restype = ctypes.POINTER(ctypes.c_double)
+############################################################
+
+# Campo de carga #############################################
+a.charge_field.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double]
+a.charge_field.restype = ctypes.POINTER(ctypes.c_double)
 
 class shoot:
         
@@ -32,6 +56,8 @@ class shoot:
                 self.ball_vx0=0
                 self.ball_vy0=0;
 		self.ball_angle=0
+                self.ball_m=1 # massa da particula lancada
+                self.ball_q=10 # carga da particula lancada
 		self.t=0
 		
 	def get_ball_pos(self):
@@ -63,22 +89,50 @@ class shoot:
 		g=9.8
 		self.ball_pos_x = self.ball_pos_x0 + v0*cos(self.sh_angle)*self.t
 		self.ball_pos_y = self.ball_pos_y0 - v0*sin(self.sh_angle)*self.t + 0.5*g*self.t*self.t
-		
+
+
+
+        def motion_in_field(self,screen,shot,charge):
+
+		end_point_x = self.sh_length*cos(self.sh_angle)
+		end_point_y = self.sh_length*sin(self.sh_angle)
+
+                vel=10;
+                if(shot==True):
+			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
+			self.ball_pos_y0 = self.sh_pos_y - end_point_y
+                        self.ball_pos_x = self.ball_pos_x0
+                        self.ball_pos_y = self.ball_pos_y0
+                        self.ball_vx = vel*cos(self.sh_angle)
+                        self.ball_vy = -vel*sin(self.sh_angle)
+			self.t=0
+
+               	pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 5, 5)
+
+                E = charge.get_E_field(self.ball_pos_x,self.ball_pos_y)
+                Ex = E[0]
+                Ey = E[1]
+
+                qm = self.ball_q/self.ball_m
+
+                h = .05;
+                #print self.ball_pos_y
+                print self.ball_vy
+                #print "campo"
+                #print Ey
+                #print "vel"
+                print self.ball_vy
+                self.ball_vx= self.ball_vx + qm*Ex*h
+                self.ball_vy= self.ball_vy + qm*Ey*h
+		self.ball_pos_x = self.ball_pos_x + self.ball_vx*h
+		self.ball_pos_y = self.ball_pos_y + self.ball_vy*h
+
+
 		
         def kutta(self, screen, shot,B,Ex,Ey):
-                lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
-
-                a = ctypes.CDLL('ElecMag.so')
-                
-
                 # temos de relacionar os data types do c++ com os do python, entao identifica-se abaixo o tipo de cada argumento enviado para a funcao FullRK4 da biblioteca a para fazer esta conexao
                 # ----> Ver data-types em: https://docs.python.org/2/library/ctypes.html#fundamental-data-types !!
-                a.MagField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
-
-                # o mesmo, mas agora para o retorno da funcao
-                a.MagField.restype = ctypes.POINTER(ctypes.c_double)
                 
-
 		end_point_x = self.sh_length*cos(self.sh_angle)
 		end_point_y = self.sh_length*sin(self.sh_angle)
 		

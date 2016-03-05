@@ -9,6 +9,16 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
+
+lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
+
+a = ctypes.CDLL('ElecMag.so')
+
+a.ElectricField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
+
+# o mesmo, mas agora para o retorno da funcao
+a.ElectricField.restype = ctypes.POINTER(ctypes.c_double)
+
 class shoot:
         
 	def __init__(self):
@@ -64,11 +74,33 @@ class shoot:
 		self.ball_pos_x = self.ball_pos_x0 + v0*cos(self.sh_angle)*self.t
 		self.ball_pos_y = self.ball_pos_y0 - v0*sin(self.sh_angle)*self.t + 0.5*g*self.t*self.t
 		
-		
-        def kutta(self, screen, shot,B,Ex,Ey):
-                lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
+	
+        def motion_in_field(self,screen,shot,Ex,Ey):
 
-                a = ctypes.CDLL('ElecMag.so')
+                vel=4;
+                if(shot==True):
+			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
+			self.ball_pos_y0 = self.sh_pos_y - end_point_y
+                        self.ball_pos_x = self.ball_pos_x0
+                        self.ball_pos_y = self.ball_pos_y0
+                        self.ball_vx = vel*cos(self.sh_angle)
+                        self.ball_vy = vel*sin(self.sh_angle)
+			self.t=0
+
+               	pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 5, 5)
+
+                pos = a.ElectricField(self.t,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,Ex,Ey)
+
+                ht = .05;
+		self.t=self.t+ht
+		self.ball_pos_x = pos[0] 
+		self.ball_pos_y = pos[1]
+                self.ball_vx= pos[2]
+                self.ball_vy=pos[3]
+                
+	
+        def kutta(self, screen, shot,B,Ex,Ey):
+ 
                 """
 
                 # temos de relacionar os data types do c++ com os do python, entao identifica-se abaixo o tipo de cada argumento enviado para a funcao FullRK4 da biblioteca a para fazer esta conexao
@@ -110,10 +142,6 @@ class shoot:
                 self.ball_vy=pos[3]
                 """
 
-                a.ElectricField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
-
-                # o mesmo, mas agora para o retorno da funcao
-                a.ElectricField.restype = ctypes.POINTER(ctypes.c_double)
 
                 vel=4;
                 if(shot==True):

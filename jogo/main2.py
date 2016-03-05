@@ -1,5 +1,6 @@
 import pygame
 from shooter2 import shoot
+from charge import elec_charge
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -75,6 +76,12 @@ def level1():
         Ex=4;
         Ey=0.;
 	s = shoot()
+
+        # Criacao de uma carga ########################
+        c1 = elec_charge()
+        c1.set_pos(display_width/2,display_height/2)
+        ###############################################
+
 	shooter_angle=0
 	ball_on_screen=False
 
@@ -109,14 +116,16 @@ def level1():
 		# Set the screen background
 		screen.fill(BLACK)
 
-		# desenhar o shooter
+		# desenhar coisas
 		s.draw_shooter(screen,shooter_angle)
+                c1.draw_charge(screen)
 		
 		
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
-                        s.kutta(screen,shot,B,Ex,Ey)
-			
+                        #s.kutta(screen,shot,B,Ex,Ey)
+                        s.motion_in_field(screen,shot,c1)
+
 			shot = False
 			
 			pos = s.get_ball_pos()
