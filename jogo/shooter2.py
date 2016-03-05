@@ -82,7 +82,7 @@ class shoot:
 			self.ball_pos_y0 = self.sh_pos_y - end_point_y
 			self.t=0
 			
-		pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 5, 5)
+		pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 1, 1)
 		
 		self.t=self.t+0.05
 		v0=70
@@ -107,23 +107,46 @@ class shoot:
                         self.ball_vy = -vel*sin(self.sh_angle)
 			self.t=0
 
-               	pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 5, 5)
+               	pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 2, 2)
 
-                E = charge.get_E_field(self.ball_pos_x,self.ball_pos_y)
+                i=0
+                Ex=[]
+                Ey=[]
+                for ch in charge:
+                        E = ch.get_E_field(self.ball_pos_x,self.ball_pos_y)
+                        Ex.append(E[0])
+                        Ey.append(E[1])
+                        i = i+1
+
+                """
+                E = charge[0].get_E_field(self.ball_pos_x,self.ball_pos_y)
+                #print E[0] Se imprimir os valores de E novamente depois de declarar o E2, eles ficam com os valores iguais ao E2. WTF??????????????????????????????????????????????????????????? Por isso tenho de os guardar logo no Ex e Ey antes de declarar o E2
                 Ex = E[0]
                 Ey = E[1]
 
+                E2 = charge[1].get_E_field(self.ball_pos_x,self.ball_pos_y) 
+                Ex2 =E2[0]
+                Ey2 =E2[1]
+"""
+
+
+                # ball's charge
                 qm = self.ball_q/self.ball_m
 
+
+                # agora tenho de somar as contribuicoes de cada carga para o campo aplicado na bola
+                j=0
+                sum_Ex=0
+                sum_Ey=0
+                while(j<i):
+                        sum_Ex = sum_Ex + Ex[j]
+                        sum_Ey = sum_Ey + Ey[j]
+                        j = j+1
+
+                
                 h = .05;
-                #print self.ball_pos_y
-                print self.ball_vy
-                #print "campo"
-                #print Ey
-                #print "vel"
-                print self.ball_vy
-                self.ball_vx= self.ball_vx + qm*Ex*h
-                self.ball_vy= self.ball_vy + qm*Ey*h
+                self.ball_vx= self.ball_vx + qm*sum_Ex*h
+                self.ball_vy= self.ball_vy + qm*sum_Ey*h
 		self.ball_pos_x = self.ball_pos_x + self.ball_vx*h
 		self.ball_pos_y = self.ball_pos_y + self.ball_vy*h
 

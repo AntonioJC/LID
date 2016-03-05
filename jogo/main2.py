@@ -6,6 +6,8 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+DARK_RED = (178,34,34)
+CORN_BLUE = (100,149,237)
  
 pygame.init()
  
@@ -77,9 +79,13 @@ def level1():
         Ey=0.;
 	s = shoot()
 
-        # Criacao de uma carga ########################
+
+        # Criacao de cargas ########################
+
         c1 = elec_charge()
-        c1.set_pos(display_width/2,display_height/2)
+        c2 = elec_charge()
+        c3 = elec_charge()
+
         ###############################################
 
 	shooter_angle=0
@@ -98,9 +104,11 @@ def level1():
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_UP:
-					shooter_angle = shooter_angle+0.2
+                                    if(ball_on_screen==False): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.05
 				elif event.key == pygame.K_DOWN:
-					shooter_angle = shooter_angle-0.2
+                                    if(ball_on_screen==False):
+					shooter_angle = shooter_angle-0.05
 				elif event.key == pygame.K_s:
 					shot=True
 					ball_on_screen=True
@@ -111,20 +119,32 @@ def level1():
 					shooter_angle=shooter_angle
 					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
  
-		# --- Drawing
-	
-		# Set the screen background
-		screen.fill(BLACK)
+                # Set the screen background
+                if ball_on_screen == False:
+                    screen.fill(BLACK)
 
-		# desenhar coisas
+		# --- Criar efectivamente as cargas no screen ######
+                c1.create_charge(screen,-1000,display_width/2-100,display_height/2-100,DARK_RED)
+
+                c2.create_charge(screen,-1000,display_width/2+100,display_height/2+100,CORN_BLUE)
+
+                c3.create_charge(screen,-2000,display_width/2+200,display_height/2-70,WHITE)
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+                ####################################################
+
+		# Desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
-                c1.draw_charge(screen)
 		
 		
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
                         #s.kutta(screen,shot,B,Ex,Ey)
-                        s.motion_in_field(screen,shot,c1)
+                    
+                        s.motion_in_field(screen,shot,c_vec)
 
 			shot = False
 			
