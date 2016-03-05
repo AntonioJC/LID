@@ -125,6 +125,8 @@ def level1():
                 bg = pygame.image.load("bg.png")                
                 screen.blit(bg, (0, 0))
 
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
 		pygame.draw.rect(screen,DSBLUE,(200,150,100,50))
@@ -215,12 +217,12 @@ def about():
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("comicsansms",90)
         TextSurf, TextRect = text_objects("About", largeText)
-        TextRect.center = ((display_width/2),50)
+        TextRect.center = ((display_width/2),80)
         font = pygame.font.Font(None, 26)
 	text = font.render("This is a game that desires to stimulate the", 1, (10, 10, 10))
-        text2 = font.render("passion of young people for physic related subjects,", 1, (10, 10, 10))
-        text3 = font.render("using for that purpose a variety of levels regarding", 1, (10, 10, 10))
-        text4 = font.render("various fields of this science.", 1, (10, 10, 10))
+        text2 = font.render("passion of young people for electromagnetism,", 1, (10, 10, 10))
+        text3 = font.render("using for that purpose a variety of levels.", 1, (10, 10, 10))
+        text4 = font.render("Created by Antonio Costa and Miguel Goncalves", 1, (10, 10, 10))
         textpos = text.get_rect()
         text2pos = text2.get_rect()
         text3pos = text3.get_rect()
@@ -228,12 +230,14 @@ def about():
 	textpos.center = ((display_width/2),150)
         text2pos.center = ((display_width/2),170)
         text3pos.center = ((display_width/2),190)
-        text4pos.center = ((display_width/2),210)
+        text4pos.center = ((display_width/2),250)
         screen.blit(TextSurf, TextRect)
         screen.blit(text, textpos)
         screen.blit(text2, text2pos)
         screen.blit(text3, text3pos)
         screen.blit(text4, text4pos)
+
+        button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
 
         pygame.display.update()
         clock.tick(15)
