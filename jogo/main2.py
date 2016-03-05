@@ -124,11 +124,11 @@ def level1():
                     screen.fill(BLACK)
 
 		# --- Criar efectivamente as cargas no screen ######
-                c1.create_charge(screen,-1000,display_width/2-100,display_height/2-100,DARK_RED)
+                c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
 
-                c2.create_charge(screen,-1000,display_width/2+100,display_height/2+100,CORN_BLUE)
+                c2.create_charge(screen,-1000,display_width/2-100,display_height/2+100,CORN_BLUE)
 
-                c3.create_charge(screen,-2000,display_width/2+200,display_height/2-70,WHITE)
+                c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,WHITE)
 
                 c_vec=[]
                 c_vec.append(c1)
