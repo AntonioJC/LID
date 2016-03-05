@@ -22,7 +22,7 @@ size = [display_width, display_height]
 screen = pygame.display.set_mode(size)
  
 pygame.display.set_caption("Bouncing Rectangle")
- 
+tcol=4 
 pause = False 
 
 # Used to manage how fast the screen updates
@@ -145,7 +145,7 @@ def level1():
                 pygame.draw.rect(screen,BLUE,(120,110,480,5))
                 pygame.draw.rect(screen,DSBLUE,(120,115,480,10))
 
-
+                #separadores up
                 pygame.draw.rect(screen,BLUE,(210,80,2,45))
                 pygame.draw.rect(screen,BLUE,(270,80,2,45))
                 pygame.draw.rect(screen,BLUE,(330,80,2,45))
@@ -157,8 +157,6 @@ def level1():
                 pygame.draw.rect(screen,GRAY,(120,125,480,175))
                 pygame.draw.rect(screen,GOLD,(120,170,480,90))
                 
-               
-
                 #camadas down
                 pygame.draw.rect(screen,DSBLUE,(120,300,480,10))
                 pygame.draw.rect(screen,BLUE,(120,310,480,5))
@@ -168,6 +166,7 @@ def level1():
                 pygame.draw.rect(screen,BLUE,(120,340,480,5))
                 pygame.draw.rect(screen,WHITE,(100,345,520,5))
 
+                #separadores down
                 pygame.draw.rect(screen,BLUE,(210,300,2,45))
                 pygame.draw.rect(screen,BLUE,(270,300,2,45))
                 pygame.draw.rect(screen,BLUE,(330,300,2,45))
@@ -194,13 +193,19 @@ def level1():
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
+                        
+                        #col_xpos = s.collisions(screen,shot)
                         s.kutta(screen,shot,B,Ex,Ey)
-			
+                        
 			shot = False
 			
-			pos = s.get_ball_pos()
-			
+			pos = s.get_ball_pos()                        
+
+                        #if abs(pos[0]-col_xpos)<50 and abs(pos[1]-180)<50:
+                          #  victory()
+
                         if 120<pos[0]<600 and 80<pos[1]<350:
+
                             pygame.draw.rect(screen,RED,(600,400,20,20))
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
@@ -231,6 +236,29 @@ def defeat():
         pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
         font = pygame.font.Font(None, 50)
         text = font.render("   You lost!   ", 1, (20, 20, 20))
+        textpos = text.get_rect()
+        textpos.center = ((display_width/2),(display_height/2)-20)
+        screen.blit(text, textpos)
+        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+
+        pygame.display.update()
+        clock.tick(25)  
+
+def victory():
+    
+    win = True 
+
+    while win:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        
+        pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
+        font = pygame.font.Font(None, 50)
+        text = font.render("   You won!   ", 1, (20, 20, 20))
         textpos = text.get_rect()
         textpos.center = ((display_width/2),(display_height/2)-20)
         screen.blit(text, textpos)
