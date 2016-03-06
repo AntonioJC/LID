@@ -23,6 +23,7 @@ screen = pygame.display.set_mode(size)
  
 pygame.display.set_caption("Bouncing Rectangle")
 tcol=4 
+count=200
 pause = False 
 
 # Used to manage how fast the screen updates
@@ -69,7 +70,8 @@ def game_intro():
 
         button("Level 1",(display_width/2)-50,200,100,50,GREEN,RED,level1)
         button("About",(display_width/2)-50,260,100,50,GREEN,RED,about)
-        button("???",(display_width/2)-50,320,100,50,GREEN,RED,kutta)
+        #button("???",(display_width/2)-50,320,100,50,GREEN,RED,kutta)
+        button("Level 2",(display_width/2)-50,320,100,50,GREEN,RED,level2)
         #button("Quit",550,450,100,50,red,bright_red,quitgame)
 
         pygame.display.update()
@@ -85,7 +87,7 @@ def level1():
 	#Variaveis importantes 
         B=-5 #campo magnetico default
         Ex=4;
-        Ey=0.;
+        Ey=2.;
 	s = shoot()
 	shooter_angle=0
 	ball_on_screen=False
@@ -116,7 +118,7 @@ def level1():
                                     Ex=-Ex
                                 elif event.key == pygame.K_p:
                                     pause =  True
-                                    paused()
+                                    paused(level1)
                                         
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -214,13 +216,13 @@ def level1():
 			pos = s.get_ball_pos()                        
 
                         if ((col_xpos-10)<pos[0]<(col_xpos+10)) and ((hcol-10)<pos[1]<(hcol+10)):
-                            victory()
+                            victory(level1)
                         elif ((col_xpos2-10)<pos[0]<(col_xpos2+10)) and ((hcol2-10)<pos[1]<(hcol2+10)):
-                            victory()
+                            victory(level1)
                         elif ((col_xpos3-10)<pos[0]<(col_xpos3+10)) and ((hcol3-10)<pos[1]<(hcol3+10)):
-                            victory()
+                            victory(level1)
                         elif ((col_xpos4-10)<pos[0]<(col_xpos4+10)) and ((hcol4-10)<pos[1]<(hcol4+10)):
-                            victory()
+                            victory(level1)
                        
                         if 120<pos[0]<600 and 80<pos[1]<350:
                             pygame.draw.rect(screen,RED,(600,400,20,20))
@@ -229,7 +231,7 @@ def level1():
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
-                                defeat()
+                                defeat(level1)
  
 
 		# --- Wrap-ups
@@ -239,7 +241,154 @@ def level1():
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
 
-def defeat():
+def level2():
+
+	#Variaveis importantes 
+        B=-5 #campo magnetico default
+        Ex=2;
+        Ey=2.;
+	s = shoot()
+	shooter_angle=0
+	ball_on_screen=False
+        global pause
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_UP:
+					shooter_angle = shooter_angle+0.2
+				elif event.key == pygame.K_DOWN:
+					shooter_angle = shooter_angle-0.2
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                elif event.key == pygame.K_b:
+                                        B=-B
+                                elif event.key == pygame.K_e:
+                                    Ex=-Ex
+                                elif event.key == pygame.K_r:
+                                    Ey=-Ey
+                                elif event.key == pygame.K_p:
+                                    pause =  True
+                                    paused(level2)
+                                        
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+ 
+		# --- Drawing
+                
+		# Set the screen background
+		#screen.fill(BLACK)
+                bg = pygame.image.load("bg.png")                
+                screen.blit(bg, (0, 0))
+
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+
+		# desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                #desenhar o detector
+		#camadas up
+                pygame.draw.rect(screen,WHITE,(100,75,520,5))
+                pygame.draw.rect(screen,BLUE,(120,80,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,85,480,10))
+                pygame.draw.rect(screen,BLUE,(120,95,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,100,480,10))
+                pygame.draw.rect(screen,BLUE,(120,110,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,115,480,10))
+
+                #separadores up
+                pygame.draw.rect(screen,BLUE,(210,80,2,45))
+                pygame.draw.rect(screen,BLUE,(270,80,2,45))
+                pygame.draw.rect(screen,BLUE,(330,80,2,45))
+                pygame.draw.rect(screen,BLUE,(390,80,2,45))
+                pygame.draw.rect(screen,BLUE,(450,80,2,45))
+                pygame.draw.rect(screen,BLUE,(510,80,2,45)) 
+
+                #inner detector
+                pygame.draw.rect(screen,GRAY,(120,125,480,175))
+                pygame.draw.rect(screen,GOLD,(120,170,480,90))
+                
+                #camadas down
+                pygame.draw.rect(screen,DSBLUE,(120,300,480,10))
+                pygame.draw.rect(screen,BLUE,(120,310,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,315,480,10))
+                pygame.draw.rect(screen,BLUE,(120,325,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,330,480,10))
+                pygame.draw.rect(screen,BLUE,(120,340,480,5))
+                pygame.draw.rect(screen,WHITE,(100,345,520,5))
+
+                #separadores down
+                pygame.draw.rect(screen,BLUE,(210,300,2,45))
+                pygame.draw.rect(screen,BLUE,(270,300,2,45))
+                pygame.draw.rect(screen,BLUE,(330,300,2,45))
+                pygame.draw.rect(screen,BLUE,(390,300,2,45))
+                pygame.draw.rect(screen,BLUE,(450,300,2,45))
+                pygame.draw.rect(screen,BLUE,(510,300,2,45)) 
+                 
+                #barreiras left
+                pygame.draw.rect(screen,WHITE,(0,180,100,60))
+
+                pygame.draw.rect(screen,BLUE,(115,80,5,265))
+                pygame.draw.rect(screen,WHITE,(110,75,5,270))
+                pygame.draw.rect(screen,BLUE,(105,80,5,265))
+                pygame.draw.rect(screen,WHITE,(100,75,5,270))
+
+                #barreiras right
+                pygame.draw.rect(screen,WHITE,(620,180,90,60))
+
+                pygame.draw.rect(screen,BLUE,(600,80,5,265))
+                pygame.draw.rect(screen,WHITE,(605,75,5,270))
+                pygame.draw.rect(screen,BLUE,(610,80,5,265))
+                pygame.draw.rect(screen,WHITE,(615,75,5,270))
+                
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        
+                        s.kutta(screen,shot,B,Ex,Ey)
+                        
+			shot = False
+			
+			pos = s.get_ball_pos()                        
+                       
+                        detect = False
+
+                        if 120<pos[0]<600 and 80<pos[1]<350:
+                            detect = True
+                            pygame.draw.rect(screen,RED,(600,400,20,20))
+                            
+                            global count 
+                            count = s.counter(shot,detect,count)
+                            if count == 0:
+                                victory(level2)
+
+			if 0<pos[0]< display_width and  0<pos[1]<display_height:
+				ball_on_screen=True
+			else:
+				ball_on_screen=False
+                                defeat(level2)
+ 
+
+		# --- Wrap-ups
+		# Limit to 60 frames per second
+		clock.tick(60)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+def defeat(level):
     
     lost = True 
 
@@ -256,13 +405,13 @@ def defeat():
         textpos = text.get_rect()
         textpos.center = ((display_width/2),(display_height/2)-20)
         screen.blit(text, textpos)
-        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level)
         button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
 
         pygame.display.update()
         clock.tick(25)  
 
-def victory():
+def victory(level):
     
     win = True 
 
@@ -279,7 +428,7 @@ def victory():
         textpos = text.get_rect()
         textpos.center = ((display_width/2),(display_height/2)-20)
         screen.blit(text, textpos)
-        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level)
         button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
 
         pygame.display.update()
@@ -289,7 +438,7 @@ def unpause():
     global pause 
     pause = False
 
-def paused():
+def paused(level):
 
     while pause:
         for event in pygame.event.get():
@@ -305,7 +454,7 @@ def paused():
         textpos.center = ((display_width/2),(display_height/2)-20)
         screen.blit(text, textpos)
         button("Continue",(display_width/2)-150,(display_height/2),100,50,WHITE,GREEN,unpause)
-        button("Restart",(display_width/2)-50,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Restart",(display_width/2)-50,(display_height/2),100,50,WHITE,GREEN,level)
         button("Menu",(display_width/2)+50,(display_height/2),100,50,WHITE,GREEN,game_intro)
 
         pygame.display.update()

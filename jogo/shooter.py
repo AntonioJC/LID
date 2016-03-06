@@ -187,3 +187,13 @@ class shoot:
 		
 		
 		
+        def counter(self,shot,detect,ite):
+                
+                if(shot==True):
+                        ite=200
+                
+                if detect:
+                        ite=ite-5
+                        print ite
+                
+                return ite
