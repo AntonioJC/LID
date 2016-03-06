@@ -170,17 +170,18 @@ class shoot:
                 self.ball_vy=pos[3]
 
                 
-        def collisions(self, screen, shot):
+        def collisions(self, screen, shot, hcol,velcol):
                 
                 if(shot==True):
 			self.t=0
-                        
-                velcol = 4
-                htcol = 2
-                self.t=self.t+htcol
-                #tcol = tcol + htcol
-                pygame.draw.circle(screen, RED, (int(600-velcol*self.t), int(180)), 5, 5)
-                col_pos = 600-velcol*self.t
+          
+                tcol = self.t
+                #velcol = 0.2*hcol-20
+                htcol = 4
+                #self.t=self.t+htcol
+                tcol = tcol + htcol
+                pygame.draw.circle(screen, RED, (int(600-velcol*tcol), int(hcol)), 5, 5)
+                col_pos = 600-velcol*tcol
                 return col_pos
         
 		

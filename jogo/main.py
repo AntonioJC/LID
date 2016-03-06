@@ -193,19 +193,36 @@ def level1():
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
-                        
-                        #col_xpos = s.collisions(screen,shot)
+                        hcol = 150
+                        hcol2= 200
+                        hcol3= 280
+                        hcol4=230
+                        velcol = 20
+                        velcol2 = 40
+                        velcol3 = 10
+                        velcol4= 30
+
+                        col_xpos = s.collisions(screen,shot,hcol,velcol)
+                        col_xpos2 = s.collisions(screen,shot,hcol2,velcol2)
+                        col_xpos3 = s.collisions(screen,shot,hcol3,velcol3)
+                        col_xpos4 = s.collisions(screen,shot,hcol4,velcol4)
+
                         s.kutta(screen,shot,B,Ex,Ey)
                         
 			shot = False
 			
 			pos = s.get_ball_pos()                        
 
-                        #if abs(pos[0]-col_xpos)<50 and abs(pos[1]-180)<50:
-                          #  victory()
-
+                        if ((col_xpos-10)<pos[0]<(col_xpos+10)) and ((hcol-10)<pos[1]<(hcol+10)):
+                            victory()
+                        elif ((col_xpos2-10)<pos[0]<(col_xpos2+10)) and ((hcol2-10)<pos[1]<(hcol2+10)):
+                            victory()
+                        elif ((col_xpos3-10)<pos[0]<(col_xpos3+10)) and ((hcol3-10)<pos[1]<(hcol3+10)):
+                            victory()
+                        elif ((col_xpos4-10)<pos[0]<(col_xpos4+10)) and ((hcol4-10)<pos[1]<(hcol4+10)):
+                            victory()
+                       
                         if 120<pos[0]<600 and 80<pos[1]<350:
-
                             pygame.draw.rect(screen,RED,(600,400,20,20))
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
