@@ -232,7 +232,7 @@ def level1():
                             victory(level1)
                        
                         if 120<pos[0]<600 and 80<pos[1]<350:
-                            pygame.draw.rect(screen,RED,(600,400,20,20))
+                            #pygame.draw.rect(screen,RED,(600,400,20,20))
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
