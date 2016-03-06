@@ -186,14 +186,14 @@ class shoot:
         
 		
 		
-		
-        def counter(self,shot,detect,ite):
+        def counter(self,shot,detect):
                 
+                count=self.t
                 if(shot==True):
-                        ite=200
-                
+			self.t=0
+
                 if detect:
-                        ite=ite-5
-                        print ite
-                
-                return ite
+                        count=count+1
+                        print count
+
+                return count

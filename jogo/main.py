@@ -21,9 +21,8 @@ display_height = 500
 size = [display_width, display_height]
 screen = pygame.display.set_mode(size)
  
-pygame.display.set_caption("Bouncing Rectangle")
+pygame.display.set_caption("Electromagnetism for dummies")
 tcol=4 
-count=200
 pause = False 
 
 # Used to manage how fast the screen updates
@@ -133,6 +132,13 @@ def level1():
                 screen.blit(bg, (0, 0))
 
                 button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(200,0,205,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Collide!!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
+
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
@@ -245,8 +251,8 @@ def level2():
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
-        Ex=2;
-        Ey=2.;
+        Ex=4;
+        Ey=0;
 	s = shoot()
 	shooter_angle=0
 	ball_on_screen=False
@@ -294,6 +300,12 @@ def level2():
                 screen.blit(bg, (0, 0))
 
                 button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(200,0,205,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Reach the 6s!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
@@ -368,10 +380,15 @@ def level2():
                         if 120<pos[0]<600 and 80<pos[1]<350:
                             detect = True
                             pygame.draw.rect(screen,RED,(600,400,20,20))
-                            
-                            global count 
-                            count = s.counter(shot,detect,count)
-                            if count == 0:
+
+                            count = s.counter(shot,detect)
+                            font = pygame.font.Font(None, 50)
+                            text = font.render(str(count), 1, (20, 20, 20))
+                            textpos = text.get_rect()
+                            textpos.center = (200,200)
+                            screen.blit(text, textpos)
+
+                            if 6<count<6.2:
                                 victory(level2)
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
