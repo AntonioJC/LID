@@ -302,7 +302,7 @@ def level2():
                 button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
                 pygame.draw.rect(screen,AQUA,(200,0,205,30))
                 font = pygame.font.Font(None, 20)
-                text = font.render("Objective: Reach the 6s!", 1, BLACK)
+                text = font.render("Objective: Reach the 4s!", 1, BLACK)
                 textpos = text.get_rect()
                 textpos.center = (300,15)
                 screen.blit(text, textpos)
@@ -379,16 +379,16 @@ def level2():
 
                         if 120<pos[0]<600 and 80<pos[1]<350:
                             detect = True
-                            pygame.draw.rect(screen,RED,(600,400,20,20))
+                            #pygame.draw.rect(screen,RED,(600,400,20,20))
 
                             count = s.counter(shot,detect)
                             font = pygame.font.Font(None, 50)
-                            text = font.render(str(count), 1, (20, 20, 20))
+                            text = font.render(str(count-2), 1, (20, 20, 20))
                             textpos = text.get_rect()
                             textpos.center = (200,200)
                             screen.blit(text, textpos)
 
-                            if 6<count<6.2:
+                            if 4.0<=(count-2)<=4.2:
                                 victory(level2)
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:

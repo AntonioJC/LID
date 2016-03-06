@@ -189,11 +189,12 @@ class shoot:
         def counter(self,shot,detect):
                 
                 count=self.t
+
                 if(shot==True):
 			self.t=0
 
                 if detect:
                         count=count+1
-                        print count
+                        #print count
 
                 return count
