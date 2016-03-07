@@ -120,15 +120,41 @@ extern "C" double* ElectricField(double t, double x_0, double y_0, double vx_0, 
   y_0 = -qm*Ey*t*t*0.5-vy_0*t+y_0;
   vy_0 = qm*Ey*t+vy_0;
   
-  static double pos[4];
+  static double pose[4];
   
-  pos[0] = x_0;
-  pos[1] = y_0;
-  pos[2] = vx_0;
-  pos[3] = vy_0;
+  pose[0] = x_0;
+  pose[1] = y_0;
+  pose[2] = vx_0;
+  pose[3] = vy_0;
 
 
-  return pos;
+  return pose;
+
+}
+
+extern "C" double* ElectricFieldWire(double t, double x_0, double y_0, double vx_0, double vy_0, double Ex, double qEy, double wpos){
+
+  double qm=0.01;
+  double Ey;
+
+  Ey = qEy/abs(wpos-y_0);
+  //cout << Ey << endl;
+
+  x_0 = qm*Ex*t*t*0.5+vx_0*t+x_0;
+  vx_0 = qm*Ex*t+vx_0;
+  
+  y_0 = -qm*Ey*t*t*0.5-vy_0*t+y_0;
+  vy_0 = qm*Ey*t+vy_0;
+  
+  static double pose[4];
+  
+  pose[0] = x_0;
+  pose[1] = y_0;
+  pose[2] = vx_0;
+  pose[3] = vy_0;
+
+
+  return pose;
 
 }
 
