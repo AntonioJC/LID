@@ -148,9 +148,12 @@ def level1():
                 #desenhar o detector
 		s.draw_detector(screen)
                 
+                #desenhar moleculas
+                s.simulation(screen)
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
+                        """
                         hcol = 150
                         hcol2= 200
                         hcol3= 280
@@ -164,13 +167,13 @@ def level1():
                         col_xpos2 = s.collisions(screen,shot,hcol2,velcol2)
                         col_xpos3 = s.collisions(screen,shot,hcol3,velcol3)
                         col_xpos4 = s.collisions(screen,shot,hcol4,velcol4)
-
+                        """
                         s.kutta(screen,shot,B,Ex,Ey)
                         
 			shot = False
 			
 			pos = s.get_ball_pos()                        
-
+                        """
                         if ((col_xpos-10)<pos[0]<(col_xpos+10)) and ((hcol-10)<pos[1]<(hcol+10)):
                             victory(level1)
                         elif ((col_xpos2-10)<pos[0]<(col_xpos2+10)) and ((hcol2-10)<pos[1]<(hcol2+10)):
@@ -179,7 +182,7 @@ def level1():
                             victory(level1)
                         elif ((col_xpos4-10)<pos[0]<(col_xpos4+10)) and ((hcol4-10)<pos[1]<(hcol4+10)):
                             victory(level1)
-                       
+                       """
                         #if 120<pos[0]<600 and 80<pos[1]<350:
                             #pygame.draw.rect(screen,RED,(600,400,20,20))
 

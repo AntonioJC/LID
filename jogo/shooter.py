@@ -2,6 +2,7 @@ import pygame
 from math import cos,sin
 import ctypes 
 from ctypes import *
+import random
 
 # Define some colors
 BLACK = (0, 0, 0)
@@ -276,7 +277,16 @@ class shoot:
                 col_pos = 600-velcol*tcol
                 return col_pos
         
-		
+        def simulation(self, screen):
+                
+                rpos = random.randint(0,1)
+                hpos = random.randint(100,300)
+                xpos = random.randint(150,500)
+                p = 2
+                i=0
+                while i<5:
+                        pygame.draw.circle(screen, RED, (int(xpos-p*rpos), int(hpos)), 3, 3)
+                        i=i+1
 		
         def counter(self,shot,detect):
                 
