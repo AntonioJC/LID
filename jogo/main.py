@@ -72,6 +72,7 @@ def game_intro():
         button("About",(display_width/2)-50,260,100,50,GREEN,RED,about)
         #button("???",(display_width/2)-50,320,100,50,GREEN,RED,kutta)
         button("Level 2",(display_width/2)-50,320,100,50,GREEN,RED,level2)
+        #button("Level 3",(display_width/2)-50,380,100,50,GREEN,RED,level3)
         #button("Quit",550,450,100,50,red,bright_red,quitgame)
 
         pygame.display.update()
@@ -145,59 +146,7 @@ def level1():
 		s.draw_shooter(screen,shooter_angle)
 
                 #desenhar o detector
-		#camadas up
-                pygame.draw.rect(screen,WHITE,(100,75,520,5))
-                pygame.draw.rect(screen,BLUE,(120,80,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,85,480,10))
-                pygame.draw.rect(screen,BLUE,(120,95,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,100,480,10))
-                pygame.draw.rect(screen,BLUE,(120,110,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,115,480,10))
-
-                #separadores up
-                pygame.draw.rect(screen,BLUE,(210,80,2,45))
-                pygame.draw.rect(screen,BLUE,(270,80,2,45))
-                pygame.draw.rect(screen,BLUE,(330,80,2,45))
-                pygame.draw.rect(screen,BLUE,(390,80,2,45))
-                pygame.draw.rect(screen,BLUE,(450,80,2,45))
-                pygame.draw.rect(screen,BLUE,(510,80,2,45)) 
-
-                #inner detector
-                pygame.draw.rect(screen,GRAY,(120,125,480,175))
-                pygame.draw.rect(screen,GOLD,(120,170,480,90))
-                
-                #camadas down
-                pygame.draw.rect(screen,DSBLUE,(120,300,480,10))
-                pygame.draw.rect(screen,BLUE,(120,310,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,315,480,10))
-                pygame.draw.rect(screen,BLUE,(120,325,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,330,480,10))
-                pygame.draw.rect(screen,BLUE,(120,340,480,5))
-                pygame.draw.rect(screen,WHITE,(100,345,520,5))
-
-                #separadores down
-                pygame.draw.rect(screen,BLUE,(210,300,2,45))
-                pygame.draw.rect(screen,BLUE,(270,300,2,45))
-                pygame.draw.rect(screen,BLUE,(330,300,2,45))
-                pygame.draw.rect(screen,BLUE,(390,300,2,45))
-                pygame.draw.rect(screen,BLUE,(450,300,2,45))
-                pygame.draw.rect(screen,BLUE,(510,300,2,45)) 
-                 
-                #barreiras left
-                pygame.draw.rect(screen,WHITE,(0,180,100,60))
-
-                pygame.draw.rect(screen,BLUE,(115,80,5,265))
-                pygame.draw.rect(screen,WHITE,(110,75,5,270))
-                pygame.draw.rect(screen,BLUE,(105,80,5,265))
-                pygame.draw.rect(screen,WHITE,(100,75,5,270))
-
-                #barreiras right
-                pygame.draw.rect(screen,WHITE,(620,180,90,60))
-
-                pygame.draw.rect(screen,BLUE,(600,80,5,265))
-                pygame.draw.rect(screen,WHITE,(605,75,5,270))
-                pygame.draw.rect(screen,BLUE,(610,80,5,265))
-                pygame.draw.rect(screen,WHITE,(615,75,5,270))
+		s.draw_detector(screen)
                 
 
 		if ball_on_screen==True:
@@ -206,10 +155,10 @@ def level1():
                         hcol2= 200
                         hcol3= 280
                         hcol4=230
-                        velcol = 20
-                        velcol2 = 40
-                        velcol3 = 10
-                        velcol4= 30
+                        velcol = 30
+                        velcol2 = 50
+                        velcol3 = 20
+                        velcol4= 40
 
                         col_xpos = s.collisions(screen,shot,hcol,velcol)
                         col_xpos2 = s.collisions(screen,shot,hcol2,velcol2)
@@ -252,12 +201,13 @@ def level2():
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
-        Ex=4;
-        Ey=0;
+        Ex=0;
+        qEy=400;
 	s = shoot()
 	shooter_angle=0
 	ball_on_screen=False
         global pause
+        up = False
 
 	# Loop until the user clicks the close button.
 	done = False
@@ -283,7 +233,7 @@ def level2():
                                 elif event.key == pygame.K_e:
                                     Ex=-Ex
                                 elif event.key == pygame.K_r:
-                                    Ey=-Ey
+                                    qEy=-qEy
                                 elif event.key == pygame.K_p:
                                     pause =  True
                                     paused(level2)
@@ -312,72 +262,30 @@ def level2():
 		s.draw_shooter(screen,shooter_angle)
 
                 #desenhar o detector
-		#camadas up
-                pygame.draw.rect(screen,WHITE,(100,75,520,5))
-                pygame.draw.rect(screen,BLUE,(120,80,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,85,480,10))
-                pygame.draw.rect(screen,BLUE,(120,95,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,100,480,10))
-                pygame.draw.rect(screen,BLUE,(120,110,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,115,480,10))
+	
+                s.draw_detector(screen)
 
-                #separadores up
-                pygame.draw.rect(screen,BLUE,(210,80,2,45))
-                pygame.draw.rect(screen,BLUE,(270,80,2,45))
-                pygame.draw.rect(screen,BLUE,(330,80,2,45))
-                pygame.draw.rect(screen,BLUE,(390,80,2,45))
-                pygame.draw.rect(screen,BLUE,(450,80,2,45))
-                pygame.draw.rect(screen,BLUE,(510,80,2,45)) 
-
-                #inner detector
-                pygame.draw.rect(screen,GRAY,(120,125,480,175))
-                pygame.draw.rect(screen,GOLD,(120,170,480,90))
-                
-                #camadas down
-                pygame.draw.rect(screen,DSBLUE,(120,300,480,10))
-                pygame.draw.rect(screen,BLUE,(120,310,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,315,480,10))
-                pygame.draw.rect(screen,BLUE,(120,325,480,5))
-                pygame.draw.rect(screen,DSBLUE,(120,330,480,10))
-                pygame.draw.rect(screen,BLUE,(120,340,480,5))
-                pygame.draw.rect(screen,WHITE,(100,345,520,5))
-
-                #separadores down
-                pygame.draw.rect(screen,BLUE,(210,300,2,45))
-                pygame.draw.rect(screen,BLUE,(270,300,2,45))
-                pygame.draw.rect(screen,BLUE,(330,300,2,45))
-                pygame.draw.rect(screen,BLUE,(390,300,2,45))
-                pygame.draw.rect(screen,BLUE,(450,300,2,45))
-                pygame.draw.rect(screen,BLUE,(510,300,2,45)) 
-                 
-                #barreiras left
-                pygame.draw.rect(screen,WHITE,(0,180,100,60))
-
-                pygame.draw.rect(screen,BLUE,(115,80,5,265))
-                pygame.draw.rect(screen,WHITE,(110,75,5,270))
-                pygame.draw.rect(screen,BLUE,(105,80,5,265))
-                pygame.draw.rect(screen,WHITE,(100,75,5,270))
-
-                #barreiras right
-                pygame.draw.rect(screen,WHITE,(620,180,90,60))
-
-                pygame.draw.rect(screen,BLUE,(600,80,5,265))
-                pygame.draw.rect(screen,WHITE,(605,75,5,270))
-                pygame.draw.rect(screen,BLUE,(610,80,5,265))
-                pygame.draw.rect(screen,WHITE,(615,75,5,270))
-                
+                wire_pos = 215
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
                         
-                        s.kutta(screen,shot,B,Ex,Ey)
-                        
+                        s.ElectricFieldWire(screen,shot,B,Ex,qEy,wire_pos)
+
 			shot = False
 			
 			pos = s.get_ball_pos()                        
+
+                        #print pos[1]
                        
                         detect = False
-
+                        
+                        if pos[1]<215 and up == False:
+                            qEy=-qEy
+                            up = True
+                            #print qEy
+                        
+                        """
                         if 120<pos[0]<600 and 80<pos[1]<350:
                             detect = True
                             #pygame.draw.rect(screen,RED,(600,400,20,20))
@@ -391,7 +299,7 @@ def level2():
 
                             if 4.0<=(count-2)<=4.2:
                                 victory(level2)
-
+                        """                
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
 			else:
@@ -405,6 +313,7 @@ def level2():
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
+
 
 def defeat(level):
     
