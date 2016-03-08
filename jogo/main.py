@@ -84,6 +84,8 @@ def getBackground():
       return pygame.image.load('background.gif'), 5
 
 def level1():
+    
+        pygame.key.set_repeat(1,10)
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
@@ -149,7 +151,7 @@ def level1():
 		s.draw_detector(screen)
                 
                 #desenhar moleculas
-                s.simulation(screen)
+                pos_sim = s.simulation(screen)
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
@@ -183,6 +185,20 @@ def level1():
                         elif ((col_xpos4-10)<pos[0]<(col_xpos4+10)) and ((hcol4-10)<pos[1]<(hcol4+10)):
                             victory(level1)
                        """
+                       
+                        if ((pos_sim[0]-10)<pos[0]<(pos_sim[0]+10)) and ((pos_sim[1]-10)<pos[1]<(pos_sim[1]+10)):
+                            s.col_recoil(screen, pos_sim[0], pos_sim[1])
+                            #pos[0] = 0
+                            #pos[1] = 0
+                            print "collision"
+                            victory(level1)
+                        elif ((pos_sim[3]-10)<pos[0]<(pos_sim[3]+10)) and ((pos_sim[4]-10)<pos[1]<(pos_sim[4]+10)):
+                            s.col_recoil(screen, pos_sim[3], pos_sim[4])
+                            #pos[0] = 0
+                            #pos[1] = 0
+                            print "collision blue"
+                            victory(level1)
+
                         #if 120<pos[0]<600 and 80<pos[1]<350:
                             #pygame.draw.rect(screen,RED,(600,400,20,20))
 
@@ -201,6 +217,8 @@ def level1():
 		pygame.display.flip()
 
 def level2():
+
+        pygame.key.set_repeat(1,10)
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default

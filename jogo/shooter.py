@@ -12,7 +12,7 @@ RED = (255, 0, 0)
 ORANGE = (255,165,0)
 AQUA = (127,255,212)
 DSBLUE = (0,191,255)
-BLUE = (119,136,153)
+LGRAY = (119,136,153)
 BROWN = (255,228,181)
 GRAY = (211,211,211)
 GOLD = (255,215,0)
@@ -117,20 +117,20 @@ class shoot:
         def draw_detector(self,screen):
                 #camadas up
                 pygame.draw.rect(screen,WHITE,(100,75,520,5))
-                pygame.draw.rect(screen,BLUE,(120,80,480,5))
+                pygame.draw.rect(screen,LGRAY,(120,80,480,5))
                 pygame.draw.rect(screen,DSBLUE,(120,85,480,10))
-                pygame.draw.rect(screen,BLUE,(120,95,480,5))
+                pygame.draw.rect(screen,LGRAY,(120,95,480,5))
                 pygame.draw.rect(screen,DSBLUE,(120,100,480,10))
-                pygame.draw.rect(screen,BLUE,(120,110,480,5))
+                pygame.draw.rect(screen,LGRAY,(120,110,480,5))
                 pygame.draw.rect(screen,DSBLUE,(120,115,480,10))
 
                 #separadores up
-                pygame.draw.rect(screen,BLUE,(210,80,2,45))
-                pygame.draw.rect(screen,BLUE,(270,80,2,45))
-                pygame.draw.rect(screen,BLUE,(330,80,2,45))
-                pygame.draw.rect(screen,BLUE,(390,80,2,45))
-                pygame.draw.rect(screen,BLUE,(450,80,2,45))
-                pygame.draw.rect(screen,BLUE,(510,80,2,45)) 
+                pygame.draw.rect(screen,LGRAY,(210,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(270,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(330,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(390,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(450,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(510,80,2,45)) 
 
                 #inner detector
                 pygame.draw.rect(screen,GRAY,(120,125,480,175))
@@ -139,35 +139,35 @@ class shoot:
 
                 #camadas down
                 pygame.draw.rect(screen,DSBLUE,(120,300,480,10))
-                pygame.draw.rect(screen,BLUE,(120,310,480,5))
+                pygame.draw.rect(screen,LGRAY,(120,310,480,5))
                 pygame.draw.rect(screen,DSBLUE,(120,315,480,10))
-                pygame.draw.rect(screen,BLUE,(120,325,480,5))
+                pygame.draw.rect(screen,LGRAY,(120,325,480,5))
                 pygame.draw.rect(screen,DSBLUE,(120,330,480,10))
-                pygame.draw.rect(screen,BLUE,(120,340,480,5))
+                pygame.draw.rect(screen,LGRAY,(120,340,480,5))
                 pygame.draw.rect(screen,WHITE,(100,345,520,5))
 
                 #separadores down
-                pygame.draw.rect(screen,BLUE,(210,300,2,45))
-                pygame.draw.rect(screen,BLUE,(270,300,2,45))
-                pygame.draw.rect(screen,BLUE,(330,300,2,45))
-                pygame.draw.rect(screen,BLUE,(390,300,2,45))
-                pygame.draw.rect(screen,BLUE,(450,300,2,45))
-                pygame.draw.rect(screen,BLUE,(510,300,2,45)) 
+                pygame.draw.rect(screen,LGRAY,(210,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(270,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(330,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(390,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(450,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(510,300,2,45)) 
                  
                 #barreiras left
                 pygame.draw.rect(screen,WHITE,(0,180,100,60))
 
-                pygame.draw.rect(screen,BLUE,(115,80,5,265))
+                pygame.draw.rect(screen,LGRAY,(115,80,5,265))
                 pygame.draw.rect(screen,WHITE,(110,75,5,270))
-                pygame.draw.rect(screen,BLUE,(105,80,5,265))
+                pygame.draw.rect(screen,LGRAY,(105,80,5,265))
                 pygame.draw.rect(screen,WHITE,(100,75,5,270))
 
                 #barreiras right
                 pygame.draw.rect(screen,WHITE,(620,180,90,60))
 
-                pygame.draw.rect(screen,BLUE,(600,80,5,265))
+                pygame.draw.rect(screen,LGRAY,(600,80,5,265))
                 pygame.draw.rect(screen,WHITE,(605,75,5,270))
-                pygame.draw.rect(screen,BLUE,(610,80,5,265))
+                pygame.draw.rect(screen,LGRAY,(610,80,5,265))
                 pygame.draw.rect(screen,WHITE,(615,75,5,270))
                 
 	
@@ -280,14 +280,35 @@ class shoot:
         def simulation(self, screen):
                 
                 rpos = random.randint(0,1)
-                hpos = random.randint(100,300)
+                hpos = random.randint(100,330)
                 xpos = random.randint(150,500)
+                hpos2 = random.randint(100,330)
+                xpos2 = random.randint(150,500)
                 p = 2
                 i=0
-                while i<5:
+
+                while i<20:
                         pygame.draw.circle(screen, RED, (int(xpos-p*rpos), int(hpos)), 3, 3)
+                        pygame.draw.circle(screen, RED, (int(xpos2-p*rpos), int(hpos2)), 3, 3)
+                        simpos = [(xpos-p*rpos),hpos,(xpos2-p*rpos),hpos2]
+                        #print str(simpos[0]) + " , " + str(simpos[1])
                         i=i+1
-		
+
+                #print str(simpos[0]) + " , " + str(simpos[1])
+
+                return simpos
+
+        def col_recoil(self,screen, spos1,spos2):
+
+                tcol = self.t
+                velcol = 20
+                htcol = 4
+                #self.t=self.t+htcol
+                tcol = tcol + htcol
+                pygame.draw.circle(screen, AQUA, (int(spos1), int(spos2+velcol*tcol)), 5, 5)
+                
+
+
         def counter(self,shot,detect):
                 
                 count=self.t
