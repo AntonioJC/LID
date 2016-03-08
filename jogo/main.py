@@ -186,18 +186,23 @@ def level1():
                             victory(level1)
                        """
                        
-                        if ((pos_sim[0]-10)<pos[0]<(pos_sim[0]+10)) and ((pos_sim[1]-10)<pos[1]<(pos_sim[1]+10)):
-                            s.col_recoil(screen, pos_sim[0], pos_sim[1])
-                            #pos[0] = 0
-                            #pos[1] = 0
+                        if (((pos_sim[0]-10)<pos[0]<(pos_sim[0]+10)) and ((pos_sim[1]-10)<pos[1]<(pos_sim[1]+10))) or (((pos_sim[2]-10)<pos[0]<(pos_sim[2]+10)) and ((pos_sim[3]-10)<pos[1]<(pos_sim[3]+10))):
+
                             print "collision"
-                            victory(level1)
-                        elif ((pos_sim[3]-10)<pos[0]<(pos_sim[3]+10)) and ((pos_sim[4]-10)<pos[1]<(pos_sim[4]+10)):
-                            s.col_recoil(screen, pos_sim[3], pos_sim[4])
+
+                            if ((pos_sim[0]-10)<pos[0]<(pos_sim[0]+10)) and ((pos_sim[1]-10)<pos[1]<(pos_sim[1]+10)):
+                                s.col_recoil(screen, pos_sim[0], pos_sim[1])
+                                print "collision red"
+
+                            if ((pos_sim[2]-10)<pos[0]<(pos_sim[2]+10)) and ((pos_sim[3]-10)<pos[1]<(pos_sim[3]+10)):
+                                s.col_recoil(screen, pos_sim[2], pos_sim[3])
+                                print "collision blue"
+
                             #pos[0] = 0
                             #pos[1] = 0
-                            print "collision blue"
+                            
                             victory(level1)
+            
 
                         #if 120<pos[0]<600 and 80<pos[1]<350:
                             #pygame.draw.rect(screen,RED,(600,400,20,20))
