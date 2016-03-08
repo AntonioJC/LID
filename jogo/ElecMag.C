@@ -111,8 +111,8 @@ extern "C" double* MagField(double h, double x_0, double y_0, double vx_0, doubl
 
 extern "C" double* ElectricField(double t, double x_0, double y_0, double vx_0, double vy_0, double Ex, double Ey){
 
-  double qm=0.01;
-
+  //double qm=0.01;
+  double qm = 0;
 
   x_0 = qm*Ex*t*t*0.5+vx_0*t+x_0;
   vx_0 = qm*Ex*t+vx_0;

@@ -12,6 +12,7 @@ RED = (255, 0, 0)
 ORANGE = (255,165,0)
 AQUA = (127,255,212)
 DSBLUE = (0,191,255)
+BLUE = (0,0,255)
 LGRAY = (119,136,153)
 BROWN = (255,228,181)
 GRAY = (211,211,211)
@@ -63,6 +64,11 @@ class shoot:
 	def get_ball_pos(self):
 		position = (self.ball_pos_x,self.ball_pos_y)
 		return position
+
+        def get_ball_vel(self):
+                velocity = (self.ball_vx,self.ball_vy)
+		return velocity
+
 	
 	def draw_shooter(self,screen,angle):
 		self.sh_angle = angle
@@ -281,16 +287,19 @@ class shoot:
                 
                 rpos = random.randint(0,1)
                 hpos = random.randint(100,330)
-                xpos = random.randint(150,500)
+                xpos = random.randint(150,600)
                 hpos2 = random.randint(100,330)
-                xpos2 = random.randint(150,500)
+                xpos2 = random.randint(150,600)
+                hpos3 = random.randint(100,330)
+                xpos3 = random.randint(150,600)
                 p = 2
                 i=0
 
                 while i<20:
                         pygame.draw.circle(screen, RED, (int(xpos-p*rpos), int(hpos)), 3, 3)
-                        pygame.draw.circle(screen, RED, (int(xpos2-p*rpos), int(hpos2)), 3, 3)
-                        simpos = [(xpos-p*rpos),hpos,(xpos2-p*rpos),hpos2]
+                        pygame.draw.circle(screen, BLUE, (int(xpos2-p*rpos), int(hpos2)), 3, 3)
+                        pygame.draw.circle(screen, GREEN, (int(xpos3-p*rpos), int(hpos3)), 3, 3)
+                        simpos = [(xpos-p*rpos),hpos,(xpos2-p*rpos),hpos2,(xpos3-p*rpos),hpos3]
                         #print str(simpos[0]) + " , " + str(simpos[1])
                         i=i+1
 
@@ -298,15 +307,26 @@ class shoot:
 
                 return simpos
 
-        def col_recoil(self,screen, spos1,spos2):
+        def col_recoil(self,screen, spos1,spos2,stop):
+
+                if stop:
+                        self.ball_vx=0;
+                        self.ball_vy=0;
 
                 tcol = self.t
-                velcol = 20
+                velcol = 10
                 htcol = 4
                 #self.t=self.t+htcol
                 tcol = tcol + htcol
-                pygame.draw.circle(screen, AQUA, (int(spos1), int(spos2+velcol*tcol)), 5, 5)
-                
+                self.ball_vx=0.2*self.ball_vx;
+                self.ball_vy=0.2*self.ball_vy;
+                #pygame.draw.circle(screen, AQUA, (int(spos1), int(spos2+velcol*tcol)), 10, 10)
+                pygame.draw.rect(screen,AQUA,(400,0,205,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Collision!!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
 
 
         def counter(self,shot,detect):

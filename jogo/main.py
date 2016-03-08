@@ -136,9 +136,9 @@ def level1():
                 screen.blit(bg, (0, 0))
 
                 button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
-                pygame.draw.rect(screen,AQUA,(200,0,205,30))
+                pygame.draw.rect(screen,AQUA,(180,0,225,30))
                 font = pygame.font.Font(None, 20)
-                text = font.render("Objective: Collide!!", 1, BLACK)
+                text = font.render("Objective: Collide until it stops!!", 1, BLACK)
                 textpos = text.get_rect()
                 textpos.center = (300,15)
                 screen.blit(text, textpos)
@@ -173,8 +173,14 @@ def level1():
                         s.kutta(screen,shot,B,Ex,Ey)
                         
 			shot = False
-			
-			pos = s.get_ball_pos()                        
+			col_stop = False
+
+			pos = s.get_ball_pos()
+                        vel = s.get_ball_vel()
+
+                        if 0<vel[0]<0.5 or 0<vel[0]<0.5:
+                            col_stop = True
+                            victory(level1)
                         """
                         if ((col_xpos-10)<pos[0]<(col_xpos+10)) and ((hcol-10)<pos[1]<(hcol+10)):
                             victory(level1)
@@ -186,22 +192,23 @@ def level1():
                             victory(level1)
                        """
                        
-                        if (((pos_sim[0]-10)<pos[0]<(pos_sim[0]+10)) and ((pos_sim[1]-10)<pos[1]<(pos_sim[1]+10))) or (((pos_sim[2]-10)<pos[0]<(pos_sim[2]+10)) and ((pos_sim[3]-10)<pos[1]<(pos_sim[3]+10))):
+                        if (((pos_sim[0]-10)<pos[0]<(pos_sim[0]+10)) and ((pos_sim[1]-10)<pos[1]<(pos_sim[1]+10))) or (((pos_sim[2]-10)<pos[0]<(pos_sim[2]+10)) and ((pos_sim[3]-10)<pos[1]<(pos_sim[3]+10))) or (((pos_sim[4]-10)<pos[0]<(pos_sim[4]+10)) and ((pos_sim[5]-10)<pos[1]<(pos_sim[5]+10))):
 
                             print "collision"
 
                             if ((pos_sim[0]-10)<pos[0]<(pos_sim[0]+10)) and ((pos_sim[1]-10)<pos[1]<(pos_sim[1]+10)):
-                                s.col_recoil(screen, pos_sim[0], pos_sim[1])
+                                s.col_recoil(screen, pos_sim[0], pos_sim[1],col_stop)
                                 print "collision red"
 
                             if ((pos_sim[2]-10)<pos[0]<(pos_sim[2]+10)) and ((pos_sim[3]-10)<pos[1]<(pos_sim[3]+10)):
-                                s.col_recoil(screen, pos_sim[2], pos_sim[3])
+                                s.col_recoil(screen, pos_sim[2], pos_sim[3],col_stop)
                                 print "collision blue"
 
-                            #pos[0] = 0
-                            #pos[1] = 0
-                            
-                            victory(level1)
+                            if ((pos_sim[4]-10)<pos[0]<(pos_sim[4]+10)) and ((pos_sim[5]-10)<pos[1]<(pos_sim[5]+10)):
+                                s.col_recoil(screen, pos_sim[4], pos_sim[5],col_stop)
+                                print "collision green"
+
+                            #victory(level1)
             
 
                         #if 120<pos[0]<600 and 80<pos[1]<350:
