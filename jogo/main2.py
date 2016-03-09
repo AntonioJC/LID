@@ -41,7 +41,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     else:
         pygame.draw.rect(screen, ic,(x,y,w,h))
 
-    smallText = pygame.font.SysFont("comicsansms",20)
+    smallText = pygame.font.SysFont("freesans",20)
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     screen.blit(textSurf, textRect)
@@ -59,7 +59,7 @@ def game_intro():
                 quit()
                 
         screen.fill(WHITE)
-        largeText = pygame.font.SysFont("comicsansms",90)
+        largeText = pygame.font.SysFont("freesans",90)
         TextSurf, TextRect = text_objects("Main menu", largeText)
         TextRect.center = ((display_width/2),100)
         screen.blit(TextSurf, TextRect)
@@ -93,6 +93,7 @@ def level1():
 
         ###############################################
 
+        n_tries=0 #para contar o nr de tentativas do user
 	shooter_angle=0
 	ball_on_screen=False
 
@@ -111,14 +112,15 @@ def level1():
 
 				if event.key == pygame.K_UP:
 
-                                    if(ball_on_screen==False): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
 					shooter_angle = shooter_angle+0.05	
                                     else:
+                                        n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
 
 				elif event.key == pygame.K_DOWN:
 
-                                    if(ball_on_screen==False):
+                                    if(ball_on_screen==False and shooter_angle>=0):
 					shooter_angle = shooter_angle-0.05
                                     else:
                                         ball_on_screen=False #para fazer nova jogada
@@ -143,7 +145,7 @@ def level1():
 
                 # Explicacao do objectivo ##########################
                 pygame.draw.rect(screen,AQUA,(10,15,385,30))
-                font = pygame.font.Font(None, 30)
+                font = pygame.font.SysFont("freesans", 20)
                 text = font.render("Objective: Reach the red threshold!", 1, BLACK)
                 textpos = text.get_rect()
                 textpos.center = (200,30)
@@ -153,21 +155,21 @@ def level1():
 
 		# --- Criar efectivamente as cargas no screen ######
                 c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
-                font = pygame.font.Font(None, 30)
+                font = pygame.font.SysFont("freesans", 30)
                 text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
                 textpos.center = ((display_width/2),(display_height/2-103))
                 screen.blit(text, textpos)
 
                 c2.create_charge(screen,-1000,display_width/2-100,display_height/2+100,DARK_BLUE)
-                font = pygame.font.Font(None, 30)
+                font = pygame.font.SysFont("freesans", 30)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
                 textpos.center = ((display_width/2-100),(display_height/2+98))
                 screen.blit(text, textpos)
 
                 c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,DARK_BLUE)
-                font = pygame.font.Font(None, 50)
+                font = pygame.font.SysFont("freesans", 50)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
                 textpos.center = ((display_width/2+200),(display_height/2-22))
@@ -198,10 +200,14 @@ def level1():
 
                         if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
                             victory()
+
+                        if(n_tries==3):
+                            lost()
 			
-			if 0<pos[0]< display_width and  0<pos[1]<display_height:
+			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
 				ball_on_screen=True
 			else:
+                                n_tries = n_tries+1
 				ball_on_screen=False
  
 		# --- Wrap-ups
@@ -223,7 +229,7 @@ def victory():
                 quit()
         
         pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
-        font = pygame.font.Font(None, 50)
+        font = pygame.font.SysFont("freesans", 50)
         text = font.render("   You win!   ", 1, (20, 20, 20))
         textpos = text.get_rect()
         textpos.center = ((display_width/2),(display_height/2)-20)
@@ -233,6 +239,31 @@ def victory():
 
         pygame.display.update()
         clock.tick(10)
+
+
+def lost():
+    
+    lose = True 
+
+    while lose:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        
+        pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
+        font = pygame.font.SysFont("freesans", 50)
+        text = font.render("   You lost!   ", 1, (20, 20, 20))
+        textpos = text.get_rect()
+        textpos.center = ((display_width/2),(display_height/2)-20)
+        screen.blit(text, textpos)
+        button("Again",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+
+        pygame.display.update()
+        clock.tick(10)
+
  
 def about():
 
@@ -244,10 +275,10 @@ def about():
                 quit()
                 
         screen.fill(WHITE)
-        largeText = pygame.font.SysFont("comicsansms",90)
+        largeText = pygame.font.SysFont("freesans",90)
         TextSurf, TextRect = text_objects("About", largeText)
         TextRect.center = ((display_width/2),50)
-        font = pygame.font.Font(None, 26)
+        font = pygame.font.SysFont("freesans", 26)
 	text = font.render("This is a game that desires to stimulate the", 1, (10, 10, 10))
         text2 = font.render("passion of young people for physic related subjects,", 1, (10, 10, 10))
         text3 = font.render("using for that purpose a variety of levels regarding", 1, (10, 10, 10))

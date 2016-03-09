@@ -1,0 +1,32 @@
+--------------->  HOW-TO
+1 - Correr: python setup.py build
+2 - Ir à pasta exe.linux-x86_64-2.7 e eliminar todos os ficheiros numpy
+3 - Copiar a ElecMag.so para a pasta anterior 
+
+
+---------------> CAUTION
+- ERRO 1:
+	Fatal Python error: (pygame parachute) Segmentation Fault
+	Aborted (core dumped)
+
+----->Verificar se as pygame.font utilizadas estão instaladas no sistema. Se não estiverem, pôr uma que esteja.
+Ver quais as fontes disponíveis através do código -----> print(pygame.font.get_fonts()) 
+
+
+- ERRO 2:
+	Traceback (most recent call last):
+	  File "/usr/lib/pymodules/python2.7/cx_Freeze/initscripts/Console.py", line 27, in <module>
+	    exec code in m.__dict__
+	  File "main2.py", line 2, in <module>
+	  File "/usr/lib/python2.7/dist-packages/pygame/__init__.py", line 255, in <module>
+	    try: import pygame.surfarray
+	  File "/usr/lib/python2.7/dist-packages/pygame/surfarray.py", line 69, in <module>
+	    import pygame._numpysurfarray as numpysf
+	  File "/usr/lib/python2.7/dist-packages/pygame/_numpysurfarray.py", line 48, in <module>
+	    import numpy
+	  File "/usr/local/lib/python2.7/dist-packages/numpy/__init__.py", line 182, in <module>
+	    from .core import *
+	AttributeError: 'module' object has no attribute 'sys'
+
+----->É porque não se efectuou o passo 2, o numpy não está lá a fazer nada
+

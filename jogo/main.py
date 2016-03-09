@@ -45,7 +45,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     else:
         pygame.draw.rect(screen, ic,(x,y,w,h))
 
-    smallText = pygame.font.SysFont("comicsansms",20)
+    smallText = pygame.font.SysFont("freesans",20)
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     screen.blit(textSurf, textRect)
@@ -63,7 +63,7 @@ def game_intro():
                 quit()
                 
         screen.fill(WHITE)
-        largeText = pygame.font.SysFont("comicsansms",90)
+        largeText = pygame.font.SysFont("freesans",90)
         TextSurf, TextRect = text_objects("Main menu", largeText)
         TextRect.center = ((display_width/2),100)
         screen.blit(TextSurf, TextRect)
@@ -430,7 +430,7 @@ def about():
                 quit()
                 
         screen.fill(WHITE)
-        largeText = pygame.font.SysFont("comicsansms",90)
+        largeText = pygame.font.SysFont("freesans",90)
         TextSurf, TextRect = text_objects("About", largeText)
         TextRect.center = ((display_width/2),80)
         font = pygame.font.Font(None, 26)
