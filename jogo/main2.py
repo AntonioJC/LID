@@ -58,6 +58,8 @@ def game_intro():
                 pygame.quit()
                 quit()
                 
+
+	#freesans
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("freesans",90)
         TextSurf, TextRect = text_objects("Main menu", largeText)
@@ -80,8 +82,9 @@ def level1():
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
-        Ex=4;
-        Ey=0.;
+        Ex=4
+        Ey=0.
+        vel=0
 	s = shoot()
 
 
@@ -115,6 +118,7 @@ def level1():
                                     if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
 					shooter_angle = shooter_angle+0.05	
                                     else:
+                                        vel=0
                                         n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
 
@@ -123,6 +127,8 @@ def level1():
                                     if(ball_on_screen==False and shooter_angle>=0):
 					shooter_angle = shooter_angle-0.05
                                     else:
+                                        vel=0
+                                        n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
 				elif event.key == pygame.K_s:
 					shot=True
@@ -186,24 +192,54 @@ def level1():
 
                 # Desenhar patamar 
 		pygame.draw.rect(screen,RED,(display_width/2+270,display_height/2-20,20,2))
-		
-		
+
+
+                ###VER ISTO!!!!!###############
+                """
+                if ball_on_screen==False:
+                    pos = s.get_ball_pos()
+                    prev_pos=(pos[0],pos[1])
+                    print prev_pos
+                """		
+
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
                         #s.kutta(screen,shot,B,Ex,Ey)
                     
-                        s.motion_in_field(screen,shot,c_vec)
+                        vel = 10 # mudar depois para tornar interativo
+                        s.motion_in_field(screen,shot,c_vec,vel)
 
 			shot = False
 			
 			pos = s.get_ball_pos()
 
+                        # verificar se a bola acertou no patamar pretendido
                         if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
                             victory()
 
+                        # verificar as tentativas efectuadas
                         if(n_tries==3):
                             lost()
+
+                        #Verificar se a bola colide com as cargas
+                        '''
+                        pos_c1 = c1.get_pos()
+                        r1 = c1.get_radius()
+                        pos_c2 = c2.get_pos()
+                        r2 = c2.get_radius()
+                        pos_c3 = c3.get_pos()
+                        r3 = c3.get_radius()
+
+                        
+                        if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
+                            lost()
+                        '''
+
+                        #if(abs(pos[0]-prev_pos[0])>50 or abs(pos[1]-prev_pos[1])>50):
+                            #prev_pos=pos
+                            #lost()
 			
+                        # verificar se a bola esta dentro do ecra  
 			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
 				ball_on_screen=True
 			else:

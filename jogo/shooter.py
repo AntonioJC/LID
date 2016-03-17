@@ -18,9 +18,11 @@ BROWN = (255,228,181)
 GRAY = (211,211,211)
 GOLD = (255,215,0)
 
-lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
+#lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
 
-a = ctypes.CDLL('ElecMag.so')
+#a = ctypes.CDLL('ElecMag.so')
+
+a=ctypes.WinDLL('EleMag.dll')
 
 #a = ctypes.CDLL('mydll.dll')
 

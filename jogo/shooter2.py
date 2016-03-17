@@ -92,12 +92,12 @@ class shoot:
 
 
 
-        def motion_in_field(self,screen,shot,charge):
+        def motion_in_field(self,screen,shot,charge,vel):
 
 		end_point_x = self.sh_length*cos(self.sh_angle)
 		end_point_y = self.sh_length*sin(self.sh_angle)
 
-                vel=10;
+                #vel=10;
                 if(shot==True):
 			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
 			self.ball_pos_y0 = self.sh_pos_y - end_point_y
