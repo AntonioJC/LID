@@ -1,5 +1,6 @@
 import pygame
 from shooter import shoot
+from charge import elec_charge
 
 #cores
 BLACK = (0, 0, 0)
@@ -13,6 +14,9 @@ BLUE = (119,136,153)
 BROWN = (255,228,181)
 GRAY = (211,211,211)
 GOLD = (255,215,0)
+DARK_RED = (178,34,34)
+CORN_BLUE = (100,149,237)
+DARK_BLUE = (72,61,139)
 
 pygame.init()
  
@@ -228,7 +232,7 @@ def level1():
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
 
-def level2():
+def level3():
 
         pygame.key.set_repeat(1,10)
 
@@ -333,6 +337,133 @@ def level2():
                             if 4.0<=(count-2)<=4.2:
                                 victory(level2)
                         """                
+			if 0<pos[0]< display_width and  0<pos[1]<display_height:
+				ball_on_screen=True
+			else:
+				ball_on_screen=False
+                                defeat(level2)
+ 
+
+		# --- Wrap-ups
+		# Limit to 60 frames per second
+		clock.tick(60)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+def level2():
+
+        pygame.key.set_repeat(1,10)
+
+	#Variaveis importantes 
+        B=-5 #campo magnetico default
+        Ex=4
+        Ey=0.
+        vel=0
+	s = shoot()
+	shooter_angle=0
+	ball_on_screen=False
+        global pause
+        up = False
+
+        c1 = elec_charge()
+        c2 = elec_charge()
+        c3 = elec_charge()
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_UP:
+					shooter_angle = shooter_angle+0.2
+				elif event.key == pygame.K_DOWN:
+					shooter_angle = shooter_angle-0.2
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                elif event.key == pygame.K_b:
+                                        B=-B
+                                elif event.key == pygame.K_e:
+                                    Ex=-Ex
+                                elif event.key == pygame.K_r:
+                                    qEy=-qEy
+                                elif event.key == pygame.K_p:
+                                    pause =  True
+                                    paused(level2)
+                                        
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+ 
+		# --- Drawing
+                
+		# Set the screen background
+		#screen.fill(BLACK)
+                bg = pygame.image.load("bg.png")                
+                screen.blit(bg, (0, 0))
+
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                
+                pygame.draw.rect(screen,AQUA,(150,15,385,30))
+                font = pygame.font.SysFont("freesans", 20)
+                text = font.render("Objective: Reach the red threshold!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (250,30)
+                screen.blit(text, textpos)
+
+		# desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                #criar e desenhar cargas
+                c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
+                font = pygame.font.SysFont("freesans", 30)
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2),(display_height/2-103))
+                screen.blit(text, textpos)
+
+                c2.create_charge(screen,-1000,display_width/2-100,display_height/2+100,DARK_BLUE)
+                font = pygame.font.SysFont("freesans", 30)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2-100),(display_height/2+98))
+                screen.blit(text, textpos)
+
+                c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,DARK_BLUE)
+                font = pygame.font.SysFont("freesans", 50)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2+200),(display_height/2-22))
+                screen.blit(text, textpos)
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        
+                        vel = 100
+                        s.motion_in_charge_field(screen,shot,c_vec,vel)
+
+			shot = False
+			
+			pos = s.get_ball_pos()                        
+
+                        if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
+                            victory()                      
+                        
+                           
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
 			else:

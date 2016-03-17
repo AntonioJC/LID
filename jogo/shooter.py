@@ -3,6 +3,7 @@ from math import cos,sin
 import ctypes 
 from ctypes import *
 import random
+from charge import elec_charge
 
 # Define some colors
 BLACK = (0, 0, 0)
@@ -18,13 +19,11 @@ BROWN = (255,228,181)
 GRAY = (211,211,211)
 GOLD = (255,215,0)
 
-#lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
+lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
 
-#a = ctypes.CDLL('ElecMag.so')
+a = ctypes.CDLL('ElecMag.so')
 
-a=ctypes.WinDLL('EleMag.dll')
-
-#a = ctypes.CDLL('mydll.dll')
+#a=ctypes.WinDLL('EleMag.dll')
 
 #a = lib['myFunc']#my func is double myFunc(double);
 
@@ -37,6 +36,9 @@ a.ElectricFieldWire.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_doub
 a.ElectricField.restype = ctypes.POINTER(ctypes.c_double)
 
 a.ElectricFieldWire.restype = ctypes.POINTER(ctypes.c_double)
+
+a.charge_field.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double]
+a.charge_field.restype = ctypes.POINTER(ctypes.c_double)
 
 class shoot:
         
@@ -61,6 +63,8 @@ class shoot:
                 self.ball_vx0=0
                 self.ball_vy0=0;
 		self.ball_angle=0
+                self.ball_m=1 # massa da particula lancada
+                self.ball_q=10 # carga da particula lancada
 		self.t=0
 		
 	def get_ball_pos(self):
@@ -111,7 +115,7 @@ class shoot:
                         self.ball_vy = vel*sin(self.sh_angle)
 			self.t=0
 
-               	pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 5, 5)
+               	pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 10, 5)
 
                 pos = a.ElectricField(self.t,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,Ex,Ey)
 
@@ -178,6 +182,65 @@ class shoot:
                 pygame.draw.rect(screen,LGRAY,(610,80,5,265))
                 pygame.draw.rect(screen,WHITE,(615,75,5,270))
                 
+
+        def motion_in_charge_field(self,screen,shot,charge,vel):
+                
+		end_point_x = self.sh_length*cos(self.sh_angle)
+		end_point_y = self.sh_length*sin(self.sh_angle)
+
+                #vel=10;
+                if(shot==True):
+			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
+			self.ball_pos_y0 = self.sh_pos_y - end_point_y
+                        self.ball_pos_x = self.ball_pos_x0
+                        self.ball_pos_y = self.ball_pos_y0
+                        self.ball_vx = vel*cos(self.sh_angle)
+                        self.ball_vy = -vel*sin(self.sh_angle)
+			self.t=0
+
+               	pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 2, 2)
+
+                i=0
+                Ex=[]
+                Ey=[]
+                for ch in charge:
+                        E = ch.get_E_field(self.ball_pos_x,self.ball_pos_y)
+                        Ex.append(E[0])
+                        Ey.append(E[1])
+                        i = i+1
+
+                """
+                E = charge[0].get_E_field(self.ball_pos_x,self.ball_pos_y)
+                #print E[0] Se imprimir os valores de E novamente depois de declarar o E2, eles ficam com os valores iguais ao E2. WTF??????????????????????????????????????????????????????????? Por isso tenho de os guardar logo no Ex e Ey antes de declarar o E2
+                Ex = E[0]
+                Ey = E[1]
+
+                E2 = charge[1].get_E_field(self.ball_pos_x,self.ball_pos_y) 
+                Ex2 =E2[0]
+                Ey2 =E2[1]
+"""
+
+
+                # ball's charge
+                qm = self.ball_q/self.ball_m
+
+
+                # agora tenho de somar as contribuicoes de cada carga para o campo aplicado na bola
+                j=0
+                sum_Ex=0
+                sum_Ey=0
+                while(j<i):
+                        sum_Ex = sum_Ex + Ex[j]
+                        sum_Ey = sum_Ey + Ey[j]
+                        j = j+1
+
+                
+                h = .05;
+                self.ball_vx= self.ball_vx + qm*sum_Ex*h
+                self.ball_vy= self.ball_vy + qm*sum_Ey*h
+		self.ball_pos_x = self.ball_pos_x + self.ball_vx*h
+		self.ball_pos_y = self.ball_pos_y + self.ball_vy*h
+
 	
         def kutta(self, screen, shot,B,Ex,Ey):
  
