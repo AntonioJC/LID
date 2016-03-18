@@ -270,9 +270,9 @@ def level2():
         c2 = elec_charge()
         c3 = elec_charge()
 
-        c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
+        c1.create_charge(screen,800,display_width/2-150,display_height/2-100,DARK_RED)
         c2.create_charge(screen,-1000,display_width/2-200,display_height/2+100,DARK_BLUE)
-        c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,DARK_BLUE)
+        c3.create_charge(screen,-2000,display_width/2+100,display_height/2-20,DARK_BLUE)
 
 
         ###############################################
@@ -360,7 +360,7 @@ def level2():
                 screen.blit(text, textpos)
 
                 ##mover a carga
-                c1.move_charge(0.05,0.05)
+                c1.move_charge(-0.09,0.09)
                 # Desenhar a carga e o sinal - depois de movidos
                 c1.draw_charge(screen)
 
@@ -408,7 +408,7 @@ def level2():
                 font = pygame.font.SysFont("comicsansms", 50)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((display_width/2+200),(display_height/2-22))
+                textpos.center = ((display_width/2+100),(display_height/2-22))
                 screen.blit(text, textpos)
 
 
@@ -422,7 +422,7 @@ def level2():
 		s.draw_shooter(screen,shooter_angle)
 
                 # Desenhar patamar 
-		pygame.draw.rect(screen,RED,(display_width/2+270,display_height/2-20,20,2))
+		pygame.draw.rect(screen,RED,(display_width/2+230,display_height/2-20,20,2))
 
 
 		if ball_on_screen==True:
@@ -437,7 +437,7 @@ def level2():
 			pos = s.get_ball_pos()
 
                         # verificar se a bola acertou no patamar pretendido
-                        if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
+                        if display_width/2+230<pos[0]<display_width/2+250 and display_height/2-22<pos[1]<display_height/2-20:
                             victory(level2)
                         
 
