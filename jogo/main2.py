@@ -41,7 +41,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     else:
         pygame.draw.rect(screen, ic,(x,y,w,h))
 
-    smallText = pygame.font.SysFont("freesans",20)
+    smallText = pygame.font.SysFont("comicsansms",20)
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     screen.blit(textSurf, textRect)
@@ -59,16 +59,17 @@ def game_intro():
                 quit()
                 
 
-	#freesans
+	#comicsansms
         screen.fill(WHITE)
-        largeText = pygame.font.SysFont("freesans",90)
+        largeText = pygame.font.SysFont("comicsansms",90)
         TextSurf, TextRect = text_objects("Main menu", largeText)
         TextRect.center = ((display_width/2),100)
         screen.blit(TextSurf, TextRect)
 
         button("Level 1",(display_width/2)-50,200,100,50,GREEN,RED,level1)
-        button("About",(display_width/2)-50,260,100,50,GREEN,RED,about)
-        button("???",(display_width/2)-50,320,100,50,GREEN,RED,kutta)
+        button("Level 2",(display_width/2)-50,260,100,50,GREEN,RED,level2)
+        button("About",(display_width/2)-50,320,100,50,GREEN,RED,about)
+        button("???",(display_width/2)-50,380,100,50,GREEN,RED,kutta)
         #button("Quit",550,450,100,50,red,bright_red,quitgame)
 
         pygame.display.update()
@@ -151,7 +152,7 @@ def level1():
 
                 # Explicacao do objectivo ##########################
                 pygame.draw.rect(screen,AQUA,(10,15,385,30))
-                font = pygame.font.SysFont("freesans", 20)
+                font = pygame.font.SysFont("comicsansms", 20)
                 text = font.render("Objective: Reach the red threshold!", 1, BLACK)
                 textpos = text.get_rect()
                 textpos.center = (200,30)
@@ -161,21 +162,21 @@ def level1():
 
 		# --- Criar efectivamente as cargas no screen ######
                 c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
-                font = pygame.font.SysFont("freesans", 30)
+                font = pygame.font.SysFont("comicsansms", 30)
                 text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
                 textpos.center = ((display_width/2),(display_height/2-103))
                 screen.blit(text, textpos)
 
                 c2.create_charge(screen,-1000,display_width/2-100,display_height/2+100,DARK_BLUE)
-                font = pygame.font.SysFont("freesans", 30)
+                font = pygame.font.SysFont("comicsansms", 30)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
                 textpos.center = ((display_width/2-100),(display_height/2+98))
                 screen.blit(text, textpos)
 
                 c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,DARK_BLUE)
-                font = pygame.font.SysFont("freesans", 50)
+                font = pygame.font.SysFont("comicsansms", 50)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
                 textpos.center = ((display_width/2+200),(display_height/2-22))
@@ -215,11 +216,11 @@ def level1():
 
                         # verificar se a bola acertou no patamar pretendido
                         if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
-                            victory()
+                            victory(level1)
 
                         # verificar as tentativas efectuadas
                         if(n_tries==3):
-                            lost()
+                            lost(level1)
 
                         #Verificar se a bola colide com as cargas
                         """
@@ -250,7 +251,188 @@ def level1():
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
 
-def victory():
+
+
+def level2():
+
+	pygame.key.set_repeat(1,10)
+
+	#Variaveis importantes 
+        Ex=4
+        Ey=0.
+        vel=0
+	s = shoot()
+
+
+        # Criacao de cargas ########################
+
+        c1 = elec_charge()
+        c2 = elec_charge()
+        c3 = elec_charge()
+
+        c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
+        c2.create_charge(screen,-1000,display_width/2-200,display_height/2+100,DARK_BLUE)
+        c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,DARK_BLUE)
+
+
+        ###############################################
+
+	shooter_angle=0
+	ball_on_screen=False
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+
+				if event.key == pygame.K_UP:
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.02	
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+
+				elif event.key == pygame.K_DOWN:
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.02
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                elif event.key == pygame.K_b:
+                                        B=-B
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+
+
+                # Set the screen background
+                if ball_on_screen == False:
+                    screen.fill(BLACK)
+
+                ###E dificil com o background porque temos de apagar a carga anterior RESOLVER!!!!
+                #if ball_on_screen == False:)
+                    #bg = pygame.image.load("bg.png")               
+                    #screen.blit(bg, (0, 0))
+
+
+
+                # Explicacao do objectivo ##########################
+                pygame.draw.rect(screen,AQUA,(10,15,385,30))
+                font = pygame.font.SysFont("comicsansms", 20)
+                text = font.render("Objective: Reach the red threshold!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (200,30)
+                screen.blit(text, textpos)
+
+
+
+		# --- Criar efectivamente as cargas no screen ######
+                c1.draw_charge(screen)
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2),(display_height/2-103))
+                screen.blit(text, textpos)
+
+
+                #######A carga c2 esta agora em movimento!!!############################################################################
+                #apagar o desenho da carga anterior e da fonte(sinal -)
+                c2.erase_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, BLACK)
+                textpos = text.get_rect()
+                c2_pos=c2.get_pos()
+                textpos.center = c2_pos
+                screen.blit(text, textpos)
+
+                ##mover a carga
+                c2.move_charge(0.1,-0.005)
+                # Desenhar a carga e o sinal - depois de movidos
+                c2.draw_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                c2_pos=c2.get_pos()
+                textpos.center = c2_pos
+                screen.blit(text, textpos)
+                
+                #verificar se a carga em movimento sai do ecra. Se sair, o jogador perde
+                if 0<c2_pos[0]< display_width and  0<c2_pos[1]<display_height: 
+                    c2_pos=c2_pos # So para ter alguma coisa no if, nao faz nada, pode continuar
+                else:
+                    #quer dizer que esta fora do ecra e nao pode continuar
+                    lost(level2)
+
+                ########################################################################################################################
+            
+                c3.draw_charge(screen)
+                font = pygame.font.SysFont("comicsansms", 50)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2+200),(display_height/2-22))
+                screen.blit(text, textpos)
+
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+                ####################################################
+
+		# Desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                # Desenhar patamar 
+		pygame.draw.rect(screen,RED,(display_width/2+270,display_height/2-20,20,2))
+
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        #s.kutta(screen,shot,B,Ex,Ey)
+                    
+                        vel = 10 # mudar depois para tornar interativo
+                        s.motion_in_field(screen,shot,c_vec,vel)
+
+			shot = False
+			
+			pos = s.get_ball_pos()
+
+                        # verificar se a bola acertou no patamar pretendido
+                        if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
+                            victory(level2)
+                        
+
+			
+                        # verificar se a bola esta dentro do ecra  
+			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
+				ball_on_screen=True
+			else:
+				ball_on_screen=False
+ 
+		# --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+def victory(level):
     
     lost = True 
 
@@ -262,19 +444,19 @@ def victory():
                 quit()
         
         pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
-        font = pygame.font.SysFont("freesans", 50)
+        font = pygame.font.SysFont("comicsansms", 50)
         text = font.render("   You win!   ", 1, (20, 20, 20))
         textpos = text.get_rect()
         textpos.center = ((display_width/2),(display_height/2)-20)
         screen.blit(text, textpos)
-        button("Again",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Again",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level)
         button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
 
         pygame.display.update()
         clock.tick(10)
 
 
-def lost():
+def lost(level):
     
     lose = True 
 
@@ -286,12 +468,12 @@ def lost():
                 quit()
         
         pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
-        font = pygame.font.SysFont("freesans", 50)
+        font = pygame.font.SysFont("comicsansms", 50)
         text = font.render("   You lost!   ", 1, (20, 20, 20))
         textpos = text.get_rect()
         textpos.center = ((display_width/2),(display_height/2)-20)
         screen.blit(text, textpos)
-        button("Again",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level1)
+        button("Again",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level)
         button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
 
         pygame.display.update()
@@ -308,10 +490,10 @@ def about():
                 quit()
                 
         screen.fill(WHITE)
-        largeText = pygame.font.SysFont("freesans",90)
+        largeText = pygame.font.SysFont("comicsansms",90)
         TextSurf, TextRect = text_objects("About", largeText)
         TextRect.center = ((display_width/2),50)
-        font = pygame.font.SysFont("freesans", 26)
+        font = pygame.font.SysFont("comicsansms", 26)
 	text = font.render("This is a game that desires to stimulate the", 1, (10, 10, 10))
         text2 = font.render("passion of young people for physic related subjects,", 1, (10, 10, 10))
         text3 = font.render("using for that purpose a variety of levels regarding", 1, (10, 10, 10))

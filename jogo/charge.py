@@ -13,6 +13,8 @@ a = ctypes.CDLL('ElecMag.so')
 a.charge_field.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double]
 a.charge_field.restype = ctypes.POINTER(ctypes.c_double)
 
+BLACK = (0, 0, 0)
+
 class elec_charge:
 
     def __init__(self):
@@ -22,13 +24,22 @@ class elec_charge:
         self.q = 1000
         self.radius=0
         self.mass=1
+        self.color=BLACK
 
     def create_charge(self,screen,q,x,y,color):
         self.pos_x = x
         self.pos_y = y
         self.q = q
+        self.color = color
         self.radius=q*0.01
         pygame.draw.circle(screen, color, (int(self.pos_x), int(self.pos_y)), int(abs(q*0.01)), int(abs(q*0.01)))
+
+
+    def draw_charge(self,screen):
+        pygame.draw.circle(screen, self.color, (int(self.pos_x), int(self.pos_y)), int(abs(self.q*0.01)), int(abs(self.q*0.01)))
+
+    def erase_charge(self,screen):
+        pygame.draw.circle(screen, BLACK, (int(self.pos_x), int(self.pos_y)), int(abs(self.q*0.01)), int(abs(self.q*0.01)))
 
     def get_mass_q(self):
         return (self.mass,self.q)
@@ -47,5 +58,11 @@ class elec_charge:
 
     def get_pos(self):
         return (self.pos_x,self.pos_y)
+
+
+    def move_charge(self,dx,dy):
+        self.pos_x = self.pos_x + dx
+        self.pos_y = self.pos_y + dy
+        return(self.pos_x,self.pos_y)
 
         
