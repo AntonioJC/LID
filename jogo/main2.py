@@ -323,6 +323,15 @@ def level2():
                 if ball_on_screen == False:
                     screen.fill(BLACK)
 
+
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(180,0,225,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Collide until it stops!!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
+
                 ###E dificil com o background porque temos de apagar a carga anterior RESOLVER!!!!
                 #if ball_on_screen == False:)
                     #bg = pygame.image.load("bg.png")               
@@ -341,11 +350,25 @@ def level2():
 
 
 		# --- Criar efectivamente as cargas no screen ######
-                c1.draw_charge(screen)
+                c1.erase_charge(screen)
+
                 font = pygame.font.SysFont("comicsansms", 30)
-                text = font.render("+", 1, WHITE)
+                text = font.render("-", 1, BLACK)
                 textpos = text.get_rect()
-                textpos.center = ((display_width/2),(display_height/2-103))
+                c1_pos=c1.get_pos()
+                textpos.center = c1_pos
+                screen.blit(text, textpos)
+
+                ##mover a carga
+                c1.move_charge(0.05,0.05)
+                # Desenhar a carga e o sinal - depois de movidos
+                c1.draw_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                c1_pos=c1.get_pos()
+                textpos.center = c1_pos
                 screen.blit(text, textpos)
 
 
@@ -361,7 +384,7 @@ def level2():
                 screen.blit(text, textpos)
 
                 ##mover a carga
-                c2.move_charge(0.1,-0.005)
+                c2.move_charge(0.01,0.005)
                 # Desenhar a carga e o sinal - depois de movidos
                 c2.draw_charge(screen)
 

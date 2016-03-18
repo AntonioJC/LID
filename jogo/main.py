@@ -475,7 +475,7 @@ def level2():
 			
 			pos = s.get_ball_pos()                        
 
-                        if display_width/2-20<pos[0]<display_width/2+20 and display_height/2-40<pos[1]<display_height/2:
+                        if display_width/2-20<pos[0]<display_width/2+20 and display_height/2-21<pos[1]<display_height/2 - 19:
                             victory(level2)                      
                         
                            
