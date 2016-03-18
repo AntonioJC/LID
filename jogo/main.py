@@ -383,9 +383,20 @@ def level2():
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_UP:
-					shooter_angle = shooter_angle+0.2
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.05	
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+
 				elif event.key == pygame.K_DOWN:
-					shooter_angle = shooter_angle-0.2
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
 				elif event.key == pygame.K_s:
 					shot=True
 					ball_on_screen=True
@@ -408,8 +419,9 @@ def level2():
                 
 		# Set the screen background
 		#screen.fill(BLACK)
-                bg = pygame.image.load("bg.png")                
-                screen.blit(bg, (0, 0))
+                if ball_on_screen == False:
+                    bg = pygame.image.load("bg.png")                
+                    screen.blit(bg, (0, 0))
 
                 button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
                 
@@ -453,7 +465,7 @@ def level2():
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
                         
-                        vel = 100
+                        vel = 10
                         s.motion_in_charge_field(screen,shot,c_vec,vel)
 
 			shot = False
@@ -472,8 +484,8 @@ def level2():
  
 
 		# --- Wrap-ups
-		# Limit to 60 frames per second
-		clock.tick(60)
+		# Limit to 180 frames per second
+		clock.tick(180)
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()

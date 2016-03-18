@@ -126,6 +126,9 @@ class shoot:
                 self.ball_vx= pos[2]
                 self.ball_vy=pos[3]
 
+
+
+
         def draw_detector(self,screen):
                 #camadas up
                 pygame.draw.rect(screen,WHITE,(100,75,520,5))
@@ -185,6 +188,7 @@ class shoot:
 
         def motion_in_charge_field(self,screen,shot,charge,vel):
                 
+
 		end_point_x = self.sh_length*cos(self.sh_angle)
 		end_point_y = self.sh_length*sin(self.sh_angle)
 
@@ -235,7 +239,7 @@ class shoot:
                         j = j+1
 
                 
-                h = .05;
+                h = .05
                 self.ball_vx= self.ball_vx + qm*sum_Ex*h
                 self.ball_vy= self.ball_vy + qm*sum_Ey*h
 		self.ball_pos_x = self.ball_pos_x + self.ball_vx*h

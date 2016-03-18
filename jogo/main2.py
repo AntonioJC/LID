@@ -222,17 +222,17 @@ def level1():
                             lost()
 
                         #Verificar se a bola colide com as cargas
-                        
+                        """
                         pos_c1 = c1.get_pos()
                         r1 = 6*c1.get_radius()
                         pos_c2 = c2.get_pos()
                         r2 = 6*c2.get_radius()
                         pos_c3 = c3.get_pos()
-                        r3 = *c3.get_radius()
-
+                        r3 = 6*c3.get_radius()
+                        """
                         
-                        if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
-                            lost()
+                        #if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
+                            #lost()
                         
 
 			
@@ -244,7 +244,7 @@ def level1():
 				ball_on_screen=False
  
 		# --- Wrap-ups
-		# Limit to 60 frames per second
+		# Limit to 180 frames per second
 		clock.tick(180)
  
 		# Go ahead and update the screen with what we've drawn.

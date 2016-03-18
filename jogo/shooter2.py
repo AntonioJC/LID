@@ -144,7 +144,7 @@ class shoot:
                         j = j+1
 
                 
-                h = .05;
+                h = .05
                 self.ball_vx= self.ball_vx + qm*sum_Ex*h
                 self.ball_vy= self.ball_vy + qm*sum_Ey*h
 		self.ball_pos_x = self.ball_pos_x + self.ball_vx*h
