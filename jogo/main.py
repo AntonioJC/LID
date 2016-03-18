@@ -429,34 +429,37 @@ def level2():
                 font = pygame.font.SysFont("freesans", 20)
                 text = font.render("Objective: Reach the red threshold!", 1, BLACK)
                 textpos = text.get_rect()
-                textpos.center = (250,30)
+                textpos.center = (350,30)
                 screen.blit(text, textpos)
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
 
+                # Desenhar patamar 
+		pygame.draw.rect(screen,RED,(display_width/2,display_height/2-20,20,2))
+
                 #criar e desenhar cargas
-                c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
-                font = pygame.font.SysFont("freesans", 30)
+                c1.create_charge(screen,800,display_width/2-150,display_height/2-20,DARK_RED)
+                font = pygame.font.SysFont("freesans", 25)
                 text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((display_width/2),(display_height/2-103))
+                textpos.center = ((display_width/2-151),(display_height/2-23))
                 screen.blit(text, textpos)
-
-                c2.create_charge(screen,-1000,display_width/2-100,display_height/2+100,DARK_BLUE)
-                font = pygame.font.SysFont("freesans", 30)
+                
+                c2.create_charge(screen,1000,display_width/2+200,display_height/2-180,DARK_RED)
+                font = pygame.font.SysFont("freesans", 25)
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2+200),(display_height/2-185))
+                screen.blit(text, textpos)
+                
+                c3.create_charge(screen,-1200,display_width/2+100,display_height/2+100,DARK_BLUE)
+                font = pygame.font.SysFont("freesans", 25)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((display_width/2-100),(display_height/2+98))
+                textpos.center = ((display_width/2+100),(display_height/2+100))
                 screen.blit(text, textpos)
-
-                c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,DARK_BLUE)
-                font = pygame.font.SysFont("freesans", 50)
-                text = font.render("-", 1, WHITE)
-                textpos = text.get_rect()
-                textpos.center = ((display_width/2+200),(display_height/2-22))
-                screen.blit(text, textpos)
-
+                
                 c_vec=[]
                 c_vec.append(c1)
                 c_vec.append(c2)
@@ -472,8 +475,8 @@ def level2():
 			
 			pos = s.get_ball_pos()                        
 
-                        if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
-                            victory()                      
+                        if display_width/2-20<pos[0]<display_width/2+20 and display_height/2-40<pos[1]<display_height/2:
+                            victory(level2)                      
                         
                            
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
