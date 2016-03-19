@@ -35,7 +35,7 @@ a.charge_field.restype = ctypes.POINTER(ctypes.c_double)
 
 class shoot:
         
-	def __init__(self):
+	def __init__(self,display_height):
 	
 		# ---- caracteristicas do shooter ------------------------------------#
 		self.sh_angle=0
@@ -44,7 +44,7 @@ class shoot:
 		
 		#posicoes do ponto onde comeca a linha do shooter
 		self.sh_pos_x=0
-		self.sh_pos_y=495
+		self.sh_pos_y=display_height-5
 		
 		# ---- condicoes iniciais da bola ---- #
 		self.ball_pos_x=0

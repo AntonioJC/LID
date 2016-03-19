@@ -4,6 +4,8 @@ import ctypes
 from ctypes import *
 
 DARK_RED = (178,34,34)
+display_width = 700
+display_height = 500
 
 lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
 
@@ -31,8 +33,8 @@ class elec_charge:
         self.pos_y = y
         self.q = q
         self.color = color
-        self.radius=q*0.01
-        pygame.draw.circle(screen, color, (int(self.pos_x), int(self.pos_y)), int(abs(q*0.01)), int(abs(q*0.01)))
+        self.radius=abs(q*0.01)
+        pygame.draw.circle(screen, color, (int(self.pos_x), int(self.pos_y)), int(self.radius), int(self.radius))
 
 
     def draw_charge(self,screen):
@@ -43,6 +45,9 @@ class elec_charge:
 
     def get_mass_q(self):
         return (self.mass,self.q)
+
+    def get_charge(self):
+        return self.q
 
     def get_pos(self):
         return (self.pos_x,self.pos_y)
@@ -64,5 +69,11 @@ class elec_charge:
         self.pos_x = self.pos_x + dx
         self.pos_y = self.pos_y + dy
         return(self.pos_x,self.pos_y)
+
+    #movimento circular em relacao ao centro do ecra 
+    #def move_charge_circular(self,r):
+        #self.pos_x-display_width
+        
+        
 
         

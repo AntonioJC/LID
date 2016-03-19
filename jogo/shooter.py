@@ -40,6 +40,31 @@ a.ElectricFieldWire.restype = ctypes.POINTER(ctypes.c_double)
 a.charge_field.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double]
 a.charge_field.restype = ctypes.POINTER(ctypes.c_double)
 
+
+
+def gen_rand(low,high):
+
+    delta = high-low 
+    rand = random.randint(low,high)
+
+
+    if low<rand<low+delta/6:
+            rand = random.randint(low,low+delta/3) 
+    elif low+delta/6<rand<low+delta/3:
+            rand = random.randint(low+2*delta/3,low+delta)
+    elif low+delta/3<rand<low+2*delta/3:
+            rand = random.randint(low+delta/3,low+2*delta/3)
+    elif low+2*delta/3<rand<low+delta:
+            rand = random.randint(low+delta/3,low+2*delta/3)
+            
+
+    return rand
+
+
+
+
+
+
 class shoot:
         
 	def __init__(self):
@@ -354,20 +379,22 @@ class shoot:
         
         def simulation(self, screen):
                 
-                rpos = random.randint(0,1)
-                hpos = random.randint(100,330)
-                xpos = random.randint(150,600)
-                hpos2 = random.randint(100,330)
-                xpos2 = random.randint(150,600)
-                hpos3 = random.randint(100,330)
-                xpos3 = random.randint(150,600)
+                rpos = gen_rand(0,1)#random.randint(0,1)
+                hpos = gen_rand(100,330)#random.randint(100,330)
+                xpos = gen_rand(150,600)#random.randint(150,600)
+                hpos2 = gen_rand(100,330)#random.randint(100,330)
+                xpos2 = gen_rand(150,600)#random.randint(150,600)
+                hpos3 = gen_rand(100,330)#random.randint(100,330)
+                xpos3 = gen_rand(150,600)#random.randint(150,600)
                 p = 2
                 i=0
 
+                radius=5
+
                 while i<20:
-                        pygame.draw.circle(screen, RED, (int(xpos-p*rpos), int(hpos)), 3, 3)
-                        pygame.draw.circle(screen, BLUE, (int(xpos2-p*rpos), int(hpos2)), 3, 3)
-                        pygame.draw.circle(screen, GREEN, (int(xpos3-p*rpos), int(hpos3)), 3, 3)
+                        pygame.draw.circle(screen, RED, (int(xpos-p*rpos), int(hpos)), radius, radius)
+                        pygame.draw.circle(screen, BLUE, (int(xpos2-p*rpos), int(hpos2)), radius, radius)
+                        pygame.draw.circle(screen, GREEN, (int(xpos3-p*rpos), int(hpos3)), radius,radius)
                         simpos = [(xpos-p*rpos),hpos,(xpos2-p*rpos),hpos2,(xpos3-p*rpos),hpos3]
                         #print str(simpos[0]) + " , " + str(simpos[1])
                         i=i+1

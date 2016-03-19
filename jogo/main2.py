@@ -1,6 +1,10 @@
 import pygame
+from pygame.locals import *
+from math import sqrt
 from shooter2 import shoot
 from charge import elec_charge
+
+import time
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -14,11 +18,28 @@ DARK_BLUE = (72,61,139)
  
 pygame.init()
  
-# Set the height and width of the screen
+###### Set the height and width of the screen
+
+infoObject = pygame.display.Info() #Tenho de pedir as informacoes logo no inicio do programa porque se pedir a seguir ao screen default ele vai buscar as informacoes do screen default e nao me diz o tamanho da tela inteira
+
+
+######## Default Screen ########################################
 display_width = 700
 display_height = 500
 size = [display_width, display_height]
 screen = pygame.display.set_mode(size)
+
+
+
+#infoObject = pygame.display.Info()
+#display_width = infoObject.current_w
+#display_height = infoObject.current_h-50
+#screen=pygame.display.set_mode((int(display_width), int(display_height)))
+
+#O screen de referencia neste caso vai ser o com as dimensoes (700,500) que foi para as quais o nivel foi feito e por isso e preciso escalar para outras dimensoes e as quantidades definidas de seguida sao uteis para isso
+srx=display_width/700.  #sr de screen ratio
+sry=display_height/500.
+sr=sqrt(srx*srx + sry*sry)
  
 pygame.display.set_caption("Bouncing Rectangle")
  
@@ -30,14 +51,26 @@ def text_objects(text, font):
     return textSurface, textSurface.get_rect()
 
 
+wait_for_response=1  #se nao houver clique, fica-se a espera de um - wait_for_response=1! Isto indica que se click[0]=1, ou seja, se houver um clique, realiza-se a action(). Como so queremos realiza-la uma vez por clique, quando a action() e chamada poe-se imediatamente wait_for_response=0. Assim, so quando o user deixar de premir o botao e que se entra outra vez neste if, aguardando nova resposta (wait_for_response=1, novamente)
 def button(msg,x,y,w,h,ic,ac,action=None):
+
+    global wait_for_response
+
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
+
+    if click[0]!=1:
+        wait_for_response=1
+ 
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(screen, ac,(x,y,w,h))
+            
 
-        if click[0] == 1 and action != None:
-            action()         
+        if click[0] == 1 and action != None and wait_for_response==1:
+            wait_for_response=0 
+            action() 
+
+
     else:
         pygame.draw.rect(screen, ic,(x,y,w,h))
 
@@ -47,19 +80,57 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     screen.blit(textSurf, textRect)
 
 
+
+#########Programa principal#######################################
+def game_screen():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+
+        screen.fill(WHITE)
+        largeText = pygame.font.SysFont("comicsansms",90)
+        TextSurf, TextRect = text_objects("Choose screen size", largeText)
+        TextRect.center = ((display_width/2),100)
+        screen.blit(TextSurf, TextRect)
+
+        button("Default Screen",(display_width/2)-50,200,100,50,GREEN,RED,game_intro) 
+        button("Full Screen",(display_width/2)-50,260,100,50,GREEN,RED,resize)
+
+        pygame.display.update()
+        clock.tick(15)
+
+
+def resize():
+
+    global display_width
+    global display_height
+    global screen
+
+    display_width = infoObject.current_w #o infoObject esta declarado no inicio do programa para obter informacoes antes de ser criado qualquer screen
+    display_height = infoObject.current_h-50
+    screen=pygame.display.set_mode((int(display_width), int(display_height)))
+    game_intro()
+
+
 def game_intro():
 
     intro = True
 
     while intro:
         for event in pygame.event.get():
-            #print(event)
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
                 
 
-	#comicsansms
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("comicsansms",90)
         TextSurf, TextRect = text_objects("Main menu", largeText)
@@ -74,19 +145,20 @@ def game_intro():
 
         pygame.display.update()
         clock.tick(15)
+
  
 
 # -------- Main Program Loop -----------
 def level1():
 
-	pygame.key.set_repeat(1,10)
+	pygame.key.set_repeat(1,5)
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
         Ex=4
         Ey=0.
         vel=0
-	s = shoot()
+	s = shoot(display_height)
 
 
         # Criacao de cargas ########################
@@ -94,6 +166,64 @@ def level1():
         c1 = elec_charge()
         c2 = elec_charge()
         c3 = elec_charge()
+
+        ###Origem do referencial
+        Ox=display_width/2
+        Oy=display_height/2
+
+
+        # --- Criar efectivamente as cargas no screen ######
+        c1.create_charge(screen,1000,Ox,Oy-100,DARK_RED)
+        c2.create_charge(screen,-1000,Ox-100,Oy+100,DARK_BLUE)
+        c3.create_charge(screen,-2000,Ox+200,Oy-20,DARK_BLUE)
+
+        c_vec=[]
+        c_vec.append(c1)
+        c_vec.append(c2)
+        c_vec.append(c3)
+
+        #######Escalar#################
+        c_x = [] #coordenadas x das cargas utilizadas
+        c_y = []
+        tc_x= []
+        tc_y= []
+        scale=(srx+sry)/2 #definido no inicio do programa - alteracao da norma espacial face ao screen default (700,500)
+        i=0
+        for c in c_vec:
+             c_x.append(c.get_pos()[0])
+             c_y.append(c.get_pos()[1])
+
+             #No ref O (do centro do screen)
+             c_x[i]=c_x[i]-Ox
+             c_y[i]=c_y[i]-Oy
+             
+             #Novas coordenadas no ref O
+             tc_x.append(scale*c_x[i])
+             tc_y.append(scale*c_y[i])
+             i=i+1
+        i=0 #para nao haver conflitos com coisas a frente
+
+        #trans_x = 0#50#Ox+tc_x[1]-sry*(Ox + c_x[1])
+        w=Ox+c_x[1]
+        h=Oy+c_y[1]
+        #tw=Ox+tc_x[1]
+        th=h
+        tw=w
+        trans_x = -(tw-Ox-tc_x[1])
+        trans_y = (th-Oy-tc_y[1])
+
+        ##Usado dentro do loop principal para escalar a velocidade
+        if(srx==1):
+            vel_scale=1
+        else:
+            vel_scale=0.948*srx
+
+
+        c1.create_charge(screen,1000*srx*srx,Ox+trans_x,Oy+tc_y[0]+trans_y,DARK_RED)
+        c2.create_charge(screen,-1000*srx*srx,Ox+tc_x[1]+trans_x,Oy+tc_y[1]+trans_y,DARK_BLUE)
+        c3.create_charge(screen,-2000*srx*srx,Ox+tc_x[2]+trans_x,Oy+tc_y[2]+trans_y,DARK_BLUE)
+
+
 
         ###############################################
 
@@ -144,9 +274,9 @@ def level1():
 
                 # Set the screen background
                 if ball_on_screen == False:
-                    #screen.fill(BLACK)
-                    bg = pygame.image.load("bg.png")                
-                    screen.blit(bg, (0, 0))
+                    screen.fill(BLACK)
+                    #bg = pygame.image.load("bg.png")                
+                    #screen.blit(bg, (0, 0))
 
 
 
@@ -158,28 +288,41 @@ def level1():
                 textpos.center = (200,30)
                 screen.blit(text, textpos)
 
+                ##Informacao sobre o angulo de inclinacao
+                pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
+                font = pygame.font.SysFont("comicsansms", 20)
+                info_shooter_angle= "Angle: " + str(shooter_angle)
+                text = font.render(info_shooter_angle, 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (display_width/2+100,30)
+                screen.blit(text, textpos)
+
+                ###Origem do referencial
+                Ox=display_width/2
+                Oy=display_height/2
 
 
 		# --- Criar efectivamente as cargas no screen ######
-                c1.create_charge(screen,1000,display_width/2,display_height/2-100,DARK_RED)
+                c1.draw_charge(screen)
                 font = pygame.font.SysFont("comicsansms", 30)
                 text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((display_width/2),(display_height/2-103))
+                textpos.center = ((Ox),(Oy-103))
                 screen.blit(text, textpos)
+                
 
-                c2.create_charge(screen,-1000,display_width/2-100,display_height/2+100,DARK_BLUE)
+                c2.draw_charge(screen)
                 font = pygame.font.SysFont("comicsansms", 30)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((display_width/2-100),(display_height/2+98))
+                textpos.center = ((Ox-100),(Oy+98))
                 screen.blit(text, textpos)
 
-                c3.create_charge(screen,-2000,display_width/2+200,display_height/2-20,DARK_BLUE)
+                c3.draw_charge(screen)
                 font = pygame.font.SysFont("comicsansms", 50)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((display_width/2+200),(display_height/2-22))
+                textpos.center = ((Ox+200),(Oy-22))
                 screen.blit(text, textpos)
 
                 c_vec=[]
@@ -192,7 +335,9 @@ def level1():
 		s.draw_shooter(screen,shooter_angle)
 
                 # Desenhar patamar 
-		pygame.draw.rect(screen,RED,(display_width/2+270,display_height/2-20,20,2))
+                pos_patamar=(Ox+270*srx+trans_x,Oy-sry*20+trans_y)
+                width_patamar=20*srx
+		pygame.draw.rect(screen,RED,(pos_patamar[0],pos_patamar[1],width_patamar,2))
 
 
                 ###VER ISTO!!!!!###############
@@ -207,7 +352,7 @@ def level1():
 			#s.draw_ball(screen,shot)
                         #s.kutta(screen,shot,B,Ex,Ey)
                     
-                        vel = 10 # mudar depois para tornar interativo
+                        vel = 10*vel_scale#scale*1.166 # mudar depois para tornar interativo
                         s.motion_in_field(screen,shot,c_vec,vel)
 
 			shot = False
@@ -215,7 +360,7 @@ def level1():
 			pos = s.get_ball_pos()
 
                         # verificar se a bola acertou no patamar pretendido
-                        if display_width/2+270<pos[0]<display_width/2+290 and display_height/2-22<pos[1]<display_height/2-20:
+                        if pos_patamar[0]<pos[0]<pos_patamar[0]+width_patamar and pos_patamar[1]-2<pos[1]<pos_patamar[1]+2:
                             victory(level1)
 
                         # verificar as tentativas efectuadas
@@ -556,7 +701,7 @@ def kutta():
         s.kutta()
 
 # Close everything down
-game_intro()
+game_screen()
 pygame.quit()
 quit()
 
