@@ -3,6 +3,7 @@ from pygame.locals import *
 from math import sqrt
 from shooter2 import shoot
 from charge import elec_charge
+from resize import resize_screen
 
 import time
 
@@ -35,11 +36,6 @@ screen = pygame.display.set_mode(size)
 #display_width = infoObject.current_w
 #display_height = infoObject.current_h-50
 #screen=pygame.display.set_mode((int(display_width), int(display_height)))
-
-#O screen de referencia neste caso vai ser o com as dimensoes (700,500) que foi para as quais o nivel foi feito e por isso e preciso escalar para outras dimensoes e as quantidades definidas de seguida sao uteis para isso
-srx=display_width/700.  #sr de screen ratio
-sry=display_height/500.
-sr=sqrt(srx*srx + sry*sry)
  
 pygame.display.set_caption("Bouncing Rectangle")
  
@@ -151,7 +147,7 @@ def game_intro():
 # -------- Main Program Loop -----------
 def level1():
 
-	pygame.key.set_repeat(1,5)
+	pygame.key.set_repeat(1,15)
 
 	#Variaveis importantes 
         B=-5 #campo magnetico default
@@ -182,36 +178,18 @@ def level1():
         c_vec.append(c2)
         c_vec.append(c3)
 
-        #######Escalar#################
-        c_x = [] #coordenadas x das cargas utilizadas
-        c_y = []
-        tc_x= []
-        tc_y= []
-        scale=(srx+sry)/2 #definido no inicio do programa - alteracao da norma espacial face ao screen default (700,500)
-        i=0
-        for c in c_vec:
-             c_x.append(c.get_pos()[0])
-             c_y.append(c.get_pos()[1])
 
-             #No ref O (do centro do screen)
-             c_x[i]=c_x[i]-Ox
-             c_y[i]=c_y[i]-Oy
-             
-             #Novas coordenadas no ref O
-             tc_x.append(scale*c_x[i])
-             tc_y.append(scale*c_y[i])
-             i=i+1
-        i=0 #para nao haver conflitos com coisas a frente
+        ##Criar objecto resize
+        rs = resize_screen(display_width,display_height,Ox,Oy,c_vec)
 
-        #trans_x = 0#50#Ox+tc_x[1]-sry*(Ox + c_x[1])
-        w=Ox+c_x[1]
-        h=Oy+c_y[1]
-        #tw=Ox+tc_x[1]
-        th=h
-        tw=w
-        trans_x = -(tw-Ox-tc_x[1])
-        trans_y = (th-Oy-tc_y[1])
-
+        scale = rs.get_scale()
+        srx = rs.get_srx() #screen ratio em x em relacao ao default
+        sry = rs.get_sry() #screen ratio em y em relacao ao default
+        tc_x = rs.get_charge_transform_x()
+        tc_y = rs.get_charge_transform_y()
+        trans_x = rs.get_trans_x()
+        trans_y = rs.get_trans_y()
+        
         ##Usado dentro do loop principal para escalar a velocidade
         if(srx==1):
             vel_scale=1
@@ -304,25 +282,25 @@ def level1():
 
 		# --- Criar efectivamente as cargas no screen ######
                 c1.draw_charge(screen)
-                font = pygame.font.SysFont("comicsansms", 30)
+                font = pygame.font.SysFont("comicsansms", int(srx*30))
                 text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((Ox),(Oy-103))
+                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]-5))
                 screen.blit(text, textpos)
                 
 
                 c2.draw_charge(screen)
-                font = pygame.font.SysFont("comicsansms", 30)
+                font = pygame.font.SysFont("comicsansms", int(srx*30))
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((Ox-100),(Oy+98))
+                textpos.center = ((c2.get_pos()[0]),(c2.get_pos()[1]))
                 screen.blit(text, textpos)
 
                 c3.draw_charge(screen)
-                font = pygame.font.SysFont("comicsansms", 50)
+                font = pygame.font.SysFont("comicsansms", int(srx*50))
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((Ox+200),(Oy-22))
+                textpos.center = ((c3.get_pos()[0]),(c3.get_pos()[1]))
                 screen.blit(text, textpos)
 
                 c_vec=[]
