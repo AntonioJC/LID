@@ -1,4 +1,5 @@
 import pygame
+import math
 from shooter import shoot
 from charge import elec_charge
 
@@ -41,19 +42,65 @@ def text_objects(text, font):
 def button(msg,x,y,w,h,ic,ac,action=None):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
+
+    rad=5
+
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(screen, ac,(x,y,w,h))
+        #pygame.draw.arc(screen, BLUE,(x,y,w,h),0, math.pi/2, 1)
+        #pygame.draw.circle(screen, ac, [x+5, y+9], 10)
+        pygame.draw.circle(screen, ac, [x, y+rad], rad)
+        pygame.draw.circle(screen, ac, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, ac, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, ac, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, ac,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, ac,(x+w,y+rad,rad,h-2*rad))
 
         if click[0] == 1 and action != None:
             action()         
     else:
         pygame.draw.rect(screen, ic,(x,y,w,h))
+        pygame.draw.circle(screen, ic, [x, y+rad], rad)
+        pygame.draw.circle(screen, ic, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, ic, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, ic, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, ic,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, ic,(x+w,y+rad,rad,h-2*rad))
+
+        #pygame.draw.circle(screen, BLUE, [w, h], 4)
+        #pygame.draw.circle(screen, BLUE, [x, y], 4)
 
     smallText = pygame.font.SysFont("freesans",20)
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     screen.blit(textSurf, textRect)
 
+
+def game_welcome():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        screen.fill(WHITE)
+        largeText = pygame.font.SysFont("freesans",90)
+        TextSurf, TextRect = text_objects("Welcome!", largeText)
+        TextRect.center = ((display_width/2),100)
+        screen.blit(TextSurf, TextRect)
+
+        #RoundedButton(screen,(50,50,200,50),(200,20,20),0.5)
+
+        button("Begin",(display_width/2)-150,200,100,50,GREEN,RED,game_intro)
+        button("About",(display_width/2)+150,260,100,50,GREEN,RED,about)
+
+        pygame.display.update()
+        clock.tick(15)
+ 
 
 def game_intro():
 
@@ -621,7 +668,7 @@ def kutta():
         s.kutta()
 
 # Close everything down
-game_intro()
+game_welcome()
 pygame.quit()
 quit()
 
