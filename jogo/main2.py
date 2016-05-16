@@ -616,9 +616,9 @@ def level3():
         collision=False ## da-me informacao sobre se esta ou nao a haver colisao entre fotao e eletrao
         first_entrance=True #Variavel auiliar para definir a trajectoria do fotao apos o choque
 
-        ##ponto em torno do qual se da a rotacao
-        Orotx = 0
-        Oroty = 0
+        ##translacoes necessarias para definir a trajectoria do fotao apos a colisao
+        transx = 0
+        transy = 0
 
 	# Loop until the user clicks the close button.
 	done = False
@@ -654,6 +654,8 @@ def level3():
 					shot=True
 					ball_on_screen=True
                                         s.reset_wavepos() #para que a posicao inicial da onda nao seja a do tiro anterior
+                                        transx=0
+                                        transy=0
                                 elif event.key == pygame.K_b:
                                         B=-B
 			if event.type == pygame.KEYUP:
@@ -663,9 +665,9 @@ def level3():
 
 
                 # Set the screen background
-                if ball_on_screen == False:
-                    bg = pygame.image.load("bg.png") 
-                    screen.blit(bg, (0, 0))           
+                #if ball_on_screen == False:
+                bg = pygame.image.load("bg.png") 
+                screen.blit(bg, (0, 0))           
 
 
 
@@ -725,19 +727,19 @@ def level3():
 			#s.draw_ball(screen,shot)
                         #s.kutta(screen,shot,B,Ex,Ey)
                     
-                        vel = 10
+                        vel = 100
 
                         if(collision==False):
                             angle = s.get_sh_angle() #angulo da trajectoria da onda
                         if(collision==True and first_entrance==True):
                             angle = s.get_sh_angle() - 0.5
 
-                            ##ponto em torno do qual se da a rotacao
-                            Orotx = pos[0]/cos(s.get_sh_angle())*(cos(s.get_sh_angle())-cos(angle))#-40*cos(s.get_sh_angle())
-                            Oroty = pos[0]/cos(s.get_sh_angle())*(sin(s.get_sh_angle())-sin(angle))
+                            ##translacao necessaria para definir a trajectoria apos colisao
+                            transx = pos[0]/cos(s.get_sh_angle())*(cos(s.get_sh_angle())-cos(angle))
+                            transy = pos[0]/cos(s.get_sh_angle())*(sin(s.get_sh_angle())-sin(angle))
                             first_entrance=False
 
-                        s.wave_motion(screen,shot,vel,angle,Orotx,Oroty)
+                        s.wave_motion(screen,shot,vel,angle,transx,transy)
 
 			shot = False
 

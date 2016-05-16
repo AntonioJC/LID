@@ -67,6 +67,13 @@ class shoot:
 		self.wave_pos_y=0
                 self.xrot=0
                 self.yrot=0
+                self.wave_init=0
+
+
+                # variaveis uteis de teste
+                self.first_entry=0
+                self.last_entry=0
+                self.wit=0
 
         def reset_wavepos(self):
                 self.wave_pos_x=0
@@ -187,24 +194,81 @@ class shoot:
                 #step=0.5
                 #while(x>=self.sh_length and x<=self.ball_pos_x):
                  
-                #x = self.ball_pos_x+self.sh_length-self.ball_pos_x0 
-                x = self.wave_pos_x+self.sh_length
+                #x = self.wave_pos_x+self.sh_length
         
-                y = amplitude*math.sin((x-self.sh_length)/4)
-                ###Rotacao
-                self.xrot = x*cos(-angle)-y*sin(-angle)
-                self.yrot = x*sin(-angle)+y*cos(-angle)
+                #y = amplitude*math.sin((x-self.sh_length)/4)
+
+                y=0
+                low_lim=0
+                if(angle==self.sh_angle):
+                        self.wave_init=self.sh_length
+                
+                else:
+                        self.first_entry=1
+                if(self.first_entry==1 and self.last_entry==0):
+                        self.wave_init=self.wave_pos_x
+
+                        self.first_entry=0
+                        self.last_entry=1
+
+                if self.last_entry==0:
+                        self.wit=self.sh_length
+                        while(self.wit>=self.sh_length and self.wit<=self.wave_pos_x):
+                                x = self.wit
+                                y = amplitude*math.sin((x-self.sh_length)/4-self.t)
+
+                                ###Rotacao
+                                self.xrot = x*cos(-angle)-y*sin(-angle)
+                                self.yrot = x*sin(-angle)+y*cos(-angle)
 
 
-                self.xrot = self.xrot + Ox
-                self.yrot = self.yrot + self.sh_pos_y-Oy
+                                self.xrot = self.xrot + Ox
+                                self.yrot = self.yrot + self.sh_pos_y-Oy
+                
+                                #screen.set_at((x, y), GREEN)
+                                pygame.draw.circle(screen, GOLD, (int(self.xrot),int(self.yrot)), 2, 1)
+                                self.wit+=0.5
 
-                #screen.set_at((x, y), GREEN)
-                pygame.draw.circle(screen, GOLD, (int(self.xrot),int(self.yrot)), 2, 1)
-                #x+=step
 
 
-                h = .1
+                if self.last_entry==1:
+                        self.wit = self.sh_length
+                        while(self.wit>=self.sh_length and self.wit<=self.wave_init):
+                                x = self.wit
+                                y = amplitude*math.sin((x-self.sh_length)/4-self.t)
+
+                                ###Rotacao
+                                self.xrot = x*cos(-self.sh_angle)-y*sin(-self.sh_angle)
+                                self.yrot = x*sin(-self.sh_angle)+y*cos(-self.sh_angle)
+
+                                self.xrot = self.xrot 
+                                self.yrot = self.yrot + self.sh_pos_y
+                
+                                #screen.set_at((x, y), GREEN)
+                                pygame.draw.circle(screen, GOLD, (int(self.xrot),int(self.yrot)), 2, 1)
+                                self.wit+=0.5
+
+
+                        self.wit=self.wave_init
+                        while(self.wit>=self.wave_init and self.wit<=self.wave_pos_x):
+                                x = self.wit
+                                y = amplitude*math.sin((x-self.sh_length)/4-self.t)
+
+                                ###Rotacao
+                                self.xrot = x*cos(-angle)-y*sin(-angle)
+                                self.yrot = x*sin(-angle)+y*cos(-angle)
+
+
+                                self.xrot = self.xrot + Ox
+                                self.yrot = self.yrot + self.sh_pos_y-Oy
+                
+                                #screen.set_at((x, y), GREEN)
+                                pygame.draw.circle(screen, GOLD, (int(self.xrot),int(self.yrot)), 2, 1)
+                                self.wit+=0.5
+
+
+                self.t = self.t + 0.6
+                h = .04
 		self.wave_pos_x = self.wave_pos_x + vel*cos(angle)*h
 		#self.ball_pos_y = self.ball_pos_y + self.ball_vy*h
 
