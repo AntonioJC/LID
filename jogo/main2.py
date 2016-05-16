@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from math import sqrt
+from math import sqrt,cos,sin
 from shooter2 import shoot
 from charge import elec_charge
 from resize import resize_screen
@@ -16,6 +16,7 @@ CORN_BLUE = (100,149,237)
 AQUA = (127,255,212)
 DSBLUE = (0,191,255)
 DARK_BLUE = (72,61,139)
+GOLD = (255,215,0)
  
 pygame.init()
  
@@ -136,7 +137,7 @@ def game_intro():
         button("Level 1",(display_width/2)-50,200,100,50,GREEN,RED,level1)
         button("Level 2",(display_width/2)-50,260,100,50,GREEN,RED,level2)
         button("About",(display_width/2)-50,320,100,50,GREEN,RED,about)
-        button("???",(display_width/2)-50,380,100,50,GREEN,RED,kutta)
+        button("Level 3",(display_width/2)-50,380,100,50,GREEN,RED,level3)
         #button("Quit",550,450,100,50,red,bright_red,quitgame)
 
         pygame.display.update()
@@ -252,18 +253,23 @@ def level1():
 
                 # Set the screen background
                 if ball_on_screen == False:
-                    screen.fill(BLACK)
+                    if srx==1:
+                        bg = pygame.image.load("bg.png") 
+                        screen.blit(bg, (0, 0)) 
+                    else:
+                        screen.fill(BLACK)
                     #bg = pygame.image.load("bg.png")                
                     #screen.blit(bg, (0, 0))
 
 
 
                 # Explicacao do objectivo ##########################
-                pygame.draw.rect(screen,AQUA,(10,15,385,30))
-                font = pygame.font.SysFont("comicsansms", 20)
-                text = font.render("Objective: Reach the red threshold!", 1, BLACK)
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(180,0,225,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Collide until it stops!!", 1, BLACK)
                 textpos = text.get_rect()
-                textpos.center = (200,30)
+                textpos.center = (300,15)
                 screen.blit(text, textpos)
 
                 ##Informacao sobre o angulo de inclinacao
@@ -272,7 +278,7 @@ def level1():
                 info_shooter_angle= "Angle: " + str(shooter_angle)
                 text = font.render(info_shooter_angle, 1, BLACK)
                 textpos = text.get_rect()
-                textpos.center = (display_width/2+100,30)
+                textpos.center = (display_width/2+200,30)
                 screen.blit(text, textpos)
 
                 ###Origem do referencial
@@ -384,7 +390,7 @@ def level2():
         Ex=4
         Ey=0.
         vel=0
-	s = shoot()
+	s = shoot(display_height)
 
 
         # Criacao de cargas ########################
@@ -443,6 +449,7 @@ def level2():
 
 
                 # Set the screen background
+
                 if ball_on_screen == False:
                     screen.fill(BLACK)
 
@@ -459,16 +466,6 @@ def level2():
                 #if ball_on_screen == False:)
                     #bg = pygame.image.load("bg.png")               
                     #screen.blit(bg, (0, 0))
-
-
-
-                # Explicacao do objectivo ##########################
-                pygame.draw.rect(screen,AQUA,(10,15,385,30))
-                font = pygame.font.SysFont("comicsansms", 20)
-                text = font.render("Objective: Reach the red threshold!", 1, BLACK)
-                textpos = text.get_rect()
-                textpos.center = (200,30)
-                screen.blit(text, textpos)
 
 
 
@@ -578,6 +575,209 @@ def level2():
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
 
+
+def level3():
+
+	pygame.key.set_repeat(1,15)
+
+	s = shoot(display_height)
+
+
+        # Criacao de cargas ########################
+
+        c1 = elec_charge()
+        c2 = elec_charge()
+        c3 = elec_charge()
+
+        ###Origem do referencial
+        Ox=display_width/2
+        Oy=display_height/2
+
+
+        # --- Criar efectivamente as cargas no screen ######
+        c1.create_charge(screen,-700,Ox,Oy-100,DARK_BLUE)
+        c2.create_charge(screen,-700,Ox,Oy,DARK_BLUE)
+        c3.create_charge(screen,-700,Ox,Oy+100,DARK_BLUE)
+
+        c_vec=[]
+        c_vec.append(c1)
+        c_vec.append(c2)
+        c_vec.append(c3)
+
+
+
+        ###############################################
+
+        n_tries=0 #para contar o nr de tentativas do user
+	shooter_angle=0
+	ball_on_screen=False
+
+        c1_move=False ##indica se a carga c1 se esta a movimentar
+        collision=False ## da-me informacao sobre se esta ou nao a haver colisao entre fotao e eletrao
+        first_entrance=True #Variavel auiliar para definir a trajectoria do fotao apos o choque
+
+        ##ponto em torno do qual se da a rotacao
+        Orotx = 0
+        Oroty = 0
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+
+				if event.key == pygame.K_UP:
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.05	
+                                    else:
+                                        vel=0
+                                        n_tries=n_tries+1
+                                        ball_on_screen=False #para fazer nova jogada
+
+				elif event.key == pygame.K_DOWN:
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
+                                    else:
+                                        vel=0
+                                        n_tries=n_tries+1
+                                        ball_on_screen=False #para fazer nova jogada
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                        s.reset_wavepos() #para que a posicao inicial da onda nao seja a do tiro anterior
+                                elif event.key == pygame.K_b:
+                                        B=-B
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+
+
+                # Set the screen background
+                if ball_on_screen == False:
+                    bg = pygame.image.load("bg.png") 
+                    screen.blit(bg, (0, 0))           
+
+
+
+                # Explicacao do objectivo ##########################
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(180,0,225,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Use Compton scattering to reach both thresholds!!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
+
+                ##Informacao sobre o angulo de inclinacao
+                pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
+                font = pygame.font.SysFont("comicsansms", 20)
+                info_shooter_angle= "Angle: " + str(shooter_angle)
+                text = font.render(info_shooter_angle, 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (display_width/2+200,30)
+                screen.blit(text, textpos)
+
+                ###Origem do referencial
+                Ox=display_width/2
+                Oy=display_height/2
+
+
+		# --- Criar efectivamente as cargas no screen ######
+                c1.draw_charge(screen)
+                c2.draw_charge(screen)
+                c3.draw_charge(screen)
+
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+                ####################################################
+
+		# Desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                # Desenhar patamar 
+                pos_patamar=(Ox+270,Oy-20)
+                width_patamar=20
+		pygame.draw.rect(screen,RED,(pos_patamar[0],pos_patamar[1],width_patamar,2))
+
+
+                ###VER ISTO!!!!!###############
+                """
+                if ball_on_screen==False:
+                    pos = s.get_ball_pos()
+                    prev_pos=(pos[0],pos[1])
+                    print prev_pos
+                """		
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        #s.kutta(screen,shot,B,Ex,Ey)
+                    
+                        vel = 10
+
+                        if(collision==False):
+                            angle = s.get_sh_angle() #angulo da trajectoria da onda
+                        if(collision==True and first_entrance==True):
+                            angle = s.get_sh_angle() - 0.5
+
+                            ##ponto em torno do qual se da a rotacao
+                            Orotx = pos[0]/cos(s.get_sh_angle())*(cos(s.get_sh_angle())-cos(angle))#-40*cos(s.get_sh_angle())
+                            Oroty = pos[0]/cos(s.get_sh_angle())*(sin(s.get_sh_angle())-sin(angle))
+                            first_entrance=False
+
+                        s.wave_motion(screen,shot,vel,angle,Orotx,Oroty)
+
+			shot = False
+
+
+			pos = s.get_wave_pos()#posicao da onda
+
+                        # verificar se a onda esta dentro do ecra  
+			#if 0<pos[0]< display_width and  0<pos[1]<display_height: 
+			#	ball_on_screen=True
+			#else:
+			#	ball_on_screen=False
+
+
+                        
+                        c1_pos=c1.get_pos()
+                        c2_pos=c2.get_pos()
+                        c3_pos=c3.get_pos()
+
+                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10:
+                            c1_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+
+
+                        ## NAO ESQUECER DE TESTAR DEPOIS SE A CARGA SAI DO SCREEN!!!
+                        if c1_move==True:
+                            c1.move_charge(0.2,-1)
+
+			
+ 
+		# --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+
+
+
+
 def victory(level):
     
     lost = True 
@@ -679,7 +879,8 @@ def kutta():
         s.kutta()
 
 # Close everything down
-game_screen()
+#game_screen()
+game_intro()
 pygame.quit()
 quit()
 
