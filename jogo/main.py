@@ -476,14 +476,35 @@ def level2():
                     bg = pygame.image.load("bg.png")                
                     screen.blit(bg, (0, 0))
 
-                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
-                
-                pygame.draw.rect(screen,AQUA,(150,15,385,30))
+                button("M",0,5,20,20,GRAY,WHITE,game_intro)
+                """
+                pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
                 text = font.render("Objective: Reach the red threshold!", 1, BLACK)
                 textpos = text.get_rect()
                 textpos.center = (350,30)
                 screen.blit(text, textpos)
+                """
+
+                x=150
+                y=5
+                rad=7
+                w=385
+                h=30
+        
+                pygame.draw.rect(screen, GOLD,(x,y,w,h))
+                pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText)
+                textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
