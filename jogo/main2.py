@@ -588,6 +588,7 @@ def level3():
         c1 = elec_charge()
         c2 = elec_charge()
         c3 = elec_charge()
+        c4 = elec_charge()
 
         ###Origem do referencial
         Ox=display_width/2
@@ -595,9 +596,15 @@ def level3():
 
 
         # --- Criar efectivamente as cargas no screen ######
-        c1.create_charge(screen,-700,Ox-100,Oy,DARK_BLUE)
-        c2.create_charge(screen,-700,Ox,Oy,DARK_BLUE)
-        c3.create_charge(screen,-700,Ox+100,Oy,DARK_BLUE)
+        c1.create_charge(screen,-700,Ox-100,Oy-180,DARK_BLUE)
+        c2.create_charge(screen,-700,Ox,Oy+200,DARK_BLUE)
+        c3.create_charge(screen,-700,Ox+220,Oy-100,DARK_BLUE)
+        c4.create_charge(screen,3000,Ox,Oy,RED)
+
+        c1_pos=c1.get_pos()
+        c2_pos=c2.get_pos()
+        c3_pos=c3.get_pos()
+        c4_pos=c4.get_pos()
 
         c_vec=[]
         c_vec.append(c1)
@@ -608,6 +615,7 @@ def level3():
 
         ###############################################
 
+        counter=0 #conta as colisoes que houve, quando chega a 3 o jogador ganha
         theta = 0.1 ## angulo da onda difundida, inicializa-se a 0.1 para evitar problemas de infinitos
 
         ####Parametros relativos as trajectorias das cargas
@@ -694,21 +702,21 @@ def level3():
 
                 # Explicacao do objectivo ##########################
                 button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
-                pygame.draw.rect(screen,AQUA,(180,0,225,30))
+                pygame.draw.rect(screen,AQUA,(50,0,650,30))
                 font = pygame.font.Font(None, 20)
-                text = font.render("Use Compton scattering to reach both thresholds!!", 1, BLACK)
+                text = font.render("Use Compton scattering to remove the electrons from the + charge field!", 1, BLACK)
                 textpos = text.get_rect()
-                textpos.center = (300,15)
+                textpos.center = (380,15)
                 screen.blit(text, textpos)
 
                 ##Informacao sobre o angulo de inclinacao
-                pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
-                font = pygame.font.SysFont("comicsansms", 20)
-                info_shooter_angle= "Angle: " + str(shooter_angle)
-                text = font.render(info_shooter_angle, 1, BLACK)
-                textpos = text.get_rect()
-                textpos.center = (display_width/2+200,30)
-                screen.blit(text, textpos)
+                #pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
+                #font = pygame.font.SysFont("comicsansms", 20)
+                #info_shooter_angle= "Angle: " + str(shooter_angle)
+                #text = font.render(info_shooter_angle, 1, BLACK)
+                #textpos = text.get_rect()
+                #textpos.center = (display_width/2+200,30)
+                #screen.blit(text, textpos)
 
                 ###Origem do referencial
                 Ox=display_width/2
@@ -719,21 +727,19 @@ def level3():
                 c1.draw_charge(screen)
                 c2.draw_charge(screen)
                 c3.draw_charge(screen)
+                c4.draw_charge(screen)
 
 
                 c_vec=[]
                 c_vec.append(c1)
                 c_vec.append(c2)
                 c_vec.append(c3)
+                c_vec.append(c4)
                 ####################################################
 
 		# Desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
 
-                # Desenhar patamar 
-                pos_patamar=(Ox+270,Oy-20)
-                width_patamar=20
-		pygame.draw.rect(screen,RED,(pos_patamar[0],pos_patamar[1],width_patamar,2))
 
 
                 ###VER ISTO!!!!!###############
@@ -769,6 +775,8 @@ def level3():
                         c1_pos=c1.get_pos()
                         c2_pos=c2.get_pos()
                         c3_pos=c3.get_pos()
+                        c4_pos=c4.get_pos()
+
 
                         if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
 
@@ -795,6 +803,8 @@ def level3():
 
 
                         #####NAO QUERO QUE O PROGRAMA ANDE A ENTRAR MAIS QUE UMA VEZ NOS IFS ANTERIORES!!!!!!!!!
+
+
                         if (c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10) or ( c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10) or (c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10):
                             first_entrance2=False
                         else:
@@ -809,16 +819,13 @@ def level3():
                             angle = s.get_sh_angle()+theta
 
                             ##translacao necessaria para definir a trajectoria apos colisao
-                            #transx = (pos[0]+7.5)/cos(s.get_sh_angle())*(cos(s.get_sh_angle())-cos(angle))
-                            #transy = (pos[0]+7.5)/cos(s.get_sh_angle())*(sin(s.get_sh_angle())-sin(angle))
-
                             col_coord=s.get_wave_before_rot()#coordenada x do ponto onde se da a colisao, antes de ser rodado
                             step=s.get_pos_step()#IMPORTANTE!!
 
                             transx = (col_coord)*cos(s.get_sh_angle())-col_coord*cos(angle)
                             transy = (col_coord)*sin(s.get_sh_angle())-col_coord*sin(angle)
 
-
+                            counter+=1
                             first_entrance=False
 
 
@@ -841,17 +848,54 @@ def level3():
  
 
                 ##Movimento antes da colisao
+
+                #O jogador perde se um dos eletroes for completamente atraido
+                if (c1_pos[0]-10<c4_pos[0]<c1_pos[0]+10 and c1_pos[1]-10<c4_pos[1]<c1_pos[1]+10) or (c2_pos[0]-10<c4_pos[0]<c2_pos[0]+10 and c2_pos[1]-10<c4_pos[1]<c2_pos[1]+10) or (c3_pos[0]-10<c4_pos[0]<c3_pos[0]+10 and c3_pos[1]-10<c4_pos[1]<c3_pos[1]+10):
+                    lost(level3)
+
+
+
                 if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
-                    c1.move_charge(0,0.1)
+                    Ec=c4.get_E_field(c1.get_pos()[0],c1.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c1vx = c1.get_charge()*Ex*step
+                    c1vy = c1.get_charge()*Ey*step
+                    c1x = step*c1vx
+                    c1y = step*c1vy
+                    c1.move_charge(c1x,c1y)
+
 
                 if c2_move==False and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
-                    c2.move_charge(0,0.2)
+                    Ec=c4.get_E_field(c2.get_pos()[0],c2.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c2vx = c2.get_charge()*Ex*step
+                    c2vy = c2.get_charge()*Ey*step
+                    c2x = step*c2vx
+                    c2y = step*c2vy
+                    c2.move_charge(c2x,c2y)
 
                 if c3_move==False and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
-                    c3.move_charge(0,0.3)
+                    Ec=c4.get_E_field(c3.get_pos()[0],c3.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c3vx = c3.get_charge()*Ex*step
+                    c3vy = c3.get_charge()*Ey*step
+                    c3x = step*c3vx
+                    c3y = step*c3vy
+                    c3.move_charge(c3x,c3y)
 
-                if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
-                    c1.move_charge(0,0.1)
+
+                if counter!=3 or (-8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8) or (-8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8) or (-8<c1.get_pos()[0]< display_width+8 and -8<c1.get_pos()[1]<display_height+8):
+                    a=1 #so para por alguma coisa
+                else:
+                    victory(level3)
+
+
 
                 ##Movimento depois da colisao
                 if c1_move==True and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
