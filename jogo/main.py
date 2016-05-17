@@ -126,8 +126,9 @@ def game_intro():
 
         button("Level 1",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
         button("Level 2",(display_width/2)+10,200,100,50,GOLD,GRAY,level2)
-        button("Level 3",(display_width/2)-110,260,100,50,GOLD,GRAY,level1)
-        button("Level 4",(display_width/2)+10,260,100,50,GOLD,GRAY,level2)
+        button("Level 3",(display_width/2)-110,260,100,50,GOLD,GRAY,level3)
+        button("Level 4",(display_width/2)+10,260,100,50,GOLD,GRAY,level4)
+        #button("Level 5",(display_width/2)-110,320,100,50,GOLD,GRAY,level5)
         button("Take me back, I don't want to be amazing",0,0,400,40,WHITE,GRAY,game_welcome)
         #button("Level 3",(display_width/2)-50,380,100,50,GREEN,RED,level3)
         #button("Quit",550,450,100,50,red,bright_red,quitgame)
@@ -142,6 +143,7 @@ def getBackground():
 
 def level1():
     
+
         pygame.key.set_repeat(1,10)
 
 	#Variaveis importantes 
@@ -273,7 +275,226 @@ def level1():
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
 
+
+
 def level2():
+
+	pygame.key.set_repeat(1,15)
+
+	#Variaveis importantes 
+        B=-5 #campo magnetico default
+        Ex=4
+        Ey=0.
+        vel=0
+	s = shoot()
+
+
+        # Criacao de cargas ########################
+
+        c1 = elec_charge()
+        c2 = elec_charge()
+        c3 = elec_charge()
+
+        ###Origem do referencial
+        Ox=display_width/2
+        Oy=display_height/2
+
+
+        # --- Criar efectivamente as cargas no screen ######
+        c1.create_charge(screen,1000,Ox,Oy-100,DARK_RED)
+        c2.create_charge(screen,-1000,Ox-100,Oy+100,DARK_BLUE)
+        c3.create_charge(screen,-2000,Ox+200,Oy-20,DARK_BLUE)
+
+        c_vec=[]
+        c_vec.append(c1)
+        c_vec.append(c2)
+        c_vec.append(c3)
+
+        
+
+
+        #c1.create_charge(screen,1000,Ox,Oy,DARK_RED)
+        #c2.create_charge(screen,-1000,Ox,Oy,DARK_BLUE)
+        #c3.create_charge(screen,-2000,Ox,Oy,DARK_BLUE)
+
+
+
+        ###############################################
+
+        n_tries=0 #para contar o nr de tentativas do user
+	shooter_angle=0
+	ball_on_screen=False
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+
+				if event.key == pygame.K_UP:
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.05	
+                                    else:
+                                        vel=0
+                                        n_tries=n_tries+1
+                                        ball_on_screen=False #para fazer nova jogada
+
+				elif event.key == pygame.K_DOWN:
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
+                                    else:
+                                        vel=0
+                                        n_tries=n_tries+1
+                                        ball_on_screen=False #para fazer nova jogada
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                elif event.key == pygame.K_b:
+                                        B=-B
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+
+
+                # Set the screen background
+                if ball_on_screen == False:
+                    bg = pygame.image.load("bg.png") 
+                    screen.blit(bg, (0, 0)) 
+
+
+                # Explicacao do objectivo ##########################
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(180,0,225,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Collide until it stops!!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
+
+                ##Informacao sobre o angulo de inclinacao
+                pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
+                font = pygame.font.SysFont("comicsansms", 20)
+                info_shooter_angle= "Angle: " + str(shooter_angle)
+                text = font.render(info_shooter_angle, 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (display_width/2+200,30)
+                screen.blit(text, textpos)
+
+                ###Origem do referencial
+                Ox=display_width/2
+                Oy=display_height/2
+
+
+		# --- Criar efectivamente as cargas no screen ######
+                c1.draw_charge(screen)
+                font = pygame.font.SysFont("comicsansms", int(30))
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]-5))
+                screen.blit(text, textpos)
+                
+
+                c2.draw_charge(screen)
+                font = pygame.font.SysFont("comicsansms", int(30))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c2.get_pos()[0]),(c2.get_pos()[1]))
+                screen.blit(text, textpos)
+
+                c3.draw_charge(screen)
+                font = pygame.font.SysFont("comicsansms", int(50))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c3.get_pos()[0]),(c3.get_pos()[1]))
+                screen.blit(text, textpos)
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+                ####################################################
+
+		# Desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                # Desenhar patamar 
+                pos_patamar=(Ox+270,Oy-20)
+                width_patamar=20
+		pygame.draw.rect(screen,RED,(pos_patamar[0],pos_patamar[1],width_patamar,2))
+
+
+                ###VER ISTO!!!!!###############
+                """
+                if ball_on_screen==False:
+                    pos = s.get_ball_pos()
+                    prev_pos=(pos[0],pos[1])
+                    print prev_pos
+                """		
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        #s.kutta(screen,shot,B,Ex,Ey)
+                    
+                        vel = 10
+
+                        s.motion_in_field(screen,shot,c_vec,vel)
+
+			shot = False
+			
+			pos = s.get_ball_pos()
+
+                        # verificar se a bola acertou no patamar pretendido
+                        if pos_patamar[0]<pos[0]<pos_patamar[0]+width_patamar and pos_patamar[1]-2<pos[1]<pos_patamar[1]+2:
+                            victory(level1)
+
+                        # verificar as tentativas efectuadas
+                        if(n_tries==3):
+                            lost(level1)
+
+                        #Verificar se a bola colide com as cargas
+                        """
+                        pos_c1 = c1.get_pos()
+                        r1 = 6*c1.get_radius()
+                        pos_c2 = c2.get_pos()
+                        r2 = 6*c2.get_radius()
+                        pos_c3 = c3.get_pos()
+                        r3 = 6*c3.get_radius()
+                        """
+                        
+                        #if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
+                            #lost()
+                        
+
+			
+                        # verificar se a bola esta dentro do ecra  
+			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
+				ball_on_screen=True
+			else:
+                                n_tries = n_tries+1
+				ball_on_screen=False
+ 
+		# --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+
+
+
+
+def level3():
 
         pygame.key.set_repeat(1,10)
 
@@ -435,6 +656,777 @@ def level2():
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
+
+
+
+
+
+
+def level4():
+
+	pygame.key.set_repeat(1,10)
+
+	#Variaveis importantes 
+        Ex=4
+        Ey=0.
+        vel=0
+	s = shoot()
+
+
+        # Criacao de cargas ########################
+
+        c1 = elec_charge()
+        c2 = elec_charge()
+        c3 = elec_charge()
+
+        c1.create_charge(screen,800,display_width/2-150,display_height/2-100,DARK_RED)
+        c2.create_charge(screen,-1000,display_width/2-200,display_height/2+100,DARK_BLUE)
+        c3.create_charge(screen,-2000,display_width/2+100,display_height/2-20,DARK_BLUE)
+
+
+        ###############################################
+
+	shooter_angle=0
+	ball_on_screen=False
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+
+				if event.key == pygame.K_UP:
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.02	
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+
+				elif event.key == pygame.K_DOWN:
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.02
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                elif event.key == pygame.K_b:
+                                        B=-B
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+
+
+                # Set the screen background
+
+                if ball_on_screen == False:
+                    screen.fill(BLACK)
+
+
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(180,0,225,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Collide until it stops!!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
+
+                ###E dificil com o background porque temos de apagar a carga anterior RESOLVER!!!!
+                #if ball_on_screen == False:)
+                    #bg = pygame.image.load("bg.png")               
+                    #screen.blit(bg, (0, 0))
+
+
+
+		# --- Criar efectivamente as cargas no screen ######
+                c1.erase_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, BLACK)
+                textpos = text.get_rect()
+                c1_pos=c1.get_pos()
+                textpos.center = c1_pos
+                screen.blit(text, textpos)
+
+                ##mover a carga
+                c1.move_charge(-0.09,0.09)
+                # Desenhar a carga e o sinal - depois de movidos
+                c1.draw_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                c1_pos=c1.get_pos()
+                textpos.center = c1_pos
+                screen.blit(text, textpos)
+
+
+                #######A carga c2 esta agora em movimento!!!############################################################################
+                #apagar o desenho da carga anterior e da fonte(sinal -)
+                c2.erase_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, BLACK)
+                textpos = text.get_rect()
+                c2_pos=c2.get_pos()
+                textpos.center = c2_pos
+                screen.blit(text, textpos)
+
+                ##mover a carga
+                c2.move_charge(0.01,0.005)
+                # Desenhar a carga e o sinal - depois de movidos
+                c2.draw_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                c2_pos=c2.get_pos()
+                textpos.center = c2_pos
+                screen.blit(text, textpos)
+                
+                #verificar se a carga em movimento sai do ecra. Se sair, o jogador perde
+                if 0<c2_pos[0]< display_width and  0<c2_pos[1]<display_height: 
+                    c2_pos=c2_pos # So para ter alguma coisa no if, nao faz nada, pode continuar
+                else:
+                    #quer dizer que esta fora do ecra e nao pode continuar
+                    lost(level2)
+
+                ########################################################################################################################
+            
+                c3.draw_charge(screen)
+                font = pygame.font.SysFont("comicsansms", 50)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2+100),(display_height/2-22))
+                screen.blit(text, textpos)
+
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+                ####################################################
+
+		# Desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                # Desenhar patamar 
+		pygame.draw.rect(screen,RED,(display_width/2+230,display_height/2-20,20,2))
+
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        #s.kutta(screen,shot,B,Ex,Ey)
+                    
+                        vel = 10 # mudar depois para tornar interativo
+                        s.motion_in_field(screen,shot,c_vec,vel)
+
+			shot = False
+			
+			pos = s.get_ball_pos()
+
+                        # verificar se a bola acertou no patamar pretendido
+                        if display_width/2+230<pos[0]<display_width/2+250 and display_height/2-22<pos[1]<display_height/2-20:
+                            victory(level2)
+                        
+
+			
+                        # verificar se a bola esta dentro do ecra  
+			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
+				ball_on_screen=True
+			else:
+				ball_on_screen=False
+ 
+		# --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+
+
+
+def level2():
+
+	pygame.key.set_repeat(1,10)
+
+	#Variaveis importantes 
+        Ex=4
+        Ey=0.
+        vel=0
+	s = shoot()
+
+
+        # Criacao de cargas ########################
+
+        c1 = elec_charge()
+        c2 = elec_charge()
+        c3 = elec_charge()
+
+        c1.create_charge(screen,800,display_width/2-150,display_height/2-100,DARK_RED)
+        c2.create_charge(screen,-1000,display_width/2-200,display_height/2+100,DARK_BLUE)
+        c3.create_charge(screen,-2000,display_width/2+100,display_height/2-20,DARK_BLUE)
+
+
+        ###############################################
+
+	shooter_angle=0
+	ball_on_screen=False
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+
+				if event.key == pygame.K_UP:
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.02	
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+
+				elif event.key == pygame.K_DOWN:
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.02
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                elif event.key == pygame.K_b:
+                                        B=-B
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+
+
+                # Set the screen background
+
+                if ball_on_screen == False:
+                    screen.fill(BLACK)
+
+
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(180,0,225,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Collide until it stops!!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
+
+                ###E dificil com o background porque temos de apagar a carga anterior RESOLVER!!!!
+                #if ball_on_screen == False:)
+                    #bg = pygame.image.load("bg.png")               
+                    #screen.blit(bg, (0, 0))
+
+
+
+		# --- Criar efectivamente as cargas no screen ######
+                c1.erase_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, BLACK)
+                textpos = text.get_rect()
+                c1_pos=c1.get_pos()
+                textpos.center = c1_pos
+                screen.blit(text, textpos)
+
+                ##mover a carga
+                c1.move_charge(-0.09,0.09)
+                # Desenhar a carga e o sinal - depois de movidos
+                c1.draw_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                c1_pos=c1.get_pos()
+                textpos.center = c1_pos
+                screen.blit(text, textpos)
+
+
+                #######A carga c2 esta agora em movimento!!!############################################################################
+                #apagar o desenho da carga anterior e da fonte(sinal -)
+                c2.erase_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, BLACK)
+                textpos = text.get_rect()
+                c2_pos=c2.get_pos()
+                textpos.center = c2_pos
+                screen.blit(text, textpos)
+
+                ##mover a carga
+                c2.move_charge(0.01,0.005)
+                # Desenhar a carga e o sinal - depois de movidos
+                c2.draw_charge(screen)
+
+                font = pygame.font.SysFont("comicsansms", 30)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                c2_pos=c2.get_pos()
+                textpos.center = c2_pos
+                screen.blit(text, textpos)
+                
+                #verificar se a carga em movimento sai do ecra. Se sair, o jogador perde
+                if 0<c2_pos[0]< display_width and  0<c2_pos[1]<display_height: 
+                    c2_pos=c2_pos # So para ter alguma coisa no if, nao faz nada, pode continuar
+                else:
+                    #quer dizer que esta fora do ecra e nao pode continuar
+                    lost(level2)
+
+                ########################################################################################################################
+            
+                c3.draw_charge(screen)
+                font = pygame.font.SysFont("comicsansms", 50)
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((display_width/2+100),(display_height/2-22))
+                screen.blit(text, textpos)
+
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+                ####################################################
+
+		# Desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                # Desenhar patamar 
+		pygame.draw.rect(screen,RED,(display_width/2+230,display_height/2-20,20,2))
+
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        #s.kutta(screen,shot,B,Ex,Ey)
+                    
+                        vel = 10 # mudar depois para tornar interativo
+                        s.motion_in_field(screen,shot,c_vec,vel)
+
+			shot = False
+			
+			pos = s.get_ball_pos()
+
+                        # verificar se a bola acertou no patamar pretendido
+                        if display_width/2+230<pos[0]<display_width/2+250 and display_height/2-22<pos[1]<display_height/2-20:
+                            victory(level2)
+                        
+
+			
+                        # verificar se a bola esta dentro do ecra  
+			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
+				ball_on_screen=True
+			else:
+				ball_on_screen=False
+ 
+		# --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+
+
+
+
+def level5():
+
+	pygame.key.set_repeat(1,15)
+
+	s = shoot()
+
+
+        # Criacao de cargas ########################
+
+        c1 = elec_charge()
+        c2 = elec_charge()
+        c3 = elec_charge()
+        c4 = elec_charge()
+
+        ###Origem do referencial
+        Ox=display_width/2
+        Oy=display_height/2
+
+
+        # --- Criar efectivamente as cargas no screen ######
+        c1.create_charge(screen,-700,Ox-100,Oy-180,DARK_BLUE)
+        c2.create_charge(screen,-700,Ox,Oy+200,DARK_BLUE)
+        c3.create_charge(screen,-700,Ox+220,Oy-100,DARK_BLUE)
+        c4.create_charge(screen,3000,Ox,Oy,RED)
+
+        c1_pos=c1.get_pos()
+        c2_pos=c2.get_pos()
+        c3_pos=c3.get_pos()
+        c4_pos=c4.get_pos()
+
+        c_vec=[]
+        c_vec.append(c1)
+        c_vec.append(c2)
+        c_vec.append(c3)
+
+
+
+        ###############################################
+
+        counter=0 #conta as colisoes que houve, quando chega a 3 o jogador ganha
+        theta = 0.1 ## angulo da onda difundida, inicializa-se a 0.1 para evitar problemas de infinitos
+
+        ####Parametros relativos as trajectorias das cargas
+        theta1=0
+        theta2=0
+        theta3=0
+        f_in1=True
+        f_in2=True
+        f_in3=True
+        aux_ang=0
+        fi=0
+        v_c=0
+
+
+        n_tries=0 #para contar o nr de tentativas do user
+	shooter_angle=0
+	ball_on_screen=False
+
+        c1_move=False ##indica se a carga c1 se esta a movimentar
+        c2_move=False
+        c3_move=False
+        collision=False ## da-me informacao sobre se esta ou nao a haver colisao entre fotao e eletrao
+        first_entrance=True #Variavel auiliar para definir a trajectoria do fotao apos o choque
+        first_entrance2=True
+
+        ##translacoes necessarias para definir a trajectoria do fotao apos a colisao
+        transx = 0
+        transy = 0
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+
+				if event.key == pygame.K_UP:
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.05	
+                                    else:
+                                        vel=0
+                                        n_tries=n_tries+1
+                                        ball_on_screen=False #para fazer nova jogada
+                                    collision=False
+
+				elif event.key == pygame.K_DOWN:
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
+                                    else:
+                                        vel=0
+                                        n_tries=n_tries+1
+                                        ball_on_screen=False #para fazer nova jogada
+                                    collision=False
+
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                        s.reset_wavepos() #para que a posicao inicial da onda nao seja a do tiro anterior
+                                        transx=0
+                                        transy=0
+                                        collision=False
+                                elif event.key == pygame.K_b:
+                                        B=-B
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+
+
+                # Set the screen background
+                #if ball_on_screen == False:
+                bg = pygame.image.load("bg.png") 
+                screen.blit(bg, (0, 0))           
+
+
+
+                # Explicacao do objectivo ##########################
+                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+                pygame.draw.rect(screen,AQUA,(50,0,650,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Use Compton scattering to remove the electrons from the + charge field!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (380,15)
+                screen.blit(text, textpos)
+
+                ##Informacao sobre o angulo de inclinacao
+                #pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
+                #font = pygame.font.SysFont("comicsansms", 20)
+                #info_shooter_angle= "Angle: " + str(shooter_angle)
+                #text = font.render(info_shooter_angle, 1, BLACK)
+                #textpos = text.get_rect()
+                #textpos.center = (display_width/2+200,30)
+                #screen.blit(text, textpos)
+
+                ###Origem do referencial
+                Ox=display_width/2
+                Oy=display_height/2
+
+
+		# --- Criar efectivamente as cargas no screen ######
+                c1.draw_charge(screen)
+                c2.draw_charge(screen)
+                c3.draw_charge(screen)
+                c4.draw_charge(screen)
+
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+                c_vec.append(c4)
+                ####################################################
+
+		# Desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+
+
+                ###VER ISTO!!!!!###############
+                """
+                if ball_on_screen==False:
+                    pos = s.get_ball_pos()
+                    prev_pos=(pos[0],pos[1])
+                    print prev_pos
+                """		
+
+                eta = 2
+                k=0.2 ## nr de onda da onda incidente 
+                w=1.5 ## frequencia da onda incidente
+
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        #s.kutta(screen,shot,B,Ex,Ey)
+
+			shot = False
+
+
+			pos = s.get_wave_pos()#posicao da onda
+
+                        # verificar se a onda esta dentro do ecra  
+			#if 0<pos[0]< display_width and  0<pos[1]<display_height: 
+			#	ball_on_screen=True
+			#else:
+			#	ball_on_screen=False
+
+
+                        
+                        c1_pos=c1.get_pos()
+                        c2_pos=c2.get_pos()
+                        c3_pos=c3.get_pos()
+                        c4_pos=c4.get_pos()
+
+
+                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
+
+                            c1_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
+
+
+                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True:
+
+                            c2_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
+
+
+                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True:
+
+                            c3_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
+
+
+                        #####NAO QUERO QUE O PROGRAMA ANDE A ENTRAR MAIS QUE UMA VEZ NOS IFS ANTERIORES!!!!!!!!!
+
+
+                        if (c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10) or ( c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10) or (c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10):
+                            first_entrance2=False
+                        else:
+                            first_entrance2=True
+
+
+
+                        if(collision==False):
+                            angle = s.get_sh_angle() #angulo da trajectoria da onda
+                        if(collision==True and first_entrance==True):
+                            theta=0.7
+                            angle = s.get_sh_angle()+theta
+
+                            ##translacao necessaria para definir a trajectoria apos colisao
+                            col_coord=s.get_wave_before_rot()#coordenada x do ponto onde se da a colisao, antes de ser rodado
+                            step=s.get_pos_step()#IMPORTANTE!!
+
+                            transx = (col_coord)*cos(s.get_sh_angle())-col_coord*cos(angle)
+                            transy = (col_coord)*sin(s.get_sh_angle())-col_coord*sin(angle)
+
+                            counter+=1
+                            first_entrance=False
+
+
+                        s.wave_motion(screen,shot,transx,transy,k,w,angle,theta,eta)
+
+			
+
+                        # verificar se a onda esta dentro do ecra  
+			if 0<=pos[0]<= display_width and  0<=pos[1]<=display_height: 
+				ball_on_screen=True
+			else:
+                                #n_tries = n_tries+1
+				ball_on_screen=False
+
+
+
+
+
+                ####MOVIMENTO DAS CARGAS - verifica-se tambem quando estas saem da tela para parar o movimento
+ 
+
+                ##Movimento antes da colisao
+
+                #O jogador perde se um dos eletroes for completamente atraido
+                if (c1_pos[0]-10<c4_pos[0]<c1_pos[0]+10 and c1_pos[1]-10<c4_pos[1]<c1_pos[1]+10) or (c2_pos[0]-10<c4_pos[0]<c2_pos[0]+10 and c2_pos[1]-10<c4_pos[1]<c2_pos[1]+10) or (c3_pos[0]-10<c4_pos[0]<c3_pos[0]+10 and c3_pos[1]-10<c4_pos[1]<c3_pos[1]+10):
+                    lost(level3)
+
+
+
+                if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
+                    Ec=c4.get_E_field(c1.get_pos()[0],c1.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c1vx = c1.get_charge()*Ex*step
+                    c1vy = c1.get_charge()*Ey*step
+                    c1x = step*c1vx
+                    c1y = step*c1vy
+                    c1.move_charge(c1x,c1y)
+
+
+                if c2_move==False and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
+                    Ec=c4.get_E_field(c2.get_pos()[0],c2.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c2vx = c2.get_charge()*Ex*step
+                    c2vy = c2.get_charge()*Ey*step
+                    c2x = step*c2vx
+                    c2y = step*c2vy
+                    c2.move_charge(c2x,c2y)
+
+                if c3_move==False and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
+                    Ec=c4.get_E_field(c3.get_pos()[0],c3.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c3vx = c3.get_charge()*Ex*step
+                    c3vy = c3.get_charge()*Ey*step
+                    c3x = step*c3vx
+                    c3y = step*c3vy
+                    c3.move_charge(c3x,c3y)
+
+
+                if counter!=3 or (-8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8) or (-8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8) or (-8<c1.get_pos()[0]< display_width+8 and -8<c1.get_pos()[1]<display_height+8):
+                    a=1 #so para por alguma coisa
+                else:
+                    victory(level3)
+
+
+
+                ##Movimento depois da colisao
+                if c1_move==True and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in1==True):
+                        theta1 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in1=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta1)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta1))/(1+eta*(1-cos(theta1))))*w/k 
+                    c1.move_charge(v_c*cos(fi),v_c*sin(fi))
+                else:
+                    f_in1=True
+                        
+                if c2_move==True and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in2==True):
+                        theta2 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in2=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta2)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta2))/(1+eta*(1-cos(theta2))))*w/k 
+                    c2.move_charge(v_c*cos(fi),v_c*sin(fi))
+                else:
+                    f_in2=True
+
+                if c3_move==True and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in3==True):
+                        theta3 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in3=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta3)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta3))/(1+eta*(1-cos(theta3))))*w/k 
+                    c3.move_charge(v_c*cos(fi),v_c*sin(fi))
+                else:
+                    f_in3=True
+
+ 
+		# --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+
+
+
+
+
+
 
 
 def defeat(level):

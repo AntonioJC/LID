@@ -155,7 +155,7 @@ def level1():
         Ex=4
         Ey=0.
         vel=0
-	s = shoot(display_height)
+	s = shoot()
 
 
         # Criacao de cargas ########################
@@ -390,7 +390,7 @@ def level2():
         Ex=4
         Ey=0.
         vel=0
-	s = shoot(display_height)
+	s = shoot()
 
 
         # Criacao de cargas ########################
@@ -580,7 +580,7 @@ def level3():
 
 	pygame.key.set_repeat(1,15)
 
-	s = shoot(display_height)
+	s = shoot()
 
 
         # Criacao de cargas ########################
