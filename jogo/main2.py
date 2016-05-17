@@ -838,7 +838,7 @@ def level3():
 
 
                 ####MOVIMENTO DAS CARGAS - verifica-se tambem quando estas saem da tela para parar o movimento
-
+ 
 
                 ##Movimento antes da colisao
                 if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 

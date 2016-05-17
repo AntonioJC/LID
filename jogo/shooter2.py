@@ -230,7 +230,7 @@ class shoot:
                                 #screen.set_at((x, y), GREEN)
                                 pygame.draw.circle(screen, BLUE, (int(self.xrot),int(self.yrot)), 2, 1)
                                 self.wit+=0.5
-
+ 
 
                 if self.last_entry==1:
                         self.wit = self.sh_length
