@@ -11,6 +11,8 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 GOLD = (255,215,0)
+BLUE = (0,0,255)
+DARK_RED = (178,34,34)
 
 lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
 
@@ -74,10 +76,19 @@ class shoot:
                 self.first_entry=0
                 self.last_entry=0
                 self.wit=0
+                self.pos_step=0
 
         def reset_wavepos(self):
                 self.wave_pos_x=0
 		self.wave_pos_y=0
+                self.xrot=0
+                self.yrot=0
+                self.wave_init=0
+                self.first_entry=0
+                self.last_entry=0
+                self.wit=0
+		self.t=0
+
 
 	def get_ball_pos(self):
 		position = (self.ball_pos_x,self.ball_pos_y)
@@ -172,7 +183,7 @@ class shoot:
 		self.ball_pos_y = self.ball_pos_y + self.ball_vy*h
 
 
-        def wave_motion(self,screen,shot,vel,angle,Ox,Oy):
+        def wave_motion(self,screen,shot,Ox,Oy,ki,wi,angle,theta,eta):
 
 		end_point_x = self.sh_length*cos(self.sh_angle)
 		end_point_y = self.sh_length*sin(self.sh_angle)
@@ -186,17 +197,8 @@ class shoot:
                         self.ball_vy = -vel*sin(self.sh_angle)
 			self.t=0
 
-               	#pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 2, 2)
-
 
                 amplitude = 5 # amplitude da onda
-                #x = self.sh_length
-                #step=0.5
-                #while(x>=self.sh_length and x<=self.ball_pos_x):
-                 
-                #x = self.wave_pos_x+self.sh_length
-        
-                #y = amplitude*math.sin((x-self.sh_length)/4)
 
                 y=0
                 low_lim=0
@@ -215,7 +217,7 @@ class shoot:
                         self.wit=self.sh_length
                         while(self.wit>=self.sh_length and self.wit<=self.wave_pos_x):
                                 x = self.wit
-                                y = amplitude*math.sin((x-self.sh_length)/4-self.t)
+                                y = amplitude*math.sin(ki*(x-self.sh_length)-wi*self.t)
 
                                 ###Rotacao
                                 self.xrot = x*cos(-angle)-y*sin(-angle)
@@ -226,16 +228,21 @@ class shoot:
                                 self.yrot = self.yrot + self.sh_pos_y-Oy
                 
                                 #screen.set_at((x, y), GREEN)
-                                pygame.draw.circle(screen, GOLD, (int(self.xrot),int(self.yrot)), 2, 1)
+                                pygame.draw.circle(screen, BLUE, (int(self.xrot),int(self.yrot)), 2, 1)
                                 self.wit+=0.5
-
 
 
                 if self.last_entry==1:
                         self.wit = self.sh_length
+
+                        w = wi/(1+eta*(1-cos(theta)))##calcula-se um novo w correspondente a frequencia do fotao difundido. 
+
+                        k = w/wi*ki #numero de onda da onda difundida
+
                         while(self.wit>=self.sh_length and self.wit<=self.wave_init):
                                 x = self.wit
-                                y = amplitude*math.sin((x-self.sh_length)/4-self.t)
+                                y = amplitude*math.sin(k*(x-self.sh_length)-w*self.t)
+
 
                                 ###Rotacao
                                 self.xrot = x*cos(-self.sh_angle)-y*sin(-self.sh_angle)
@@ -245,35 +252,44 @@ class shoot:
                                 self.yrot = self.yrot + self.sh_pos_y
                 
                                 #screen.set_at((x, y), GREEN)
-                                pygame.draw.circle(screen, GOLD, (int(self.xrot),int(self.yrot)), 2, 1)
+                                pygame.draw.circle(screen, DARK_RED, (int(self.xrot),int(self.yrot)), 2, 1)
                                 self.wit+=0.5
+
 
 
                         self.wit=self.wave_init
                         while(self.wit>=self.wave_init and self.wit<=self.wave_pos_x):
                                 x = self.wit
-                                y = amplitude*math.sin((x-self.sh_length)/4-self.t)
+                                y = amplitude*math.sin(k*(x-self.sh_length)-w*self.t)
 
+                                angle = theta+self.sh_angle
                                 ###Rotacao
                                 self.xrot = x*cos(-angle)-y*sin(-angle)
                                 self.yrot = x*sin(-angle)+y*cos(-angle)
 
 
-                                self.xrot = self.xrot + Ox
+                                self.xrot = self.xrot + Ox 
                                 self.yrot = self.yrot + self.sh_pos_y-Oy
                 
                                 #screen.set_at((x, y), GREEN)
-                                pygame.draw.circle(screen, GOLD, (int(self.xrot),int(self.yrot)), 2, 1)
+                                pygame.draw.circle(screen, DARK_RED, (int(self.xrot),int(self.yrot)), 2, 1)
                                 self.wit+=0.5
 
 
-                self.t = self.t + 0.6
-                h = .04
-		self.wave_pos_x = self.wave_pos_x + vel*cos(angle)*h
+                self.t = self.t + 0.8
+                h = 2
+		self.wave_pos_x = self.wave_pos_x + wi/ki*h
+                self.pos_step=wi/ki*h
 		#self.ball_pos_y = self.ball_pos_y + self.ball_vy*h
 
         def get_wave_pos(self):#funcao que retorna a posicao da onda
                 return(self.xrot,self.yrot)
+
+        def get_wave_before_rot(self):
+                return self.wave_pos_x
+
+        def get_pos_step(self):
+                return self.pos_step
 
 
 

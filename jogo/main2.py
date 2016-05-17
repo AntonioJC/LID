@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from math import sqrt,cos,sin
+from math import sqrt,cos,sin,tan,atan
 from shooter2 import shoot
 from charge import elec_charge
 from resize import resize_screen
@@ -595,9 +595,9 @@ def level3():
 
 
         # --- Criar efectivamente as cargas no screen ######
-        c1.create_charge(screen,-700,Ox,Oy-100,DARK_BLUE)
+        c1.create_charge(screen,-700,Ox-100,Oy,DARK_BLUE)
         c2.create_charge(screen,-700,Ox,Oy,DARK_BLUE)
-        c3.create_charge(screen,-700,Ox,Oy+100,DARK_BLUE)
+        c3.create_charge(screen,-700,Ox+100,Oy,DARK_BLUE)
 
         c_vec=[]
         c_vec.append(c1)
@@ -608,13 +608,30 @@ def level3():
 
         ###############################################
 
+        theta = 0.1 ## angulo da onda difundida, inicializa-se a 0.1 para evitar problemas de infinitos
+
+        ####Parametros relativos as trajectorias das cargas
+        theta1=0
+        theta2=0
+        theta3=0
+        f_in1=True
+        f_in2=True
+        f_in3=True
+        aux_ang=0
+        fi=0
+        v_c=0
+
+
         n_tries=0 #para contar o nr de tentativas do user
 	shooter_angle=0
 	ball_on_screen=False
 
         c1_move=False ##indica se a carga c1 se esta a movimentar
+        c2_move=False
+        c3_move=False
         collision=False ## da-me informacao sobre se esta ou nao a haver colisao entre fotao e eletrao
         first_entrance=True #Variavel auiliar para definir a trajectoria do fotao apos o choque
+        first_entrance2=True
 
         ##translacoes necessarias para definir a trajectoria do fotao apos a colisao
         transx = 0
@@ -641,6 +658,7 @@ def level3():
                                         vel=0
                                         n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
+                                    collision=False
 
 				elif event.key == pygame.K_DOWN:
 
@@ -650,12 +668,15 @@ def level3():
                                         vel=0
                                         n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
+                                    collision=False
+
 				elif event.key == pygame.K_s:
 					shot=True
 					ball_on_screen=True
                                         s.reset_wavepos() #para que a posicao inicial da onda nao seja a do tiro anterior
                                         transx=0
                                         transy=0
+                                        collision=False
                                 elif event.key == pygame.K_b:
                                         B=-B
 			if event.type == pygame.KEYUP:
@@ -723,23 +744,14 @@ def level3():
                     print prev_pos
                 """		
 
+                eta = 2
+                k=0.2 ## nr de onda da onda incidente 
+                w=1.5 ## frequencia da onda incidente
+
+
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
                         #s.kutta(screen,shot,B,Ex,Ey)
-                    
-                        vel = 100
-
-                        if(collision==False):
-                            angle = s.get_sh_angle() #angulo da trajectoria da onda
-                        if(collision==True and first_entrance==True):
-                            angle = s.get_sh_angle() - 0.5
-
-                            ##translacao necessaria para definir a trajectoria apos colisao
-                            transx = pos[0]/cos(s.get_sh_angle())*(cos(s.get_sh_angle())-cos(angle))
-                            transy = pos[0]/cos(s.get_sh_angle())*(sin(s.get_sh_angle())-sin(angle))
-                            first_entrance=False
-
-                        s.wave_motion(screen,shot,vel,angle,transx,transy)
 
 			shot = False
 
@@ -758,16 +770,126 @@ def level3():
                         c2_pos=c2.get_pos()
                         c3_pos=c3.get_pos()
 
-                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10:
+                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
+
                             c1_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
 
 
-                        ## NAO ESQUECER DE TESTAR DEPOIS SE A CARGA SAI DO SCREEN!!!
-                        if c1_move==True:
-                            c1.move_charge(0.2,-1)
+                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True:
+
+                            c2_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
+
+
+                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True:
+
+                            c3_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
+
+
+                        #####NAO QUERO QUE O PROGRAMA ANDE A ENTRAR MAIS QUE UMA VEZ NOS IFS ANTERIORES!!!!!!!!!
+                        if (c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10) or ( c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10) or (c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10):
+                            first_entrance2=False
+                        else:
+                            first_entrance2=True
+
+
+
+                        if(collision==False):
+                            angle = s.get_sh_angle() #angulo da trajectoria da onda
+                        if(collision==True and first_entrance==True):
+                            theta=0.7
+                            angle = s.get_sh_angle()+theta
+
+                            ##translacao necessaria para definir a trajectoria apos colisao
+                            #transx = (pos[0]+7.5)/cos(s.get_sh_angle())*(cos(s.get_sh_angle())-cos(angle))
+                            #transy = (pos[0]+7.5)/cos(s.get_sh_angle())*(sin(s.get_sh_angle())-sin(angle))
+
+                            col_coord=s.get_wave_before_rot()#coordenada x do ponto onde se da a colisao, antes de ser rodado
+                            step=s.get_pos_step()#IMPORTANTE!!
+
+                            transx = (col_coord)*cos(s.get_sh_angle())-col_coord*cos(angle)
+                            transy = (col_coord)*sin(s.get_sh_angle())-col_coord*sin(angle)
+
+
+                            first_entrance=False
+
+
+                        s.wave_motion(screen,shot,transx,transy,k,w,angle,theta,eta)
 
 			
+
+                        # verificar se a onda esta dentro do ecra  
+			if 0<=pos[0]<= display_width and  0<=pos[1]<=display_height: 
+				ball_on_screen=True
+			else:
+                                #n_tries = n_tries+1
+				ball_on_screen=False
+
+
+
+
+
+                ####MOVIMENTO DAS CARGAS - verifica-se tambem quando estas saem da tela para parar o movimento
+
+
+                ##Movimento antes da colisao
+                if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
+                    c1.move_charge(0,0.1)
+
+                if c2_move==False and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
+                    c2.move_charge(0,0.2)
+
+                if c3_move==False and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
+                    c3.move_charge(0,0.3)
+
+                if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
+                    c1.move_charge(0,0.1)
+
+                ##Movimento depois da colisao
+                if c1_move==True and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in1==True):
+                        theta1 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in1=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta1)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta1))/(1+eta*(1-cos(theta1))))*w/k 
+                    c1.move_charge(v_c*cos(fi),v_c*sin(fi))
+                else:
+                    f_in1=True
+                        
+                if c2_move==True and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in2==True):
+                        theta2 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in2=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta2)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta2))/(1+eta*(1-cos(theta2))))*w/k 
+                    c2.move_charge(v_c*cos(fi),v_c*sin(fi))
+                else:
+                    f_in2=True
+
+                if c3_move==True and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in3==True):
+                        theta3 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in3=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta3)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta3))/(1+eta*(1-cos(theta3))))*w/k 
+                    c3.move_charge(v_c*cos(fi),v_c*sin(fi))
+                else:
+                    f_in3=True
+
  
 		# --- Wrap-ups
 		# Limit to 180 frames per second
