@@ -349,7 +349,7 @@ def level1():
 
                         # verificar as tentativas efectuadas
                         if(n_tries==3):
-                            lost(level1)
+                            defeat(level1)
 
                         #Verificar se a bola colide com as cargas
                         """
@@ -520,7 +520,7 @@ def level2():
                     c2_pos=c2_pos # So para ter alguma coisa no if, nao faz nada, pode continuar
                 else:
                     #quer dizer que esta fora do ecra e nao pode continuar
-                    lost(level2)
+                    defeat(level2)
 
                 ########################################################################################################################
             
@@ -851,7 +851,7 @@ def level3():
 
                 #O jogador perde se um dos eletroes for completamente atraido
                 if (c1_pos[0]-10<c4_pos[0]<c1_pos[0]+10 and c1_pos[1]-10<c4_pos[1]<c1_pos[1]+10) or (c2_pos[0]-10<c4_pos[0]<c2_pos[0]+10 and c2_pos[1]-10<c4_pos[1]<c2_pos[1]+10) or (c3_pos[0]-10<c4_pos[0]<c3_pos[0]+10 and c3_pos[1]-10<c4_pos[1]<c3_pos[1]+10):
-                    lost(level3)
+                    defeat(level3)
 
 
 
