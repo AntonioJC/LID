@@ -2,6 +2,7 @@ import pygame
 from math import cos,sin
 import math
 import ctypes 
+import random
 from ctypes import *
 from charge import elec_charge
 
@@ -13,6 +14,13 @@ RED = (255, 0, 0)
 GOLD = (255,215,0)
 BLUE = (0,0,255)
 DARK_RED = (178,34,34)
+ORANGE = (255,165,0)
+AQUA = (127,255,212)
+DSBLUE = (0,191,255)
+LGRAY = (119,136,153)
+BROWN = (255,228,181)
+GRAY = (211,211,211)
+
 
 lib = cdll.LoadLibrary('./ElecMag.so') # carrega-se a biblioteca partilhada, sendo possivel usar as funcoes presentes nela
 
@@ -37,9 +45,25 @@ a.ElectricField.restype = ctypes.POINTER(ctypes.c_double)
 a.charge_field.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double]
 a.charge_field.restype = ctypes.POINTER(ctypes.c_double)
 
+def gen_rand(low,high):
+
+        delta = high-low 
+        rand = random.randint(low,high)
+                
+        if low<rand<low+delta/6:
+                rand = random.randint(low,low+delta/3) 
+        elif low+delta/6<rand<low+delta/3:
+                rand = random.randint(low+2*delta/3,low+delta)
+        elif low+delta/3<rand<low+2*delta/3:
+                rand = random.randint(low+delta/3,low+2*delta/3)
+        elif low+2*delta/3<rand<low+delta:
+                rand = random.randint(low+delta/3,low+2*delta/3)
+                
+        return rand
+
 class shoot:
-        
-	def __init__(self,display_height):
+
+	def __init__(self):
 	
 		# ---- caracteristicas do shooter ------------------------------------#
 		self.sh_angle=0
@@ -48,7 +72,8 @@ class shoot:
 		
 		#posicoes do ponto onde comeca a linha do shooter
 		self.sh_pos_x=0
-		self.sh_pos_y=display_height-5
+		#self.sh_pos_y=display_height-5
+                self.sh_pos_y=495
 		
 		# ---- condicoes iniciais da bola ---- #
 		self.ball_pos_x=0
@@ -93,6 +118,10 @@ class shoot:
 	def get_ball_pos(self):
 		position = (self.ball_pos_x,self.ball_pos_y)
 		return position
+
+        def get_ball_vel(self):
+                velocity = (self.ball_vx,self.ball_vy)
+		return velocity
                 
         def get_sh_angle(self):
                 return self.sh_angle
@@ -124,6 +153,61 @@ class shoot:
 		self.ball_pos_y = self.ball_pos_y0 - v0*sin(self.sh_angle)*self.t + 0.5*g*self.t*self.t
 
 
+        def draw_detector(self,screen):
+                #camadas up
+                pygame.draw.rect(screen,WHITE,(100,75,520,5))
+                pygame.draw.rect(screen,LGRAY,(120,80,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,85,480,10))
+                pygame.draw.rect(screen,LGRAY,(120,95,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,100,480,10))
+                pygame.draw.rect(screen,LGRAY,(120,110,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,115,480,10))
+
+                #separadores up
+                pygame.draw.rect(screen,LGRAY,(210,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(270,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(330,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(390,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(450,80,2,45))
+                pygame.draw.rect(screen,LGRAY,(510,80,2,45)) 
+
+                #inner detector
+                pygame.draw.rect(screen,GRAY,(120,125,480,175))
+                pygame.draw.rect(screen,GOLD,(120,170,480,90))
+                pygame.draw.rect(screen,BLACK,(120,212.5,480,5))
+
+                #camadas down
+                pygame.draw.rect(screen,DSBLUE,(120,300,480,10))
+                pygame.draw.rect(screen,LGRAY,(120,310,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,315,480,10))
+                pygame.draw.rect(screen,LGRAY,(120,325,480,5))
+                pygame.draw.rect(screen,DSBLUE,(120,330,480,10))
+                pygame.draw.rect(screen,LGRAY,(120,340,480,5))
+                pygame.draw.rect(screen,WHITE,(100,345,520,5))
+
+                #separadores down
+                pygame.draw.rect(screen,LGRAY,(210,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(270,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(330,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(390,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(450,300,2,45))
+                pygame.draw.rect(screen,LGRAY,(510,300,2,45)) 
+                 
+                #barreiras left
+                pygame.draw.rect(screen,WHITE,(0,180,100,60))
+
+                pygame.draw.rect(screen,LGRAY,(115,80,5,265))
+                pygame.draw.rect(screen,WHITE,(110,75,5,270))
+                pygame.draw.rect(screen,LGRAY,(105,80,5,265))
+                pygame.draw.rect(screen,WHITE,(100,75,5,270))
+
+                #barreiras right
+                pygame.draw.rect(screen,WHITE,(620,180,90,60))
+
+                pygame.draw.rect(screen,LGRAY,(600,80,5,265))
+                pygame.draw.rect(screen,WHITE,(605,75,5,270))
+                pygame.draw.rect(screen,LGRAY,(610,80,5,265))
+                pygame.draw.rect(screen,WHITE,(615,75,5,270))
 
         def motion_in_field(self,screen,shot,charge,vel):
 
@@ -291,8 +375,6 @@ class shoot:
         def get_pos_step(self):
                 return self.pos_step
 
-
-
 		
         def kutta(self, screen, shot,B,Ex,Ey):
                 # temos de relacionar os data types do c++ com os do python, entao identifica-se abaixo o tipo de cada argumento enviado para a funcao FullRK4 da biblioteca a para fazer esta conexao
@@ -304,7 +386,7 @@ class shoot:
 		# faz-se o teste de se a bola acabou de ser disparada, ou seja, para ver se e a primeira vez que a funcao esta a ser chamada de forma 
 		# a actualizar a posicao da bola dependendo do angulo do shooter
                             
-                vel = 4
+                vel = 4;
 		if(shot==True):
 			self.ball_pos_x0 = self.sh_pos_x + end_point_x 
 			self.ball_pos_y0 = self.sh_pos_y - end_point_y
@@ -319,16 +401,16 @@ class shoot:
 
                 # chamar a funcao do c++
 
-                h = 0.1 #step
-                pos = a.MagField(h,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,B)
+                pos = a.ElectricField(self.t,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,Ex,Ey)
 
+                h = 0.05; #step
 		self.t=self.t+h
 		self.ball_pos_x = pos[0] 
 		self.ball_pos_y = pos[1]
                 self.ball_vx= pos[2]
                 self.ball_vy=pos[3]
                 
-"""
+                """
                 a.ElectricField.argtypes = [ ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double] 
 
                 # o mesmo, mas agora para o retorno da funcao
@@ -354,8 +436,86 @@ class shoot:
 		self.ball_pos_y = pos[1]
                 self.ball_vx= pos[2]
                 self.ball_vy=pos[3]
-"""
+                """
+	  
+
+        def col_recoil(self,screen, spos1,spos2,stop):
+
+                if stop:
+                        self.ball_vx=0;
+                        self.ball_vy=0;
+
+                tcol = self.t
+                velcol = 10
+                htcol = 4
+                #self.t=self.t+htcol
+                tcol = tcol + htcol
+                self.ball_vx=0.2*self.ball_vx;
+                self.ball_vy=0.2*self.ball_vy;
+                #pygame.draw.circle(screen, AQUA, (int(spos1), int(spos2+velcol*tcol)), 10, 10)
+                pygame.draw.rect(screen,AQUA,(400,0,205,30))
+                font = pygame.font.Font(None, 20)
+                text = font.render("Objective: Collision!!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (300,15)
+                screen.blit(text, textpos)
+
+
+        def simulation(self, screen):
+                
+                rpos = gen_rand(0,1)#random.randint(0,1)
+                hpos = gen_rand(100,330)#random.randint(100,330)
+                xpos = gen_rand(150,600)#random.randint(150,600)
+                hpos2 = gen_rand(100,330)#random.randint(100,330)
+                xpos2 = gen_rand(150,600)#random.randint(150,600)
+                hpos3 = gen_rand(100,330)#random.randint(100,330)
+                xpos3 = gen_rand(150,600)#random.randint(150,600)
+                p = 2
+                i=0
+
+                radius=5
+
+                while i<20:
+                        pygame.draw.circle(screen, RED, (int(xpos-p*rpos), int(hpos)), radius, radius)
+                        pygame.draw.circle(screen, BLUE, (int(xpos2-p*rpos), int(hpos2)), radius, radius)
+                        pygame.draw.circle(screen, GREEN, (int(xpos3-p*rpos), int(hpos3)), radius,radius)
+                        simpos = [(xpos-p*rpos),hpos,(xpos2-p*rpos),hpos2,(xpos3-p*rpos),hpos3]
+                        #print str(simpos[0]) + " , " + str(simpos[1])
+                        i=i+1
+
+                #print str(simpos[0]) + " , " + str(simpos[1])
+
+                return simpos
+
+        """
+        def collisions(self, screen, shot, hcol,velcol):
         
-		
-		
+                if(shot==True):
+			self.t=0
+          
+                tcol = self.t
+                #velcol = 0.2*hcol-20
+                htcol = 4
+                #self.t=self.t+htcol
+                tcol = tcol + htcol
+                pygame.draw.circle(screen, RED, (int(600-velcol*tcol), int(hcol)), 5, 5)
+                col_pos = 600-velcol*tcol
+                return col_pos
+
+
+        def counter(self,shot,detect):
+                
+                count=self.t
+                #base=7
+                if(shot==True):
+			self.t=0
+                        #base=0
+
+                if detect:
+                        count=count+1
+                        #print count
+                        #print base
+
+                return count
+	"""
 		
