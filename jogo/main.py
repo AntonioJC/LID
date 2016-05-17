@@ -1,4 +1,5 @@
 import pygame
+import math
 from shooter import shoot
 from charge import elec_charge
 
@@ -37,23 +38,74 @@ def text_objects(text, font):
     textSurface = font.render(text, True, BLACK)
     return textSurface, textSurface.get_rect()
 
+wait_for_response=1  #se nao houver clique, fica-se a espera de um - wait_for_response=1! Isto indica que se click[0]=1, ou seja, se houver um clique, realiza-se a action(). Como so queremos realiza-la uma vez por clique, quando a action() e chamada poe-se imediatamente wait_for_response=0. Assim, so quando o user deixar de premir o botao e que se entra outra vez neste if, aguardando nova resposta (wait_for_response=1, novamente)
 
 def button(msg,x,y,w,h,ic,ac,action=None):
+
+    global wait_for_response
+
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
+
+    if click[0]!=1:
+        wait_for_response=1
+
+    rad=5
+
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(screen, ac,(x,y,w,h))
+        pygame.draw.circle(screen, ac, [x, y+rad], rad)
+        pygame.draw.circle(screen, ac, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, ac, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, ac, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, ac,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, ac,(x+w,y+rad,rad,h-2*rad))
 
-        if click[0] == 1 and action != None:
+        if click[0] == 1 and action != None and wait_for_response==1:
+            wait_for_response=0
             action()         
     else:
         pygame.draw.rect(screen, ic,(x,y,w,h))
+        pygame.draw.circle(screen, ic, [x, y+rad], rad)
+        pygame.draw.circle(screen, ic, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, ic, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, ic, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, ic,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, ic,(x+w,y+rad,rad,h-2*rad))
 
     smallText = pygame.font.SysFont("freesans",20)
+    #smallText = pygame.font.SysFont("Verdana",20)
     textSurf, textRect = text_objects(msg, smallText)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     screen.blit(textSurf, textRect)
 
+
+def game_welcome():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        screen.fill(WHITE)
+        largeText = pygame.font.SysFont("freesans",60)
+        TextSurf, TextRect = text_objects("Your life", largeText)
+        TextSurf2, TextRect2 = text_objects("is about to change!", largeText)
+        TextRect.center = ((display_width/2),100)
+        TextRect2.center = ((display_width/2),180)
+        screen.blit(TextSurf, TextRect)
+        screen.blit(TextSurf2, TextRect2)
+
+        button("Begin",(display_width/2-150),250,100,50,GREEN,GRAY,game_intro)
+        button("About",(display_width/2+50),250,100,50,GREEN,GRAY,about)
+
+        pygame.display.update()
+        clock.tick(15)
+ 
 
 def game_intro():
 
@@ -67,15 +119,16 @@ def game_intro():
                 quit()
                 
         screen.fill(WHITE)
-        largeText = pygame.font.SysFont("freesans",90)
-        TextSurf, TextRect = text_objects("Main menu", largeText)
-        TextRect.center = ((display_width/2),100)
+        largeText = pygame.font.SysFont("freesans",50)
+        TextSurf, TextRect = text_objects("The golden path", largeText)
+        TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
-        button("Level 1",(display_width/2)-50,200,100,50,GREEN,RED,level1)
-        button("About",(display_width/2)-50,260,100,50,GREEN,RED,about)
-        #button("???",(display_width/2)-50,320,100,50,GREEN,RED,kutta)
-        button("Level 2",(display_width/2)-50,320,100,50,GREEN,RED,level2)
+        button("Level 1",(display_width/2)-110,200,100,50,GREEN,GRAY,level1)
+        button("Level 2",(display_width/2)+10,200,100,50,GREEN,GRAY,level2)
+        button("Level 3",(display_width/2)-110,260,100,50,GREEN,GRAY,level2)
+        button("Level 4",(display_width/2)+10,260,100,50,GREEN,GRAY,level2)
+        button("Take me back, I don't want to be amazing",0,0,400,40,WHITE,GRAY,game_welcome)
         #button("Level 3",(display_width/2)-50,380,100,50,GREEN,RED,level3)
         #button("Quit",550,450,100,50,red,bright_red,quitgame)
 
@@ -423,14 +476,35 @@ def level2():
                     bg = pygame.image.load("bg.png")                
                     screen.blit(bg, (0, 0))
 
-                button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
-                
-                pygame.draw.rect(screen,AQUA,(150,15,385,30))
+                button("M",0,5,20,20,GRAY,WHITE,game_intro)
+                """
+                pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
                 text = font.render("Objective: Reach the red threshold!", 1, BLACK)
                 textpos = text.get_rect()
                 textpos.center = (350,30)
                 screen.blit(text, textpos)
+                """
+
+                x=150
+                y=5
+                rad=7
+                w=385
+                h=30
+        
+                pygame.draw.rect(screen, GOLD,(x,y,w,h))
+                pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText)
+                textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
@@ -505,14 +579,52 @@ def defeat(level):
                 pygame.quit()
                 quit()
         
-        pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
-        font = pygame.font.Font(None, 50)
-        text = font.render("   You lost!   ", 1, (20, 20, 20))
-        textpos = text.get_rect()
-        textpos.center = ((display_width/2),(display_height/2)-20)
-        screen.blit(text, textpos)
-        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level)
-        button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+            """
+            pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
+            font = pygame.font.Font(None, 50)
+            text = font.render("   You lost!   ", 1, (20, 20, 20))
+            textpos = text.get_rect()
+            textpos.center = ((display_width/2),(display_height/2)-20)
+            """       
+
+        x=(display_width/2-120)
+        y=(display_height/2-120)
+        rad=14
+        w=240
+        h=200
+
+        pygame.draw.rect(screen, WHITE,(x,y,w,h))
+        pygame.draw.circle(screen, WHITE, [x, y+rad], rad)
+        pygame.draw.circle(screen, WHITE, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, WHITE, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, WHITE, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, WHITE,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, WHITE,(x+w,y+rad,rad,h-2*rad))
+
+        x=(display_width/2-90)
+        y=(display_height/2-100)
+        rad=14
+        w=180
+        h=50
+
+        pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
+        pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
+        pygame.draw.circle(screen, DSBLUE, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, DSBLUE, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, DSBLUE, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
+       
+       
+        smallText = pygame.font.SysFont("freesans",20)
+        #smallText = pygame.font.SysFont("Verdana",20)
+        textSurf, textRect = text_objects("You lost!", smallText)
+        textRect.center = ( (x+(w/2)), (y+(h/2)) )
+        screen.blit(textSurf, textRect)
+
+        #screen.blit(text, textpos)
+        button("Restart",(display_width/2)-120,(display_height/2),110,50,WHITE,GRAY,level)
+        button("Menu",(display_width/2)+10,(display_height/2),110,50,WHITE,GRAY,game_intro)
 
         pygame.display.update()
         clock.tick(25)  
@@ -527,7 +639,7 @@ def victory(level):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        
+        """
         pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
         font = pygame.font.Font(None, 50)
         text = font.render("   You won!   ", 1, (20, 20, 20))
@@ -536,6 +648,47 @@ def victory(level):
         screen.blit(text, textpos)
         button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level)
         button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+        """
+        x=(display_width/2-120)
+        y=(display_height/2-120)
+        rad=14
+        w=240
+        h=200
+
+        pygame.draw.rect(screen, WHITE,(x,y,w,h))
+        pygame.draw.circle(screen, WHITE, [x, y+rad], rad)
+        pygame.draw.circle(screen, WHITE, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, WHITE, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, WHITE, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, WHITE,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, WHITE,(x+w,y+rad,rad,h-2*rad))
+
+        x=(display_width/2-90)
+        y=(display_height/2-100)
+        rad=14
+        w=180
+        h=50
+
+        pygame.draw.rect(screen, GOLD,(x,y,w,h))
+        pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+        pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+       
+       
+        smallText = pygame.font.SysFont("freesans",20)
+        #smallText = pygame.font.SysFont("Verdana",20)
+        textSurf, textRect = text_objects("You won!", smallText)
+        textRect.center = ( (x+(w/2)), (y+(h/2)) )
+        screen.blit(textSurf, textRect)
+
+        #screen.blit(text, textpos)
+        button("Restart",(display_width/2)-120,(display_height/2),110,50,WHITE,GRAY,level)
+        button("Menu",(display_width/2)+10,(display_height/2),110,50,WHITE,GRAY,game_intro)
+
+
 
         pygame.display.update()
         clock.tick(25)  
@@ -598,7 +751,7 @@ def about():
         screen.blit(text3, text3pos)
         screen.blit(text4, text4pos)
 
-        button("Menu",0,0,50,30,WHITE,GREEN,game_intro)
+        button("Menu",0,0,50,30,WHITE,GREEN,game_welcome)
 
         pygame.display.update()
         clock.tick(15)
@@ -621,7 +774,7 @@ def kutta():
         s.kutta()
 
 # Close everything down
-game_intro()
+game_welcome()
 pygame.quit()
 quit()
 
