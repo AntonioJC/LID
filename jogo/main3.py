@@ -211,7 +211,7 @@ def level1():
                 rad=8
                 pygame.draw.rect(screen, DSBLUE,(0,420,180,16))
                 pygame.draw.circle(screen, DSBLUE, [180,420+rad],rad)
-                
+
                 rad=10
                 x=380
                 y=120
@@ -332,7 +332,7 @@ def level1():
 		s.draw_shooter(screen,shooter_angle)
 
                 # Desenhar patamar 
-		pygame.draw.rect(screen,RED,(680,340,2,50))
+		pygame.draw.rect(screen,RED,(680,340,2,70))
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
@@ -344,8 +344,12 @@ def level1():
 			pos = s.get_ball_pos()
                         vel = s.get_ball_vel()
 
-                        if 675<pos[0]<685 and 338<pos[1]<392:
+                        if 675<pos[0]<685 and 338<pos[1]<412:
                             victory(level1)   
+                        
+                        if (0<pos[0]<180 and 420<pos[1]<436):
+                            defeat(level1)
+                        
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
