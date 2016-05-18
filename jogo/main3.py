@@ -169,14 +169,14 @@ def level1():
 					shooter_angle = shooter_angle+0.2
 				elif event.key == pygame.K_DOWN:
 					shooter_angle = shooter_angle-0.2
-				elif event.key == pygame.K_s:
+				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True
-                                elif event.key == pygame.K_b:
+                                elif event.key == pygame.K_a:
                                         B=14
                                 elif event.key == pygame.K_n:
                                         B=0
-                                elif event.key == pygame.K_r:
+                                elif event.key == pygame.K_d:
                                         B=-14
                                 elif event.key == pygame.K_e:
                                         Ex=-Ex
@@ -337,8 +337,8 @@ def level1():
 
                         if 675<pos[0]<685 and 338<pos[1]<412:
                             victory(level1)   
-                        
-                        if (0<pos[0]<180 and 420<pos[1]<436) or (380<pos[0]<400 and 120<pos[1]<520) or (120<pos[0]<390 and 300<pos[1]<316) or (120<pos[0]<136 and 128<pos[1]<308):
+
+                        if (0<pos[0]<186 and 420<pos[1]<436) or (380<pos[0]<400 and 122<pos[1]<520) or (114<pos[0]<390 and 300<pos[1]<316) or (112<pos[0]<128 and 122<pos[1]<308) or (200<pos[0]<280 and 15<pos[1]<185) or (513<pos[0]<550 and 300<pos[1]<400) or (513<pos[0]<820 and 300<pos[1]<320) or (513<pos[0]<620 and 120<pos[1]<200) or (680<pos[0]<682 and 340<pos[1]<410) or (600<pos[0]<680 and 5<pos[1]<35):
                             defeat(level1)
                         
 
@@ -347,7 +347,6 @@ def level1():
 			else:
 				ball_on_screen=False
                                 defeat(level1)
- 
 
 		# --- Wrap-ups
 		# Limit to 60 frames per second
