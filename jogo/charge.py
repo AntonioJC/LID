@@ -64,6 +64,10 @@ class elec_charge:
     def get_pos(self):
         return (self.pos_x,self.pos_y)
 
+    def set_pos(self,x,y):
+        self.pos_x = x
+        self.pos_y = y
+        
 
     def move_charge(self,dx,dy):
         self.pos_x = self.pos_x + dx
