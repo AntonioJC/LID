@@ -197,21 +197,12 @@ def level1():
                 screen.blit(bg, (0, 0))
                 
                 button("Menu",0,0,50,30,GRAY,GREEN,game_intro)
-
-                """                
-                pygame.draw.rect(screen,AQUA,(180,0,225,30))
-                font = pygame.font.Font(None, 20)
-                text = font.render("Objective: Collide until it stops!!", 1, BLACK)
-                textpos = text.get_rect()
-                textpos.center = (300,15)
-                screen.blit(text, textpos)
-                """
                
                 #desenhar caminho
                 rad=8
                 pygame.draw.rect(screen, DSBLUE,(0,420,180,16))
                 pygame.draw.circle(screen, DSBLUE, [180,420+rad],rad)
-                
+
                 rad=10
                 x=380
                 y=120
@@ -332,7 +323,7 @@ def level1():
 		s.draw_shooter(screen,shooter_angle)
 
                 # Desenhar patamar 
-		pygame.draw.rect(screen,RED,(680,340,2,50))
+		pygame.draw.rect(screen,RED,(680,340,2,70))
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
@@ -344,8 +335,12 @@ def level1():
 			pos = s.get_ball_pos()
                         vel = s.get_ball_vel()
 
-                        if 675<pos[0]<685 and 338<pos[1]<392:
+                        if 675<pos[0]<685 and 338<pos[1]<412:
                             victory(level1)   
+                        
+                        if (0<pos[0]<180 and 420<pos[1]<436) or (380<pos[0]<400 and 120<pos[1]<520) or (120<pos[0]<390 and 300<pos[1]<316) or (120<pos[0]<136 and 128<pos[1]<308):
+                            defeat(level1)
+                        
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
