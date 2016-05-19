@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from math import sqrt,cos,sin,tan,atan
+from math import sqrt,cos,sin,tan,atan,acos,asin
 from shooter2 import shoot
 from charge import elec_charge
 from resize import resize_screen
@@ -138,6 +138,7 @@ def game_intro():
         button("Level 4",(display_width/2)+10,260,100,50,GOLD,GRAY,level4)
         button("Level 5",(display_width/2)-110,320,100,50,GOLD,GRAY,level5)
         button("Level 6",(display_width/2)+10,320,100,50,GOLD,GRAY,level6)
+        button("Level 7",(display_width/2)-110,380,100,50,GOLD,GRAY,level7)
         button("Take me back, I don't want to be amazing",0,0,400,40,WHITE,GRAY,game_welcome)
         #button("Level 3",(display_width/2)-50,380,100,50,GREEN,RED,level3)
         #button("Quit",550,450,100,50,red,bright_red,quitgame)
@@ -1765,6 +1766,588 @@ def level6():
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
 
+
+
+
+def level7():
+
+	pygame.key.set_repeat(1,15)
+
+	s = shoot()
+
+
+        # Criacao de cargas ########################
+
+        c1 = elec_charge()
+        c2 = elec_charge()
+        c3 = elec_charge()
+        c4 = elec_charge()
+
+
+        ## cargas criadas pelos obstaculos
+        c_obs = []
+        c_obs_counter=0
+        obs1_entrance=True #variavel util para chamar if so uma vez
+        obs_draw_first_entrance=False
+        charge_obs_draw=False # Se true, permite desenhar as cargas criadas a cada iteracao
+        flag_obs=False #Para indicar quando a perda de energia da onda vem de uma carga proveniente do obstaculo
+        phasex=0
+        phasey=0
+        time_obs=[]
+        f_in_obs=[]
+        c_obs_on_screen=[]
+        c_obs_collision=[]
+
+        #### Posicoes dos obstaculos
+        ob1x=250
+        ob1y=50
+
+
+        ###Origem do referencial
+        Ox=display_width/2
+        Oy=display_height/2
+
+
+        # --- Criar efectivamente as cargas no screen ######
+        c1.create_charge(screen,-700,Ox-100,Oy-180,DARK_BLUE)
+        c2.create_charge(screen,-700,Ox,Oy+200,DARK_BLUE)
+        c3.create_charge(screen,-700,Ox+180,Oy-90,DARK_BLUE)
+        c4.create_charge(screen,3000,Ox,Oy,RED)
+
+        c1_pos=c1.get_pos()
+        c2_pos=c2.get_pos()
+        c3_pos=c3.get_pos()
+        c4_pos=c4.get_pos()
+
+        c_vec=[]
+        c_vec.append(c1)
+        c_vec.append(c2)
+        c_vec.append(c3)
+
+
+
+        ###############################################
+        time=0 #para parametrizar o movimento da carga positiva c4
+
+
+        counter=0 #conta as colisoes que houve, quando chega a 3 o jogador ganha
+        theta = 0.1 ## angulo da onda difundida, inicializa-se a 0.1 para evitar problemas de infinitos
+
+        ####Parametros relativos as trajectorias das cargas
+        theta1=0
+        theta2=0
+        theta3=0
+        f_in1=True
+        f_in2=True
+        f_in3=True
+        aux_ang=0
+        fi=0
+        v_c=0
+
+
+        n_tries=0 #para contar o nr de tentativas do user
+	shooter_angle=0
+	ball_on_screen=False
+
+        c1_move=False ##indica se a carga c1 se esta a movimentar
+        c2_move=False
+        c3_move=False
+        collision=False ## da-me informacao sobre se esta ou nao a haver colisao entre fotao e eletrao
+        first_entrance=True #Variavel auiliar para definir a trajectoria do fotao apos o choque
+        first_entrance2=True
+
+        ##translacoes necessarias para definir a trajectoria do fotao apos a colisao
+        transx = 0
+        transy = 0
+
+
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+
+				if event.key == pygame.K_UP:
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.05	
+                                    else:
+                                        vel=0
+                                        n_tries=n_tries+1
+                                        ball_on_screen=False #para fazer nova jogada
+                                    collision=False
+
+				elif event.key == pygame.K_DOWN:
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
+                                    else:
+                                        vel=0
+                                        n_tries=n_tries+1
+                                        ball_on_screen=False #para fazer nova jogada
+                                    collision=False
+
+				elif event.key == pygame.K_s:
+					shot=True
+					ball_on_screen=True
+                                        s.reset_wavepos() #para que a posicao inicial da onda nao seja a do tiro anterior
+                                        transx=0
+                                        transy=0
+                                        collision=False
+                                elif event.key == pygame.K_b:
+                                        B=-B
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+
+
+                # Set the screen background
+                #if ball_on_screen == False:
+                bg = pygame.image.load("bg.png") 
+                screen.blit(bg, (0, 0))           
+
+
+
+                # Explicacao do objectivo ##########################
+
+                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                """
+                pygame.draw.rect(screen,GOLD,(150,15,385,30))
+                font = pygame.font.SysFont("freesans", 20)
+                text = font.render("Objective: Reach the red threshold!", 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (350,30)
+                screen.blit(text, textpos)
+                """
+
+                x=65
+                y=5
+                rad=7
+                w=620
+                h=30
+        
+                pygame.draw.rect(screen, GOLD,(x,y,w,h))
+                pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText)
+                textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
+
+
+                ##Informacao sobre o angulo de inclinacao
+                #pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
+                #font = pygame.font.SysFont("freesans", 20)
+                #info_shooter_angle= "Angle: " + str(shooter_angle)
+                #text = font.render(info_shooter_angle, 1, BLACK)
+                #textpos = text.get_rect()
+                #textpos.center = (display_width/2+200,30)
+                #screen.blit(text, textpos)
+
+                ###Origem do referencial
+                Ox=display_width/2
+                Oy=display_height/2
+
+
+		# --- Criar efectivamente as cargas no screen ######
+                c1.draw_charge(screen)
+                c2.draw_charge(screen)
+                c3.draw_charge(screen)
+                c4.draw_charge(screen)
+
+
+                c_vec=[]
+                c_vec.append(c1)
+                c_vec.append(c2)
+                c_vec.append(c3)
+                c_vec.append(c4)
+                ####################################################
+
+		# Desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+
+
+                ###VER ISTO!!!!!###############
+                """
+                if ball_on_screen==False:
+                    pos = s.get_ball_pos()
+                    prev_pos=(pos[0],pos[1])
+                    print prev_pos
+                """		
+
+                eta = 2
+                k=0.2 ## nr de onda da onda incidente 
+                w=1.5 ## frequencia da onda incidente
+
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        #s.kutta(screen,shot,B,Ex,Ey)
+
+			shot = False
+
+
+			pos = s.get_wave_pos()#posicao da onda
+
+                        # verificar se a onda esta dentro do ecra  
+			#if 0<pos[0]< display_width and  0<pos[1]<display_height: 
+			#	ball_on_screen=True
+			#else:
+			#	ball_on_screen=False
+
+
+                        
+                        c1_pos=c1.get_pos()
+                        c2_pos=c2.get_pos()
+                        c3_pos=c3.get_pos()
+                        c4_pos=c4.get_pos()
+
+
+                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
+
+                            c1_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
+
+                            flag_obs=False
+
+
+                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True:
+
+                            c2_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
+
+                            flag_obs=False
+
+
+                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True:
+
+                            c3_move=True #variavel definida no inicio do codigo do nivel
+                            collision=True #variavel definida no inciio do nivel
+                            first_entrance=True
+                            first_entrance2=False
+
+                            flag_obs=False
+
+
+                        #####NAO QUERO QUE O PROGRAMA ANDE A ENTRAR MAIS QUE UMA VEZ NOS IFS ANTERIORES!!!!!!!!!
+
+
+                        if (c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10) or ( c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10) or (c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10):
+                            first_entrance2=False
+                        else:
+                            first_entrance2=True
+
+
+
+                        if(collision==False):
+                            angle = s.get_sh_angle() #angulo da trajectoria da onda
+                        if(collision==True and first_entrance==True):
+                            theta=0.7
+                            angle = s.get_sh_angle()+theta
+
+
+                            ##translacao necessaria para definir a trajectoria apos colisao
+                            col_coord=s.get_wave_before_rot()#coordenada x do ponto onde se da a colisao, antes de ser rodado
+                            step=s.get_pos_step()#IMPORTANTE!!
+
+                            transx = (col_coord)*cos(s.get_sh_angle())-col_coord*cos(angle)
+                            transy = (col_coord)*sin(s.get_sh_angle())-col_coord*sin(angle)
+
+
+                            if(flag_obs==True):#Quando a perda de energia provem do efeito fotoeletrico nao quero por angulo na onda
+                                angle=0
+                                transx=0
+                                transy=0
+                                theta=0
+
+
+                            counter+=1
+                            first_entrance=False
+
+
+                        s.wave_motion(screen,shot,transx,transy,k,w,angle,theta,eta)
+
+			
+
+                        # verificar se a onda esta dentro do ecra  
+			if 0<=pos[0]<= display_width and  0<=pos[1]<=display_height: 
+				ball_on_screen=True
+			else:
+                                #n_tries = n_tries+1
+				ball_on_screen=False
+
+
+
+
+
+                ####MOVIMENTO DAS CARGAS - verifica-se tambem quando estas saem da tela para parar o movimento
+ 
+
+                ##Movimento antes da colisao
+
+                #O jogador perde se um dos eletroes for completamente atraido
+
+                c1_pos=c1.get_pos()
+                c2_pos=c2.get_pos()
+                c3_pos=c3.get_pos()
+                c4_pos=c4.get_pos()
+
+
+                delta=20
+                if (c4_pos[0]-delta<c1_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c1_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c2_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c2_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c3_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c3_pos[1]<c4_pos[1]+delta):
+                    defeat(level7)
+
+
+
+                if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
+                    Ec=c4.get_E_field(c1.get_pos()[0],c1.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c1vx = c1.get_charge()*Ex*step
+                    c1vy = c1.get_charge()*Ey*step
+                    c1x = step*c1vx
+                    c1y = step*c1vy
+                    c1.move_charge(c1x,c1y)
+
+                    d14 = sqrt((c1.get_pos()[0]-c4.get_pos()[0])*(c1.get_pos()[0]-c4.get_pos()[0]) + (c1.get_pos()[1]-c4.get_pos()[1])*(c1.get_pos()[1]-c4.get_pos()[1]))
+                    x = d14*cos(time)+c4.get_pos()[0]
+                    y = d14*sin(time)+c4.get_pos()[1]
+                    c1.set_pos(x,y)
+
+
+                if c2_move==False and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
+                    Ec=c4.get_E_field(c2.get_pos()[0],c2.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c2vx = c2.get_charge()*Ex*step
+                    c2vy = c2.get_charge()*Ey*step
+                    c2x = step*c2vx
+                    c2y = step*c2vy
+                    c2.move_charge(c2x,c2y)
+
+
+
+
+                    d24 = sqrt((c2.get_pos()[0]-c4.get_pos()[0])*(c2.get_pos()[0]-c4.get_pos()[0]) + (c2.get_pos()[1]-c4.get_pos()[1])*(c2.get_pos()[1]-c4.get_pos()[1]))
+                    x = d24*cos(time-2.5)+c4.get_pos()[0]
+                    y = d24*sin(time-2.5)+c4.get_pos()[1]
+                    c2.set_pos(x,y)
+
+
+
+                if c3_move==False and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
+                    Ec=c4.get_E_field(c3.get_pos()[0],c3.get_pos()[1])
+                    Ex=Ec[0]
+                    Ey=Ec[1]
+                    step=0.04
+                    c3vx = c3.get_charge()*Ex*step
+                    c3vy = c3.get_charge()*Ey*step
+                    c3x = step*c3vx
+                    c3y = step*c3vy
+                    c3.move_charge(c3x,c3y)
+
+                    d34 = sqrt((c3.get_pos()[0]-c4.get_pos()[0])*(c3.get_pos()[0]-c4.get_pos()[0]) + (c3.get_pos()[1]-c4.get_pos()[1])*(c3.get_pos()[1]-c4.get_pos()[1]))
+                    x = d34*cos(time-4)+c4.get_pos()[0]
+                    y = d34*sin(time-4)+c4.get_pos()[1]
+                    c3.set_pos(x,y)
+
+
+                time+=0.02
+
+
+
+                if counter!=3 or (-8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8) or (-8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8) or (-8<c1.get_pos()[0]< display_width+8 and -8<c1.get_pos()[1]<display_height+8):
+                    a=1 #so para por alguma coisa
+                else:
+                    victory(level7)
+
+
+
+                ##Movimento depois da colisao
+                if c1_move==True and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in1==True):
+                        theta1 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in1=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta1)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta1))/(1+eta*(1-cos(theta1))))*w/k 
+                    c1.move_charge(v_c*cos(fi),-v_c*sin(fi))
+                else:
+                    f_in1=True
+                        
+                if c2_move==True and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in2==True):
+                        theta2 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in2=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta2)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta2))/(1+eta*(1-cos(theta2))))*w/k 
+                    c2.move_charge(v_c*cos(fi),-v_c*sin(fi))
+                else:
+                    f_in2=True
+
+                if c3_move==True and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
+                    if(collision==True and f_in3==True):
+                        theta3 = theta
+                        aux_ang=s.get_sh_angle()
+                        f_in3=False
+
+                    fi = aux_ang-atan(2/((1+eta)*tan(theta3)))
+                    v_c = sqrt(2*eta*eta*(1-cos(theta3))/(1+eta*(1-cos(theta3))))*w/k 
+                    c3.move_charge(v_c*cos(fi),-v_c*sin(fi))
+                else:
+                    f_in3=True
+
+
+
+
+
+
+                ##### ----- Obstaculos --- #####
+
+                pygame.draw.rect(screen,BLUE,(ob1x,ob1y,10,100))
+
+
+                if(-8<ob1x< display_width+8 and  -8<ob1y<display_height+8): 
+                    ob1y += 5
+                else:
+                    ob1x=250#reset dos valores quando ele sai da tela
+                    ob1y=50  
+                    obs1_entrance=True
+
+                if ob1x-10<s.get_wave_pos()[0]<ob1x+10 and ob1y<s.get_wave_pos()[1]<ob1y+100 and obs1_entrance==True:
+
+                    c = elec_charge()
+                    c_obs.append(c)
+
+                    time_obs.append(0)
+                    f_in_obs.append(True)
+                    c_obs_on_screen.append(True)
+                    c_obs_collision.append(False)
+
+                    c_obs[c_obs_counter].create_charge(screen,-700,ob1x,ob1y,GREEN)
+
+                    c_obs_counter+=1
+                    obs1_entrance=False
+                    charge_obs_draw=True
+                    obs_draw_first_entrance=True
+
+
+                    flag_obs=True
+                    collision=True
+                    first_entrance=True
+
+
+
+                if charge_obs_draw==True:
+                    for i in range(c_obs_counter):
+
+                        if(c_obs_on_screen[i]==True):
+
+                            c_obs[i].draw_charge(screen)
+
+
+                            Ec=c4.get_E_field(c_obs[i].get_pos()[0],c_obs[i].get_pos()[1])
+                            Ex=Ec[0]
+                            Ey=Ec[1]
+                            step=0.04
+                            cvx = c_obs[i].get_charge()*Ex*step
+                            cvy = c_obs[i].get_charge()*Ey*step
+                            cx = step*cvx
+                            cy = step*cvy
+                            c_obs[i].move_charge(cx,cy)
+
+                            posx=c_obs[i].get_pos()[0]
+                            posy = c_obs[i].get_pos()[1]
+                            c4x = c4.get_pos()[0]
+                            c4y = c4.get_pos()[1]
+                            
+                            d = sqrt((posx-c4x)*(posx-c4x) + (posy-c4y)*(posy-c4y))
+
+                            if(obs_draw_first_entrance==True):
+                                collision=True
+                                first_entrance=True
+                                phase = -acos((posx-c4x)/d)
+
+                            x = d*cos(-time_obs[i]+phase)+c4x
+                            y = -d*sin(-time_obs[i]+phase)+c4y
+
+                            if(c_obs_collision[i]==False):
+                                c_obs[i].set_pos(x,y)
+                            time_obs[i]+=0.02
+                        
+                            obs_draw_first_entrance=False # as fases so interessam ser calculadas uma vez para saber a pos inicial
+
+
+
+                            if -8<posx< display_width+8  and  -8<posy<display_height+8: 
+                                wx = s.get_wave_pos()[0]
+                                wy = s.get_wave_pos()[1]
+
+                                if( posx - 10 < wx < posx + 10 and posy-10 < wy < posy+10):
+                                    
+                                    c_obs_collision[i]=True
+
+                                    if(f_in_obs[i]==True):
+                                        aux_ang=s.get_sh_angle()
+                                        th=0.7
+                                        fi = aux_ang-atan(2/((1+eta)*tan(th)))
+                                        v_c = sqrt(2*eta*eta*(1-cos(th))/(1+eta*(1-cos(th))))*w/k 
+                                        
+                                        collision=True
+                                        first_entrance=True
+                                        flag_obs=False
+
+                                        f_in_obs[i]=False
+                                else:
+                                    f_in_obs[i]=True
+
+
+                                if(c_obs_collision[i]==True):
+                                    c_obs[i].move_charge(v_c*cos(fi),-v_c*sin(fi))
+
+                                delta=20
+                                if (c4x-delta<posx<c4x+delta and c4y-delta<posy<c4y+delta):
+                                    defeat(level7)
+                                    
+                            else:
+                                c_obs_on_screen[i]=False
+                                 
+
+
+
+
+ 
+		# --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
 
 
 
