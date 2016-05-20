@@ -328,7 +328,7 @@ def level1():
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
                        
-                        s.magkutta(screen,shot,B,Ex,Ey)
+                        s.magkutta(screen,shot,B)
                         
 			shot = False
 
@@ -367,7 +367,7 @@ def level2():
 	shooter_angle=0
 	ball_on_screen=False
         global pause
-
+        e_test=False
 	# Loop until the user clicks the close button.
 	done = False
 	while not done:
@@ -455,7 +455,7 @@ def level2():
                 rad=20
                 w=50
                 h=200
-        
+
                 pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
                 pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
                 pygame.draw.circle(screen, DSBLUE, [x+w, y+h-rad], rad)
@@ -492,7 +492,9 @@ def level2():
                 pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
 
-
+                #speedos
+                pygame.draw.rect(screen, AQUA,(266,150,42,30))
+                pygame.draw.rect(screen, AQUA,(380,215,30,52))
                
                 #objectivo e leitor
                 x=150
@@ -543,18 +545,65 @@ def level2():
                 # Desenhar patamar 
 		pygame.draw.rect(screen,RED,(620,40,2,70))
 
-		if ball_on_screen==True:
-			#s.draw_ball(screen,shot)
+                if ball_on_screen==True:
                        
-                        s.magkutta(screen,shot,B,Ex,Ey)
+                        detect=True
+                        s.electromagkutta(screen,shot,B,Ex,Ey)
                         
 			shot = False
+                        tempo = s.counter(shot,detect)
+                        countdown = 130-tempo
+
+                        x=0
+                        y=55
+                        rad=7
+                        w=80
+                        h=30
+
+                        cor=GOLD
+
+                        if countdown < 60:
+                            cor = ORANGE
+                        if countdown < 30:
+                            cor = RED
+
+                        pygame.draw.rect(screen, cor,(x,y,w,h))
+                        pygame.draw.circle(screen, cor, [x, y+rad], rad)
+                        pygame.draw.circle(screen, cor, [x+w, y+h-rad], rad)
+                        pygame.draw.circle(screen, cor, [x, y+h-rad], rad)
+                        pygame.draw.circle(screen, cor, [x+w, y+rad], rad)
+                        pygame.draw.rect(screen, cor,(x-rad,y+rad,rad,h-2*rad))
+                        pygame.draw.rect(screen, cor,(x+w,y+rad,rad,h-2*rad))
+                     
+                        smallText = pygame.font.SysFont("freesans",20)
+                        #smallText = pygame.font.SysFont("Verdana",20)
+                        textSurf, textRect = text_objects(str(countdown), smallText)
+                        textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                        screen.blit(textSurf, textRect)
 
 			pos = s.get_ball_pos()
                         vel = s.get_ball_vel()
 
-                        if 675<pos[0]<685 and 338<pos[1]<412:
-                            victory(level1)   
+                        if 615<pos[0]<625 and 38<pos[1]<112:
+                            victory(level2)   
+
+                        #pygame.draw.rect(screen, AQUA,(266,150,42,30))
+                        #pygame.draw.rect(screen, AQUA,(380,215,30,52))
+
+                        #pygame.draw.rect(screen, GREEN,(120,460,60,60))
+
+                        if 266<pos[0]<(266+42) and 150<pos[1]<180:
+                            pygame.draw.rect(screen, GREEN,(370,150,40,30))
+                            Ey=20
+
+                        Ex=0
+                        if 120<pos[0]<180 and 460<pos[1]<520:
+                            pygame.draw.rect(screen, GREEN,(370,150,40,30))
+                            Ex=40
+                        
+
+                        if countdown == 0:
+                            defeat(level2)
 
                         #if (0<pos[0]<186 and 420<pos[1]<436) or (380<pos[0]<400 and 122<pos[1]<520) or (114<pos[0]<390 and 300<pos[1]<316) or (112<pos[0]<128 and 122<pos[1]<308) or (200<pos[0]<280 and 15<pos[1]<185) or (513<pos[0]<550 and 300<pos[1]<400) or (513<pos[0]<820 and 300<pos[1]<320) or (513<pos[0]<620 and 120<pos[1]<200) or (680<pos[0]<682 and 340<pos[1]<410) or (600<pos[0]<680 and 5<pos[1]<35):
                             #defeat(level1)
@@ -564,7 +613,7 @@ def level2():
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
-                                defeat(level1)
+                                defeat(level2)
 
 		# --- Wrap-ups
 		# Limit to 60 frames per second

@@ -132,6 +132,112 @@ extern "C" double* ElectricField(double t, double x_0, double y_0, double vx_0, 
 
 }
 
+extern "C" double* ElectroMagField(double h, double x_0, double y_0, double vx_0, double vy_0, double Bz, double Ex, double Ey){
+
+  //SO quero movimento no plano xy
+
+  double B[3];
+  double vz_0 = 0;
+  double z_0 = 0;
+  B[0] = 0;
+  B[1] = 0;
+  B[2] = Bz;
+
+  double v = sqrt(vx_0*vx_0+vy_0*vy_0);
+
+  double qm = 0.01;
+
+  double V1_x, V1_y, V1_z, V1_vx, V1_vy, V1_vz;
+  double V2_x, V2_y, V2_z, V2_vx, V2_vy, V2_vz;
+  double V3_x, V3_y, V3_z, V3_vx, V3_vy, V3_vz;
+  double V4_x, V4_y, V4_z, V4_vx, V4_vy, V4_vz;
+ 
+  ////Calculo dos V1////////////////////////
+
+  V1_x = h*vx_0;
+  V1_y = h*vy_0;
+  V1_z = h*vz_0;
+
+  V1_vx = h*qm*(-vy_0*B[2] + vz_0*B[1]+Ex);
+
+  V1_vy = h*qm*(-vz_0*B[0]+vx_0*B[2]+Ey);
+
+  V1_vz = h*qm*(-vx_0*B[1]+vy_0*B[0]);
+    
+  ////V2////////////////////////
+
+  V2_x = h*(vx_0 + V1_vx/2);
+  V2_y = h*(vy_0 + V1_vy/2);
+  V2_z = h*(vz_0 + V1_vz/2);
+
+  V2_vx = h*qm*(-(vy_0 + V1_vy/2)*B[2] + (vz_0 + V1_vz/2)*B[1] +Ex);
+
+  V2_vy = h*qm*(-(vz_0 + V1_vz/2)*B[0] + (vx_0 + V1_vx/2)*B[2] +Ey);
+
+  V2_vz = h*qm*(-(vx_0 + V1_vx/2)*B[1] + (vy_0 + V1_vy/2)*B[0]);
+
+  ////V3////////////////////////
+
+  V3_x = h*(vx_0 + V2_vx/2);
+  V3_y = h*(vy_0 + V2_vy/2);
+  V3_z = h*(vz_0 + V2_vz/2);
+    
+  V3_vx = h*qm*(-(vy_0 + V2_vy/2)*B[2] + (vz_0 + V2_vz/2)*B[1] +Ex);
+
+  V3_vy = h*qm*(-(vz_0 + V2_vz/2)*B[0] + (vx_0 + V2_vx/2)*B[2] +Ey);
+
+  V3_vz = h*qm*(-(vx_0 + V2_vx/2)*B[1] + (vy_0 + V2_vy/2)*B[0]);
+
+  ////V4////////////////////////
+
+  V4_x = h*(vx_0 + V3_vx);
+  V4_y = h*(vy_0 + V3_vy);
+  V4_z = h*(vz_0 + V3_vz);
+
+  V4_vx = h*qm*(-(vy_0 + V3_vy)*B[2] + (vz_0 + V3_vz)*B[1] +Ex);
+
+  V4_vy = h*qm*(-(vz_0 + V3_vz)*B[0] + (vx_0 + V3_vx)*B[2] +Ey);
+
+  V4_vz = h*qm*(-(vx_0 + V3_vx)*B[1] + (vy_0 + V3_vy)*B[0]);
+
+  ///Calculo de t(n+1) a partir de t(n)///////////////////////
+
+  x_0 = x_0 + (V1_x + 2*V2_x + 2*V3_x + V4_x)/6;
+  y_0 = y_0 + (V1_y + 2*V2_y + 2*V3_y + V4_y)/6;
+  z_0 = z_0 + (V1_z + 2*V2_z + 2*V3_z + V4_z)/6;
+
+  vx_0 = vx_0 + (V1_vx + 2*V2_vx + 2*V3_vx + V4_vx)/6;
+  vy_0 = vy_0 + (V1_vy + 2*V2_vy + 2*V3_vy + V4_vy)/6;
+  vz_0 = vz_0 + (V1_vz + 2*V2_vz + 2*V3_vz + V4_vz)/6;
+
+
+  //Vamos ver depois se esta correcao vai ser precisa
+
+  ///Correçao///////////////////////////////
+  /*
+  if(CORRECTION == true){
+    double crc = v/sqrt(vx_0*vx_0+vy_0*vy_0+vz_0*vz_0);//v(n)/v(n-1)
+
+    vx_0 = crc*vx_0;
+    vy_0 = crc*vy_0;
+    vz_0 = crc*vz_0;
+    }
+  */
+
+
+  static double pos[4];
+
+  pos[0] = x_0;
+  pos[1] = y_0;
+  pos[2] = vx_0;
+  pos[3] = vy_0;
+
+
+  return pos;
+
+}
+
+
 extern "C" double* ElectricFieldWire(double t, double x_0, double y_0, double vx_0, double vy_0, double Ex, double qEy, double wpos){
 
   double qm=0.01;
