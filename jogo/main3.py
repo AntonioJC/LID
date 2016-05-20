@@ -389,6 +389,7 @@ def level2():
 					ball_on_screen=True
                                 elif event.key == pygame.K_a:
                                         B=14
+                                        pygame.draw.circle(screen, DSBLUE, [670,20],4)
                                 elif event.key == pygame.K_n:
                                         B=0
                                 elif event.key == pygame.K_d:
@@ -623,7 +624,7 @@ def level2():
                 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("B = " + str(B), smallText)
+                textSurf, textRect = text_objects("B" + str(B), smallText)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
