@@ -1570,7 +1570,11 @@ def level6():
                         c4_pos=c4.get_pos()
 
 
-                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
+                        color_test = s.get_wave_color()
+
+
+
+                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c1_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1578,7 +1582,7 @@ def level6():
                             first_entrance2=False
 
 
-                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True:
+                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c2_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1586,7 +1590,7 @@ def level6():
                             first_entrance2=False
 
 
-                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True:
+                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c3_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1606,7 +1610,7 @@ def level6():
 
                         if(collision==False):
                             angle = s.get_sh_angle() #angulo da trajectoria da onda
-                        if(collision==True and first_entrance==True):
+                        if(collision==True and first_entrance==True and color_test==(0,0,255)):
                             theta=0.7
                             angle = s.get_sh_angle()+theta
 
@@ -1797,9 +1801,10 @@ def level7():
         f_in_obs=[]
         c_obs_on_screen=[]
         c_obs_collision=[]
+        phase=[]
 
         #### Posicoes dos obstaculos
-        ob1x=250
+        ob1x=200
         ob1y=50
 
 
@@ -1845,6 +1850,11 @@ def level7():
         v_c=0
 
 
+        # flags de indicacao de vitoria 
+        flag_obs_win=True
+        flag_win=False
+
+
         n_tries=0 #para contar o nr de tentativas do user
 	shooter_angle=0
 	ball_on_screen=False
@@ -1884,6 +1894,7 @@ def level7():
                                         n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
                                     collision=False
+                        
 
 				elif event.key == pygame.K_DOWN:
 
@@ -1895,6 +1906,7 @@ def level7():
                                         ball_on_screen=False #para fazer nova jogada
                                     collision=False
 
+
 				elif event.key == pygame.K_s:
 					shot=True
 					ball_on_screen=True
@@ -1902,6 +1914,7 @@ def level7():
                                         transx=0
                                         transy=0
                                         collision=False
+
                                 elif event.key == pygame.K_b:
                                         B=-B
 			if event.type == pygame.KEYUP:
@@ -2019,7 +2032,10 @@ def level7():
                         c4_pos=c4.get_pos()
 
 
-                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
+                        color_test = s.get_wave_color()
+
+
+                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c1_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -2029,7 +2045,7 @@ def level7():
                             flag_obs=False
 
 
-                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True:
+                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c2_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -2039,7 +2055,7 @@ def level7():
                             flag_obs=False
 
 
-                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True:
+                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c3_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -2061,7 +2077,7 @@ def level7():
 
                         if(collision==False):
                             angle = s.get_sh_angle() #angulo da trajectoria da onda
-                        if(collision==True and first_entrance==True):
+                        if(collision==True and first_entrance==True and color_test == (0,0,255)):
                             theta=0.7
                             angle = s.get_sh_angle()+theta
 
@@ -2081,7 +2097,7 @@ def level7():
                                 theta=0
 
 
-                            counter+=1
+                            #counter+=1
                             first_entrance=False
 
 
@@ -2118,7 +2134,6 @@ def level7():
                     defeat(level7)
 
 
-
                 if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
                     Ec=c4.get_E_field(c1.get_pos()[0],c1.get_pos()[1])
                     Ex=Ec[0]
@@ -2134,6 +2149,7 @@ def level7():
                     x = d14*cos(time)+c4.get_pos()[0]
                     y = d14*sin(time)+c4.get_pos()[1]
                     c1.set_pos(x,y)
+
 
 
                 if c2_move==False and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
@@ -2154,7 +2170,6 @@ def level7():
                     x = d24*cos(time-2.5)+c4.get_pos()[0]
                     y = d24*sin(time-2.5)+c4.get_pos()[1]
                     c2.set_pos(x,y)
-
 
 
                 if c3_move==False and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
@@ -2178,15 +2193,14 @@ def level7():
 
 
 
-                if counter!=3 or (-8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8) or (-8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8) or (-8<c1.get_pos()[0]< display_width+8 and -8<c1.get_pos()[1]<display_height+8):
-                    a=1 #so para por alguma coisa
-                else:
-                    victory(level7)
+                #if counter==3 and c3.get_pos()[0]<-8 and c3.get_pos()[0] > display_width+8 and  c3.get_pos()[1]<-8 and c3.get_pos()[1] > display_height+8 and c2.get_pos()[0]<-8 and c2.get_pos()[0] > display_width+8 and  c2.get_pos()[1]<-8 and c2.get_pos()[1] > display_height+8 and c1.get_pos()[0]<-8 and c1.get_pos()[0] > display_width+8 and  c1.get_pos()[1]<-8 and c1.get_pos()[1] > display_height+8 and flag_obs_win==True:
+                    #victory(level7)
+
 
 
 
                 ##Movimento depois da colisao
-                if c1_move==True and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
+                if c1_move==True and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8  and theta!=0: 
                     if(collision==True and f_in1==True):
                         theta1 = theta
                         aux_ang=s.get_sh_angle()
@@ -2195,10 +2209,14 @@ def level7():
                     fi = aux_ang-atan(2/((1+eta)*tan(theta1)))
                     v_c = sqrt(2*eta*eta*(1-cos(theta1))/(1+eta*(1-cos(theta1))))*w/k 
                     c1.move_charge(v_c*cos(fi),-v_c*sin(fi))
+
+
                 else:
                     f_in1=True
+
+
                         
-                if c2_move==True and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
+                if c2_move==True and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8  and theta!=0: 
                     if(collision==True and f_in2==True):
                         theta2 = theta
                         aux_ang=s.get_sh_angle()
@@ -2207,10 +2225,13 @@ def level7():
                     fi = aux_ang-atan(2/((1+eta)*tan(theta2)))
                     v_c = sqrt(2*eta*eta*(1-cos(theta2))/(1+eta*(1-cos(theta2))))*w/k 
                     c2.move_charge(v_c*cos(fi),-v_c*sin(fi))
+
                 else:
                     f_in2=True
 
-                if c3_move==True and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
+
+
+                if c3_move==True and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8  and theta!=0: 
                     if(collision==True and f_in3==True):
                         theta3 = theta
                         aux_ang=s.get_sh_angle()
@@ -2219,6 +2240,8 @@ def level7():
                     fi = aux_ang-atan(2/((1+eta)*tan(theta3)))
                     v_c = sqrt(2*eta*eta*(1-cos(theta3))/(1+eta*(1-cos(theta3))))*w/k 
                     c3.move_charge(v_c*cos(fi),-v_c*sin(fi))
+
+
                 else:
                     f_in3=True
 
@@ -2235,7 +2258,7 @@ def level7():
                 if(-8<ob1x< display_width+8 and  -8<ob1y<display_height+8): 
                     ob1y += 5
                 else:
-                    ob1x=250#reset dos valores quando ele sai da tela
+                    ob1x=200#reset dos valores quando ele sai da tela
                     ob1y=50  
                     obs1_entrance=True
 
@@ -2260,7 +2283,6 @@ def level7():
                     flag_obs=True
                     collision=True
                     first_entrance=True
-
 
 
                 if charge_obs_draw==True:
@@ -2288,19 +2310,20 @@ def level7():
                             
                             d = sqrt((posx-c4x)*(posx-c4x) + (posy-c4y)*(posy-c4y))
 
-                            if(obs_draw_first_entrance==True):
+                            if(obs_draw_first_entrance==True and i==c_obs_counter-1):
                                 collision=True
                                 first_entrance=True
-                                phase = -acos((posx-c4x)/d)
+                                phase.append(-acos((posx-c4x)/d))
 
-                            x = d*cos(-time_obs[i]+phase)+c4x
-                            y = -d*sin(-time_obs[i]+phase)+c4y
+
+                            x = d*cos(-time_obs[i]+phase[i])+c4x
+                            y = -d*sin(-time_obs[i]+phase[i])+c4y
+
+                            #print x
 
                             if(c_obs_collision[i]==False):
                                 c_obs[i].set_pos(x,y)
                             time_obs[i]+=0.02
-                        
-                            obs_draw_first_entrance=False # as fases so interessam ser calculadas uma vez para saber a pos inicial
 
 
 
@@ -2308,9 +2331,11 @@ def level7():
                                 wx = s.get_wave_pos()[0]
                                 wy = s.get_wave_pos()[1]
 
-                                if( posx - 10 < wx < posx + 10 and posy-10 < wy < posy+10):
+                                if( posx - 10 < wx < posx + 10 and posy-10 < wy < posy+10  and color_test==(0,0,255)):
                                     
                                     c_obs_collision[i]=True
+                                    flag_obs_win=True
+
 
                                     if(f_in_obs[i]==True):
                                         aux_ang=s.get_sh_angle()
@@ -2338,7 +2363,33 @@ def level7():
                                 c_obs_on_screen[i]=False
                                  
 
+                obs_draw_first_entrance=False # as fases so interessam ser calculadas uma vez para saber a pos inicial
 
+
+                counter2=0
+                for i in range(c_obs_counter):
+                    if(c_obs_on_screen[i] == False):
+                        counter2+=1
+
+                if(counter2==c_obs_counter):
+                    flag_obs_win=True
+                else:
+                    flag_obs_win=False
+
+
+                if (c3.get_pos()[0]<0 or c3.get_pos()[0] > display_width+0 or  c3.get_pos()[1]<0 or c3.get_pos()[1] > display_height+0) and (c2.get_pos()[0]<0 or c2.get_pos()[0] > display_width+0 or  c2.get_pos()[1]<0 or c2.get_pos()[1] > display_height+0) and (c1.get_pos()[0]<0 or c1.get_pos()[0] > display_width+0 or c1.get_pos()[1]<0 or c1.get_pos()[1] > display_height+0):
+                    flag_win=True
+
+
+                #print "flag_win"
+                #print flag_win
+                #print "flag_obs_win"
+                #print flag_obs_win
+                #print "\n"
+
+
+                if(flag_win==True and flag_obs_win==True):
+                    victory(level7)
 
 
  

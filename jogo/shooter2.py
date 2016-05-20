@@ -103,6 +103,8 @@ class shoot:
                 self.yrot=0
                 self.wave_init=0
 
+                self.wave_color=BLUE
+
 
                 # variaveis uteis de teste
                 self.first_entry=0
@@ -319,6 +321,7 @@ class shoot:
                                 self.yrot = self.yrot + self.sh_pos_y-Oy
                 
                                 #screen.set_at((x, y), GREEN)
+                                self.wave_color=BLUE
                                 pygame.draw.circle(screen, BLUE, (int(self.xrot),int(self.yrot)), 2, 1)
                                 self.wit+=0.5
  
@@ -343,6 +346,7 @@ class shoot:
                                 self.yrot = self.yrot + self.sh_pos_y
                 
                                 #screen.set_at((x, y), GREEN)
+                                self.wave_color=DARK_RED
                                 pygame.draw.circle(screen, DARK_RED, (int(self.xrot),int(self.yrot)), 2, 1)
                                 self.wit+=0.5
 
@@ -363,6 +367,7 @@ class shoot:
                                 self.yrot = self.yrot + self.sh_pos_y-Oy
                 
                                 #screen.set_at((x, y), GREEN)
+                                self.wave_color=DARK_RED
                                 pygame.draw.circle(screen, DARK_RED, (int(self.xrot),int(self.yrot)), 2, 1)
                                 self.wit+=0.5
 
@@ -381,6 +386,9 @@ class shoot:
 
         def get_pos_step(self):
                 return self.pos_step
+
+        def get_wave_color(self):
+                return self.wave_color
 
 		
         def kutta(self, screen, shot,B,Ex,Ey):
