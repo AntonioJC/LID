@@ -493,7 +493,6 @@ def level2():
                 pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
 
                 #speeders
-                #pygame.draw.rect(screen, AQUA,(308,150,42,40))
 
                 x=315
                 y=150
@@ -511,7 +510,7 @@ def level2():
                 pygame.draw.rect(screen, speed,(x+w,y+rad,rad,h-2*rad))
 
 
-                smallText = pygame.font.SysFont("freesans",10)
+                smallText = pygame.font.SysFont("freesans",12)
                 #smallText = pygame.font.SysFont("Verdana",20)
                 textSurf, textRect = text_objects("E down", smallText)
                 textRect.center = ( (308+(42/2)), (150+(40/2)) )
@@ -533,9 +532,9 @@ def level2():
                 pygame.draw.rect(screen, speed,(x+w,y+rad,rad,h-2*rad))
 
 
-                smallText = pygame.font.SysFont("freesans",10)
+                smallText = pygame.font.SysFont("freesans",12)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("E <--", smallText)
+                textSurf, textRect = text_objects("E left", smallText)
                 textRect.center = ( (350+(28/2)), (350+(40/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -559,7 +558,7 @@ def level2():
 
                 smallText = pygame.font.SysFont("freesans",12)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("E -->", smallText)
+                textSurf, textRect = text_objects("E right", smallText)
                 textRect.center = ( (387+(26/2)), (215+(42/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -689,11 +688,11 @@ def level2():
                         elif 343<pos[0]<(343+42) and 350<pos[1]<390:
                             Ex=-70
 
-                        if countdown == 0:
-                            defeat(level2)
+                        #if countdown == 0:
+                          #  defeat(level2)
 
-                        #if (0<pos[0]<186 and 420<pos[1]<436) or (380<pos[0]<400 and 122<pos[1]<520) or (114<pos[0]<390 and 300<pos[1]<316) or (112<pos[0]<128 and 122<pos[1]<308) or (200<pos[0]<280 and 15<pos[1]<185) or (513<pos[0]<550 and 300<pos[1]<400) or (513<pos[0]<820 and 300<pos[1]<320) or (513<pos[0]<620 and 120<pos[1]<200) or (680<pos[0]<682 and 340<pos[1]<410) or (600<pos[0]<680 and 5<pos[1]<35):
-                            #defeat(level1)
+                        if (0<pos[0]<106 and 290<pos[1]<306) or (204<pos[0]<516 and 320<pos[1]<336) or (250<pos[0]<266 and 114<pos[1]<426) or (100<pos[0]<116 and 0<pos[1]<206) or (380<pos[0]<470 and 420<pos[1]<520) or (350<pos[0]<440 and 15<pos[1]<200) or (530<pos[0]<700 and 120<pos[1]<170) or (660<pos[0]<695 and 120<pos[1]<260):
+                            defeat(level2)
                         
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
