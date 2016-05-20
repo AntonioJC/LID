@@ -566,9 +566,6 @@ class shoot:
 
                 # chamar a funcao do c++
                
-                #Ex=0
-                print Ex
-
                 h = 0.5 #step
                 pos = a.ElectroMagField(h,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,B,Ex,Ey)
               

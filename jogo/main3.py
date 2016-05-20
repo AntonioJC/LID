@@ -492,9 +492,99 @@ def level2():
                 pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
 
-                #speedos
-                pygame.draw.rect(screen, AQUA,(266,150,42,30))
-                pygame.draw.rect(screen, AQUA,(380,215,30,52))
+                #speeders
+                #pygame.draw.rect(screen, AQUA,(308,150,42,40))
+
+                x=315
+                y=150
+                rad=7
+                w=28
+                h=40
+                speed=AQUA
+
+                pygame.draw.rect(screen, speed,(x,y,w,h))
+                pygame.draw.circle(screen, speed, [x, y+rad], rad)
+                pygame.draw.circle(screen, speed, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, speed, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, speed, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, speed,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, speed,(x+w,y+rad,rad,h-2*rad))
+
+
+                smallText = pygame.font.SysFont("freesans",10)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("E down", smallText)
+                textRect.center = ( (308+(42/2)), (150+(40/2)) )
+                screen.blit(textSurf, textRect)
+
+                x=350
+                y=350
+                rad=7
+                w=28
+                h=40
+                speed=AQUA
+
+                pygame.draw.rect(screen, speed,(x,y,w,h))
+                pygame.draw.circle(screen, speed, [x, y+rad], rad)
+                pygame.draw.circle(screen, speed, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, speed, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, speed, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, speed,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, speed,(x+w,y+rad,rad,h-2*rad))
+
+
+                smallText = pygame.font.SysFont("freesans",10)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("E <--", smallText)
+                textRect.center = ( (350+(28/2)), (350+(40/2)) )
+                screen.blit(textSurf, textRect)
+
+                #pygame.draw.rect(screen, GOLD,(380,215,40,42))
+
+                x=387
+                y=215
+                rad=7
+                w=26
+                h=42
+                speed=AQUA
+
+                pygame.draw.rect(screen, speed,(x,y,w,h))
+                pygame.draw.circle(screen, speed, [x, y+rad], rad)
+                pygame.draw.circle(screen, speed, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, speed, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, speed, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, speed,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, speed,(x+w,y+rad,rad,h-2*rad))
+
+
+                smallText = pygame.font.SysFont("freesans",12)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("E -->", smallText)
+                textRect.center = ( (387+(26/2)), (215+(42/2)) )
+                screen.blit(textSurf, textRect)
+
+                x=150
+                y=350
+                rad=7
+                w=28
+                h=40
+                speed=AQUA
+
+                pygame.draw.rect(screen, speed,(x,y,w,h))
+                pygame.draw.circle(screen, speed, [x, y+rad], rad)
+                pygame.draw.circle(screen, speed, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, speed, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, speed, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, speed,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, speed,(x+w,y+rad,rad,h-2*rad))
+
+
+                smallText = pygame.font.SysFont("freesans",10)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("E up", smallText)
+                textRect.center = ( (150+(28/2)), (350+(40/2)) )
+                screen.blit(textSurf, textRect)
+
                
                 #objectivo e leitor
                 x=150
@@ -534,7 +624,7 @@ def level2():
                 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("B= " + str(B), smallText)
+                textSurf, textRect = text_objects("B = " + str(B), smallText)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -587,20 +677,17 @@ def level2():
                         if 615<pos[0]<625 and 38<pos[1]<112:
                             victory(level2)   
 
-                        #pygame.draw.rect(screen, AQUA,(266,150,42,30))
-                        #pygame.draw.rect(screen, AQUA,(380,215,30,52))
-
-                        #pygame.draw.rect(screen, GREEN,(120,460,60,60))
-
-                        if 266<pos[0]<(266+42) and 150<pos[1]<180:
-                            pygame.draw.rect(screen, GREEN,(370,150,40,30))
-                            Ey=20
+                        Ey=0
+                        if (266+42)<pos[0]<(266+84) and 150<pos[1]<180:
+                            Ey=70
+                        elif 143<pos[0]<(143+42) and 350<pos[1]<390:
+                            Ey=-60
 
                         Ex=0
-                        if 120<pos[0]<180 and 460<pos[1]<520:
-                            pygame.draw.rect(screen, GREEN,(370,150,40,30))
-                            Ex=40
-                        
+                        if 380<pos[0]<410 and 215<pos[1]<(215+52):
+                            Ex=80
+                        elif 343<pos[0]<(343+42) and 350<pos[1]<390:
+                            Ex=-70
 
                         if countdown == 0:
                             defeat(level2)
