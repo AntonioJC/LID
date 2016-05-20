@@ -568,7 +568,7 @@ class shoot:
                
                 h = 0.5 #step
                 pos = a.ElectroMagField(h,self.ball_pos_x,self.ball_pos_y,self.ball_vx,self.ball_vy,B,Ex,Ey)
-              
+
 		self.t=self.t+h
 		self.ball_pos_x = pos[0] 
 		self.ball_pos_y = pos[1]
