@@ -415,44 +415,31 @@ def level2():
                
                 #desenhar caminho
                 rad=8
-                pygame.draw.rect(screen, DSBLUE,(0,420,180,16))
-                pygame.draw.circle(screen, DSBLUE, [180,420+rad],rad)
-
-                rad=10
-                x=380
-                y=120
-                pygame.draw.rect(screen, DSBLUE,(x,y+rad,20,400))
-                pygame.draw.circle(screen, DSBLUE, [x+rad,y+rad],rad)
+                pygame.draw.rect(screen, DSBLUE,(0,290,100,16))
+                pygame.draw.circle(screen, DSBLUE, [100,290+rad],rad)
 
                 rad=8
-                x=120
-                y=300
-                pygame.draw.rect(screen, DSBLUE,(x,y,270,16))
+                x=210
+                y=320
+                pygame.draw.rect(screen, DSBLUE,(x,y,300,16))
                 pygame.draw.circle(screen, DSBLUE, [x,y+rad],rad)
+                pygame.draw.circle(screen, DSBLUE, [x+300,y+rad],rad)
 
-                pygame.draw.rect(screen, DSBLUE,(x-rad,120+rad,16,180))
-                pygame.draw.circle(screen, DSBLUE, [x,120+rad],rad)
+                x=250
+                y=120
+                pygame.draw.rect(screen, DSBLUE,(x,y,16,300))
+                pygame.draw.circle(screen, DSBLUE, [x+rad,y],rad)
+                pygame.draw.circle(screen, DSBLUE, [x+rad,y+300],rad)
 
-                #pygame.draw.arc(screen, DSBLUE,[x, 0, 130, 300], math.pi, 3*math.pi/2, 2)
+                x=100
+                y=0
+                pygame.draw.rect(screen, DSBLUE,(x,y,16,200))
+                pygame.draw.circle(screen, DSBLUE, [x+rad,y+200],rad)
 
-                x=220
-                y=15
+                x=400
+                y=420
                 rad=20
-                w=40
-                h=170
-        
-                pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
-                pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
-                pygame.draw.circle(screen, DSBLUE, [x+w, y+h-rad], rad)
-                pygame.draw.circle(screen, DSBLUE, [x, y+h-rad], rad)
-                pygame.draw.circle(screen, DSBLUE, [x+w, y+rad], rad)
-                pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
-                pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
-
-                x=520
-                y=300
-                rad=7
-                w=30
+                w=50
                 h=100
         
                 pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
@@ -463,11 +450,11 @@ def level2():
                 pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
 
-                x=520
-                y=300
-                rad=7
-                w=300
-                h=20
+                x=370
+                y=15
+                rad=20
+                w=50
+                h=200
         
                 pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
                 pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
@@ -477,11 +464,11 @@ def level2():
                 pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
 
-                x=520
+                x=550
                 y=120
-                rad=7
-                w=100
-                h=80
+                rad=20
+                w=150
+                h=50
         
                 pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
                 pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
@@ -491,6 +478,22 @@ def level2():
                 pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
 
+                x=680
+                y=120
+                rad=20
+                w=15
+                h=140
+        
+                pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
+                pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
+
+
+               
                 #objectivo e leitor
                 x=150
                 y=5
@@ -508,7 +511,7 @@ def level2():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the lower right corner!", smallText)
+                textSurf, textRect = text_objects("Objective: Reach the upper right corner!", smallText)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -538,7 +541,7 @@ def level2():
 		s.draw_shooter(screen,shooter_angle)
 
                 # Desenhar patamar 
-		pygame.draw.rect(screen,RED,(680,340,2,70))
+		pygame.draw.rect(screen,RED,(620,40,2,70))
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
@@ -553,8 +556,8 @@ def level2():
                         if 675<pos[0]<685 and 338<pos[1]<412:
                             victory(level1)   
 
-                        if (0<pos[0]<186 and 420<pos[1]<436) or (380<pos[0]<400 and 122<pos[1]<520) or (114<pos[0]<390 and 300<pos[1]<316) or (112<pos[0]<128 and 122<pos[1]<308) or (200<pos[0]<280 and 15<pos[1]<185) or (513<pos[0]<550 and 300<pos[1]<400) or (513<pos[0]<820 and 300<pos[1]<320) or (513<pos[0]<620 and 120<pos[1]<200) or (680<pos[0]<682 and 340<pos[1]<410) or (600<pos[0]<680 and 5<pos[1]<35):
-                            defeat(level1)
+                        #if (0<pos[0]<186 and 420<pos[1]<436) or (380<pos[0]<400 and 122<pos[1]<520) or (114<pos[0]<390 and 300<pos[1]<316) or (112<pos[0]<128 and 122<pos[1]<308) or (200<pos[0]<280 and 15<pos[1]<185) or (513<pos[0]<550 and 300<pos[1]<400) or (513<pos[0]<820 and 300<pos[1]<320) or (513<pos[0]<620 and 120<pos[1]<200) or (680<pos[0]<682 and 340<pos[1]<410) or (600<pos[0]<680 and 5<pos[1]<35):
+                            #defeat(level1)
                         
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
