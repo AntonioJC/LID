@@ -312,10 +312,27 @@ def level1():
                 pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
                 
+                if B==14:
+                    pygame.draw.circle(screen, BLACK, [650,20],10)
+                    pygame.draw.circle(screen, WHITE, [650,20],8)
+                    pygame.draw.circle(screen, BLACK, [650,20],3)
+                elif B==-14:
+                    pygame.draw.circle(screen, BLACK, [650,20],10)
+                    pygame.draw.circle(screen, WHITE, [650,20],8)
+                    smallText2 = pygame.font.SysFont("freesans",18)
+                    textSurf2, textRect2 = text_objects("X", smallText2)
+                    textRect2.center = ( (650), (20) )
+                    screen.blit(textSurf2, textRect2)
+                elif B==0:
+                    smallText2 = pygame.font.SysFont("freesans",20)
+                    textSurf2, textRect2 = text_objects(" = 0", smallText2)
+                    textRect2.center = ( (650), (20) )
+                    screen.blit(textSurf2, textRect2)
+
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("B= " + str(B), smallText)
-                textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                textSurf, textRect = text_objects("B", smallText)
+                textRect.center = ( (x-15+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
 
@@ -389,7 +406,6 @@ def level2():
 					ball_on_screen=True
                                 elif event.key == pygame.K_a:
                                         B=14
-                                        pygame.draw.circle(screen, DSBLUE, [670,20],4)
                                 elif event.key == pygame.K_n:
                                         B=0
                                 elif event.key == pygame.K_d:
@@ -622,10 +638,27 @@ def level2():
                 pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
                 
+                if B==14:
+                    pygame.draw.circle(screen, BLACK, [650,20],10)
+                    pygame.draw.circle(screen, WHITE, [650,20],8)
+                    pygame.draw.circle(screen, BLACK, [650,20],3)
+                elif B==-14:
+                    pygame.draw.circle(screen, BLACK, [650,20],10)
+                    pygame.draw.circle(screen, WHITE, [650,20],8)
+                    smallText2 = pygame.font.SysFont("freesans",18)
+                    textSurf2, textRect2 = text_objects("X", smallText2)
+                    textRect2.center = ( (650), (20) )
+                    screen.blit(textSurf2, textRect2)
+                elif B==0:
+                    smallText2 = pygame.font.SysFont("freesans",20)
+                    textSurf2, textRect2 = text_objects(" = 0", smallText2)
+                    textRect2.center = ( (650), (20) )
+                    screen.blit(textSurf2, textRect2)
+
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("B" + str(B), smallText)
-                textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                textSurf, textRect = text_objects("B ", smallText)
+                textRect.center = ( (x-10+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
 
