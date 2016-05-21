@@ -247,7 +247,7 @@ def stage2():
 
         button("Back",0,0,80,40,WHITE,GRAY,game_intro)
 
-        button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
+        button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,stage2_tut)
         button("Level 1",(display_width/2)+10,200,100,50,GOLD,GRAY,level5)
         button("Level 2",(display_width/2)-110,260,100,50,GOLD,GRAY,level6)
         button("Level 3",(display_width/2)+10,260,100,50,GOLD,GRAY,level7)
@@ -1181,15 +1181,15 @@ def stage2_tut():
 
 
         # --- Criar efectivamente as cargas no screen ######
-        c1.create_charge(screen,-700,Ox-100,Oy-180,DARK_BLUE)
-        c2.create_charge(screen,-700,Ox,Oy+200,DARK_BLUE)
-        c3.create_charge(screen,-700,Ox+220,Oy-100,DARK_BLUE)
-        c4.create_charge(screen,3000,Ox,Oy,RED)
+        c1.create_charge(screen,-700,Ox-100,Oy-160,DARK_BLUE)
+        c2.create_charge(screen,-700,Ox,Oy+150,DARK_BLUE)
+        c3.create_charge(screen,-700,Ox+180,Oy-100,DARK_BLUE)
+        #c4.create_charge(screen,3000,Ox,Oy,RED)
 
         c1_pos=c1.get_pos()
         c2_pos=c2.get_pos()
         c3_pos=c3.get_pos()
-        c4_pos=c4.get_pos()
+        #c4_pos=c4.get_pos()
 
         c_vec=[]
         c_vec.append(c1)
@@ -1230,9 +1230,41 @@ def stage2_tut():
         transx = 0
         transy = 0
 
+
+
+        ### flags do tutorial
+
+        move_shooter = False #flag para saber se o user ja movimentou o shooter
+        first_touch_up=False
+        first_touch_down=False
+        complete1 = False
+        tut_complete1 = False # indica se a primeira parte do tutorial (mexer o shooter) esta completa
+
+
+        shoot_particle=False
+        first_shoot=False
+        complete2=False
+        tut_complete2=False
+
+
+        shoot_charge=False
+        first_charge_shoot=False
+        complete3=False
+        tut_complete3=False
+
+
+
+
 	# Loop until the user clicks the close button.
 	done = False
 	while not done:
+
+
+                # Set the screen background
+                bg = pygame.image.load("bg.png") 
+                screen.blit(bg, (0, 0))  
+
+
 
 		# --- Event Processing
 		for event in pygame.event.get():
@@ -1252,6 +1284,9 @@ def stage2_tut():
                                         n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
                                     collision=False
+                                    if(first_touch_up==False and first_touch_down==False):
+                                        move_shooter=True
+                                        first_touch_up=True
 
 				elif event.key == pygame.K_DOWN:
 
@@ -1262,6 +1297,10 @@ def stage2_tut():
                                         n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
                                     collision=False
+                                    if(first_touch_down==False and first_touch_up==False):
+                                        move_shooter=True
+                                        first_touch_down=True
+
 
 				elif event.key == pygame.K_SPACE:
 					shot=True
@@ -1270,52 +1309,137 @@ def stage2_tut():
                                         transx=0
                                         transy=0
                                         collision=False
+
+                                        if(first_shoot==False):
+                                            shoot_particle=True
+                                            first_shoot=True
+
                                 elif event.key == pygame.K_b:
                                         B=-B
+
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					shooter_angle=shooter_angle
-					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo	
 
 
-                # Set the screen background
-                #if ball_on_screen == False:
-                bg = pygame.image.load("bg.png") 
-                screen.blit(bg, (0, 0))           
+                if(move_shooter==False and complete1==False):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the UP or DOWN keys to move the thrower", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
 
 
+                elif move_shooter==True:
+                    complete1=True
 
-                # Explicacao do objectivo ##########################
+                if(complete1==True and move_shooter==True):
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
-                """
-                pygame.draw.rect(screen,GOLD,(150,15,385,30))
-                font = pygame.font.SysFont("freesans", 20)
-                text = font.render("Objective: Reach the red threshold!", 1, BLACK)
-                textpos = text.get_rect()
-                textpos.center = (350,30)
-                screen.blit(text, textpos)
-                """
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the UP or DOWN keys to move the thrower", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
 
-                x=65
-                y=5
-                rad=7
-                w=620
-                h=30
-        
-                pygame.draw.rect(screen, GOLD,(x,y,w,h))
-                pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
-                pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
-                pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
-                pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
-                pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
-                pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
 
-                smallText = pygame.font.SysFont("freesans",20)
-                #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText,BLACK)
-                textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
-                screen.blit(textSurf, textRect)
+                ###Depois deste if esta complete1=True e move_shooter=False para sempre (VER fim do codigo desta funcao)
+
+
+                if(tut_complete1==True and complete2==False and shoot_particle==False):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the SPACE key to throw a photon", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+                                        
+
+                if(shoot_particle==True):
+                    complete2 = True
+
+
+                if(tut_complete1==True and shoot_particle==True and complete2==True):
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the SPACE key to throw a photon", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+
+                ###Depois deste if esta complete2=True e shoot_particle=False para sempre (VER fim do codigo desta funcao)
+
+                if(collision==True and first_charge_shoot==False):
+                    shoot_charge=True
+                    first_charge_shoot=True
+
+
+                if(tut_complete1==True and tut_complete2==True and shoot_charge==False and tut_complete3 == False):
+
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Finally, try to hit any charge!", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+                
+
+                if (c3.get_pos()[0]<-8 or c3.get_pos()[0] > display_width+8 or  c3.get_pos()[1]<-8 or c3.get_pos()[1] > display_height+8) or (c2.get_pos()[0]<-8 or c2.get_pos()[0] > display_width+8 or  c2.get_pos()[1]<-8 or c2.get_pos()[1] > display_height+8) or (c1.get_pos()[0]<-8 or c1.get_pos()[0] > display_width+8 or c1.get_pos()[1]<-8 or c1.get_pos()[1] > display_height+8):
+                    shoot_charge=False
+                    tut_complete3=True
+
+
+                if(tut_complete1==True and tut_complete2==True and complete3==True and shoot_charge==True):
+
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Finally, try to hit any charge!", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+
+                if(tut_complete1==True and tut_complete2==True and tut_complete3==True):
+                    tutorial_sucess(stage2_tut,stage2)
 
 
                 ##Informacao sobre o angulo de inclinacao
@@ -1336,14 +1460,14 @@ def stage2_tut():
                 c1.draw_charge(screen)
                 c2.draw_charge(screen)
                 c3.draw_charge(screen)
-                c4.draw_charge(screen)
+                #c4.draw_charge(screen)
 
 
                 c_vec=[]
                 c_vec.append(c1)
                 c_vec.append(c2)
                 c_vec.append(c3)
-                c_vec.append(c4)
+                #c_vec.append(c4)
                 ####################################################
 
 		# Desenhar o shooter
@@ -1384,7 +1508,7 @@ def stage2_tut():
                         c1_pos=c1.get_pos()
                         c2_pos=c2.get_pos()
                         c3_pos=c3.get_pos()
-                        c4_pos=c4.get_pos()
+                        #c4_pos=c4.get_pos()
 
 
                         if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
@@ -1456,64 +1580,6 @@ def stage2_tut():
                 ####MOVIMENTO DAS CARGAS - verifica-se tambem quando estas saem da tela para parar o movimento
  
 
-                ##Movimento antes da colisao
-
-                #O jogador perde se um dos eletroes for completamente atraido
-
-                c1_pos=c1.get_pos()
-                c2_pos=c2.get_pos()
-                c3_pos=c3.get_pos()
-                c4_pos=c4.get_pos()
-
-
-                delta=20
-                if (c4_pos[0]-delta<c1_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c1_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c2_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c2_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c3_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c3_pos[1]<c4_pos[1]+delta):
-                    defeat(level5)
-
-
-
-                if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
-                    Ec=c4.get_E_field(c1.get_pos()[0],c1.get_pos()[1])
-                    Ex=Ec[0]
-                    Ey=Ec[1]
-                    step=0.04
-                    c1vx = c1.get_charge()*Ex*step
-                    c1vy = c1.get_charge()*Ey*step
-                    c1x = step*c1vx
-                    c1y = step*c1vy
-                    c1.move_charge(c1x,c1y)
-
-
-                if c2_move==False and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
-                    Ec=c4.get_E_field(c2.get_pos()[0],c2.get_pos()[1])
-                    Ex=Ec[0]
-                    Ey=Ec[1]
-                    step=0.04
-                    c2vx = c2.get_charge()*Ex*step
-                    c2vy = c2.get_charge()*Ey*step
-                    c2x = step*c2vx
-                    c2y = step*c2vy
-                    c2.move_charge(c2x,c2y)
-
-                if c3_move==False and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
-                    Ec=c4.get_E_field(c3.get_pos()[0],c3.get_pos()[1])
-                    Ex=Ec[0]
-                    Ey=Ec[1]
-                    step=0.04
-                    c3vx = c3.get_charge()*Ex*step
-                    c3vy = c3.get_charge()*Ey*step
-                    c3x = step*c3vx
-                    c3y = step*c3vy
-                    c3.move_charge(c3x,c3y)
-
-
-                if counter!=3 or (-8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8) or (-8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8) or (-8<c1.get_pos()[0]< display_width+8 and -8<c1.get_pos()[1]<display_height+8):
-                    a=1 #so para por alguma coisa
-                else:
-                    victory(level5)
-
-
-
                 ##Movimento depois da colisao
                 if c1_move==True and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
                     if(collision==True and f_in1==True):
@@ -1559,8 +1625,21 @@ def stage2_tut():
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
 
+                if(complete1==True and move_shooter==True):
+                    move_shooter=False
+                    tut_complete1 = True # primeira parte do tutorial completa
+                    time.sleep(0.5)
 
 
+                if(complete2==True and shoot_particle==True):
+                    shoot_particle=False
+                    tut_complete2=True
+                    time.sleep(0.5)
+
+
+
+                if(shoot_charge==True):
+                    complete3=True
 
 
 
@@ -3150,6 +3229,81 @@ def victory(level):
 
         pygame.display.update()
         clock.tick(25)  
+
+
+
+
+
+def tutorial_sucess(level,stage):
+    
+    win = True 
+
+    while win:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        """
+        pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
+        font = pygame.font.Font(None, 50)
+        text = font.render("   You won!   ", 1, (20, 20, 20))
+        textpos = text.get_rect()
+        textpos.center = ((display_width/2),(display_height/2)-20)
+        screen.blit(text, textpos)
+        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level)
+        button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+        """
+        x=(display_width/2-170)
+        y=(display_height/2-120)
+        rad=14
+        w=350
+        h=200
+
+        pygame.draw.rect(screen, WHITE,(x,y,w,h))
+        pygame.draw.circle(screen, WHITE, [x, y+rad], rad)
+        pygame.draw.circle(screen, WHITE, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, WHITE, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, WHITE, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, WHITE,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, WHITE,(x+w,y+rad,rad,h-2*rad))
+
+        x=(display_width/2-150)
+        y=(display_height/2-100)
+        rad=14
+        w=300
+        h=50
+
+        pygame.draw.rect(screen, GOLD,(x,y,w,h))
+        pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+        pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+       
+       
+        smallText = pygame.font.SysFont("freesans",20)
+        #smallText = pygame.font.SysFont("Verdana",20)
+        textSurf, textRect = text_objects("You have completed the tutorial!", smallText,BLACK)
+        textRect.center = ( (x+(w/2)), (y+(h/2)) )
+        screen.blit(textSurf, textRect)
+
+        #screen.blit(text, textpos)
+        button("Restart",(display_width/2)-120,(display_height/2),110,50,WHITE,GRAY,level)
+        button("Levels",(display_width/2)+10,(display_height/2),110,50,WHITE,GRAY,stage)
+
+
+
+        pygame.display.update()
+        clock.tick(25)  
+
+
+
+
+
+
+
 
 def unpause():
     global pause 
