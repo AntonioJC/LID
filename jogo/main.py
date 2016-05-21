@@ -102,16 +102,67 @@ def game_welcome():
         #img = pygame.image.load("em.jpg")                
         #screen.blit(img, (0, 0))
 
-        largeText = pygame.font.SysFont("freesans",60,BLACK)
-        TextSurf, TextRect = text_objects("Are You", largeText,BLACK)
-        TextSurf2, TextRect2 = text_objects("Ready?", largeText,BLACK)
+        x=90
+        y=60
+        rad=7
+        w=520
+        h=90
+        cor_title=GRAY
+
+        pygame.draw.rect(screen, cor_title,(x,y,w,h))
+        pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
+        pygame.draw.circle(screen, cor_title, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, cor_title, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, cor_title, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, cor_title,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, cor_title,(x+w,y+rad,rad,h-2*rad))
+
+        x=95
+        y=65
+        rad=7
+        w=510
+        h=80
+        cor_title=WHITE
+
+        pygame.draw.rect(screen, cor_title,(x,y,w,h))
+        pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
+        pygame.draw.circle(screen, cor_title, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, cor_title, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, cor_title, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, cor_title,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, cor_title,(x+w,y+rad,rad,h-2*rad))
+
+        
+        x=100
+        y=110
+        rad=7
+        w=500
+        h=25
+        cor_title=GRAY
+
+        pygame.draw.rect(screen, cor_title,(x,y,w,h))
+        pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
+        pygame.draw.circle(screen, cor_title, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, cor_title, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, cor_title, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, cor_title,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, cor_title,(x+w,y+rad,rad,h-2*rad))
+        
+
+        largeText = pygame.font.SysFont("freesans",50,BLACK)
+        largeText2 = pygame.font.SysFont("freesans",54,BLACK)
+        TextSurf, TextRect = text_objects("Electromagnetism", largeText,GRAY)
+        TextSurf2, TextRect2 = text_objects("Electromagnetism", largeText2,WHITE)
+        #TextSurf3, TextRect3 = text_objects("Electromagnetism", largeText2,WHITE)
         TextRect.center = ((display_width/2),100)
-        TextRect2.center = ((display_width/2),180)
+        TextRect2.center = ((display_width/2),100+1)
+        #TextRect3.center = ((display_width/2),100)
         screen.blit(TextSurf, TextRect)
         screen.blit(TextSurf2, TextRect2)
+        #screen.blit(TextSurf3, TextRect3)
 
-        button("Begin",(display_width/2-150),250,100,50,DSBLUE,GRAY,game_intro)
-        button("About",(display_width/2+50),250,100,50,DSBLUE,GRAY,about)
+        button("Begin",(display_width/2-150),250,100,50,GOLD,GRAY,game_intro)
+        button("About",(display_width/2+50),250,100,50,GOLD,GRAY,about)
 
         pygame.display.update()
         clock.tick(15)
@@ -134,11 +185,10 @@ def game_intro():
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
-
+        button("Back",0,0,80,40,WHITE,GRAY,game_welcome)
         button("Stage 1",(display_width/2)-50,200,100,50,GOLD,GRAY,stage1)
         button("Stage 2",(display_width/2)-50,260,100,50,GOLD,GRAY,stage2)
         button("Stage 3",(display_width/2)-50,320,100,50,GOLD,GRAY,stage3)
-        button("Take me back, I don't want to be amazing",0,0,400,40,WHITE,GRAY,game_welcome)
 
         '''
         button("Level 1",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
@@ -167,16 +217,16 @@ def stage1():
                 
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("The golden path", largeText,BLACK)
+        TextSurf, TextRect = text_objects("Stage 1", largeText,BLACK)
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
+        button("Back",0,0,80,40,WHITE,GRAY,game_intro)
 
-        button("Tutorial ",(display_width/2)-50,200,100,50,GOLD,GRAY,level1)
-        button("Level 1",(display_width/2)-50,260,100,50,GOLD,GRAY,level2)
-        button("Level 2",(display_width/2)-50,320,100,50,GOLD,GRAY,level3)
-        button("Level 3",(display_width/2)-50,380,100,50,GOLD,GRAY,level4)
-        button("Menu",0,0,50,30,GRAY,WHITE,game_intro)
+        button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
+        button("Level 1",(display_width/2)+10,200,100,50,GOLD,GRAY,level2)
+        button("Level 2",(display_width/2)-110,260,100,50,GOLD,GRAY,level3)
+        button("Level 3",(display_width/2)+10,260,100,50,GOLD,GRAY,level4)
 
         pygame.display.update()
         clock.tick(15)
@@ -191,16 +241,16 @@ def stage2():
                 
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("The golden path", largeText,BLACK)
+        TextSurf, TextRect = text_objects("Stage 2", largeText,BLACK)
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
+        button("Back",0,0,80,40,WHITE,GRAY,game_intro)
 
-        button("Tutorial ",(display_width/2)-50,200,100,50,GOLD,GRAY,level1)
-        button("Level 1",(display_width/2)-50,260,100,50,GOLD,GRAY,level5)
-        button("Level 2",(display_width/2)-50,320,100,50,GOLD,GRAY,level6)
-        button("Level 3",(display_width/2)-50,380,100,50,GOLD,GRAY,level7)
-        button("Menu",0,0,50,30,GRAY,WHITE,game_intro)
+        button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
+        button("Level 1",(display_width/2)+10,200,100,50,GOLD,GRAY,level5)
+        button("Level 2",(display_width/2)-110,260,100,50,GOLD,GRAY,level6)
+        button("Level 3",(display_width/2)+10,260,100,50,GOLD,GRAY,level7)
 
         pygame.display.update()
         clock.tick(15)
@@ -215,16 +265,16 @@ def stage3():
                 
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("The golden path", largeText,BLACK)
+        TextSurf, TextRect = text_objects("Stage 3", largeText,BLACK)
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
+        button("Back",0,0,80,40,WHITE,GRAY,game_intro)
 
-        button("Tutorial ",(display_width/2)-50,200,100,50,GOLD,GRAY,level1)
-        button("Level 1",(display_width/2)-50,260,100,50,GOLD,GRAY,level5)
-        button("Level 2",(display_width/2)-50,320,100,50,GOLD,GRAY,level6)
-        button("Level 3",(display_width/2)-50,380,100,50,GOLD,GRAY,level7)
-        button("Menu",0,0,50,30,GRAY,WHITE,game_intro)
+        button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
+        button("Level 1",(display_width/2)+10,200,100,50,GOLD,GRAY,level5)
+        button("Level 2",(display_width/2)-110,260,100,50,GOLD,GRAY,level6)
+        button("Level 3",(display_width/2)+10,260,100,50,GOLD,GRAY,level7)
 
         pygame.display.update()
         clock.tick(15)
@@ -3159,7 +3209,7 @@ def about():
         screen.blit(text3, text3pos)
         screen.blit(text4, text4pos)
 
-        button("Menu",0,0,50,30,WHITE,GREEN,game_welcome)
+        button("Back",0,0,80,40,WHITE,GRAY,game_welcome)
 
         pygame.display.update()
         clock.tick(15)
