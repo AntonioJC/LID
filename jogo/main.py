@@ -7,6 +7,7 @@ from resize import resize_screen
 
 import time
 
+
 #cores
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
