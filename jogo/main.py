@@ -102,8 +102,8 @@ def game_welcome():
         #screen.blit(img, (0, 0))
 
         largeText = pygame.font.SysFont("freesans",60,BLACK)
-        TextSurf, TextRect = text_objects("Electromagnetismo", largeText,DSBLUE)
-        TextSurf2, TextRect2 = text_objects("", largeText,DSBLUE)
+        TextSurf, TextRect = text_objects("Are You", largeText,BLACK)
+        TextSurf2, TextRect2 = text_objects("Ready?", largeText,BLACK)
         TextRect.center = ((display_width/2),100)
         TextRect2.center = ((display_width/2),180)
         screen.blit(TextSurf, TextRect)
