@@ -137,6 +137,7 @@ def game_intro():
         button("Stage 1",(display_width/2)-50,200,100,50,GOLD,GRAY,stage1)
         button("Stage 2",(display_width/2)-50,260,100,50,GOLD,GRAY,stage2)
         button("Stage 3",(display_width/2)-50,320,100,50,GOLD,GRAY,stage3)
+        button("Take me back, I don't want to be amazing",0,0,400,40,WHITE,GRAY,game_welcome)
 
         '''
         button("Level 1",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
