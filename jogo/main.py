@@ -102,6 +102,7 @@ def game_welcome():
         #img = pygame.image.load("em.jpg")                
         #screen.blit(img, (0, 0))
 
+<<<<<<< HEAD
         x=90
         y=60
         rad=7
@@ -154,6 +155,11 @@ def game_welcome():
         TextSurf, TextRect = text_objects("Electromagnetism", largeText,GRAY)
         TextSurf2, TextRect2 = text_objects("Electromagnetism", largeText2,WHITE)
         #TextSurf3, TextRect3 = text_objects("Electromagnetism", largeText2,WHITE)
+=======
+        largeText = pygame.font.SysFont("freesans",60,BLACK)
+        TextSurf, TextRect = text_objects("Are You", largeText,BLACK)
+        TextSurf2, TextRect2 = text_objects("Ready?", largeText,BLACK)
+>>>>>>> 6c4eedf9d283312e3638630737c1372ec8a6b876
         TextRect.center = ((display_width/2),100)
         TextRect2.center = ((display_width/2),100+1)
         #TextRect3.center = ((display_width/2),100)
