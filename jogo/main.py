@@ -231,7 +231,7 @@ def level1():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -431,7 +431,7 @@ def level2():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -652,7 +652,7 @@ def level3():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -821,7 +821,7 @@ def level4():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -1095,7 +1095,7 @@ def level5():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText)
+                textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -1497,7 +1497,7 @@ def level6():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText)
+                textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -1959,7 +1959,7 @@ def level7():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText)
+                textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -2455,7 +2455,7 @@ def defeat(level):
        
         smallText = pygame.font.SysFont("freesans",20)
         #smallText = pygame.font.SysFont("Verdana",20)
-        textSurf, textRect = text_objects("You lost!", smallText)
+        textSurf, textRect = text_objects("You lost!", smallText,BLACK)
         textRect.center = ( (x+(w/2)), (y+(h/2)) )
         screen.blit(textSurf, textRect)
 
@@ -2517,7 +2517,7 @@ def victory(level):
        
         smallText = pygame.font.SysFont("freesans",20)
         #smallText = pygame.font.SysFont("Verdana",20)
-        textSurf, textRect = text_objects("You won!", smallText)
+        textSurf, textRect = text_objects("You won!", smallText,BLACK)
         textRect.center = ( (x+(w/2)), (y+(h/2)) )
         screen.blit(textSurf, textRect)
 
@@ -2567,7 +2567,7 @@ def about():
                 
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("freesans",90)
-        TextSurf, TextRect = text_objects("About", largeText)
+        TextSurf, TextRect = text_objects("About", largeText,BLACK)
         TextRect.center = ((display_width/2),80)
         font = pygame.font.Font(None, 26)
 	text = font.render("This is a game that desires to stimulate the", 1, (10, 10, 10))
