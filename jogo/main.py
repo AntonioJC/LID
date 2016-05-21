@@ -98,12 +98,12 @@ def game_welcome():
 
                 
         screen.fill(WHITE)
-        img = pygame.image.load("em.jpg")                
-        screen.blit(img, (0, 0))
+        #img = pygame.image.load("em.jpg")                
+        #screen.blit(img, (0, 0))
 
         largeText = pygame.font.SysFont("freesans",60,BLACK)
-        TextSurf, TextRect = text_objects("A Pila", largeText,DSBLUE)
-        TextSurf2, TextRect2 = text_objects("Mutante", largeText,DSBLUE)
+        TextSurf, TextRect = text_objects("Electromagnetismo", largeText,DSBLUE)
+        TextSurf2, TextRect2 = text_objects("", largeText,DSBLUE)
         TextRect.center = ((display_width/2),100)
         TextRect2.center = ((display_width/2),180)
         screen.blit(TextSurf, TextRect)
@@ -133,6 +133,12 @@ def game_intro():
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
+
+        button("Stage 1",(display_width/2)-50,200,100,50,GOLD,GRAY,stage1)
+        button("Stage 2",(display_width/2)-50,260,100,50,GOLD,GRAY,stage2)
+        button("Stage 3",(display_width/2)-50,320,100,50,GOLD,GRAY,stage3)
+
+        '''
         button("Level 1",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
         button("Level 2",(display_width/2)+10,200,100,50,GOLD,GRAY,level2)
         button("Level 3",(display_width/2)-110,260,100,50,GOLD,GRAY,level3)
@@ -143,6 +149,77 @@ def game_intro():
         button("Take me back, I don't want to be amazing",0,0,400,40,WHITE,GRAY,game_welcome)
         #button("Level 3",(display_width/2)-50,380,100,50,GREEN,RED,level3)
         #button("Quit",550,450,100,50,red,bright_red,quitgame)
+        '''
+        pygame.display.update()
+        clock.tick(15)
+
+
+
+def stage1():
+    while True:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        screen.fill(WHITE)
+        largeText = pygame.font.SysFont("freesans",50)
+        TextSurf, TextRect = text_objects("The golden path", largeText,BLACK)
+        TextRect.center = ((display_width/2),120)
+        screen.blit(TextSurf, TextRect)
+
+
+        button("Tutorial ",(display_width/2)-50,200,100,50,GOLD,GRAY,level1)
+        button("Level 1",(display_width/2)-50,260,100,50,GOLD,GRAY,level2)
+        button("Level 2",(display_width/2)-50,320,100,50,GOLD,GRAY,level3)
+        button("Level 3",(display_width/2)-50,380,100,50,GOLD,GRAY,level4)
+
+        pygame.display.update()
+        clock.tick(15)
+
+def stage2():
+    while True:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        screen.fill(WHITE)
+        largeText = pygame.font.SysFont("freesans",50)
+        TextSurf, TextRect = text_objects("The golden path", largeText,BLACK)
+        TextRect.center = ((display_width/2),120)
+        screen.blit(TextSurf, TextRect)
+
+
+        button("Tutorial ",(display_width/2)-50,200,100,50,GOLD,GRAY,level1)
+        button("Level 1",(display_width/2)-50,260,100,50,GOLD,GRAY,level5)
+        button("Level 2",(display_width/2)-50,320,100,50,GOLD,GRAY,level6)
+        button("Level 3",(display_width/2)-50,380,100,50,GOLD,GRAY,level7)
+
+        pygame.display.update()
+        clock.tick(15)
+
+def stage3():
+    while True:
+        for event in pygame.event.get():
+            #print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+                
+        screen.fill(WHITE)
+        largeText = pygame.font.SysFont("freesans",50)
+        TextSurf, TextRect = text_objects("The golden path", largeText,BLACK)
+        TextRect.center = ((display_width/2),120)
+        screen.blit(TextSurf, TextRect)
+
+
+        button("Tutorial ",(display_width/2)-50,200,100,50,GOLD,GRAY,level1)
+        button("Level 1",(display_width/2)-50,260,100,50,GOLD,GRAY,level5)
+        button("Level 2",(display_width/2)-50,320,100,50,GOLD,GRAY,level6)
+        button("Level 3",(display_width/2)-50,380,100,50,GOLD,GRAY,level7)
 
         pygame.display.update()
         clock.tick(15)
@@ -519,20 +596,20 @@ def level2():
 
                         # verificar as tentativas efectuadas
                         if(n_tries==3):
-                            lost(level2)
+                            defeat(level2)
 
                         #Verificar se a bola colide com as cargas
-                        """
-                        pos_c1 = c1.get_pos()
-                        r1 = 6*c1.get_radius()
-                        pos_c2 = c2.get_pos()
-                        r2 = 6*c2.get_radius()
-                        pos_c3 = c3.get_pos()
-                        r3 = 6*c3.get_radius()
-                        """
                         
-                        #if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
-                            #lost()
+                        pos_c1 = c1.get_pos()
+                        r1 = c1.get_radius()
+                        pos_c2 = c2.get_pos()
+                        r2 = c2.get_radius()
+                        pos_c3 = c3.get_pos()
+                        r3 = c3.get_radius()
+    
+                        
+                        if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
+                            defeat(level2)
                         
 
 			
@@ -702,6 +779,38 @@ def level3():
                         if display_width/2-20<pos[0]<display_width/2+20 and display_height/2-21<pos[1]<display_height/2 - 19:
                             victory(level3)                      
                         
+
+                        #Verificar se a bola colide com as cargas
+                        
+                        pos_c1 = c1.get_pos()
+                        r1 = c1.get_radius()
+                        pos_c2 = c2.get_pos()
+                        r2 = c2.get_radius()
+                        pos_c3 = c3.get_pos()
+                        r3 = c3.get_radius()
+    
+                        
+                        if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
+                            defeat(level3)
+
+
+
+
+                        #Verificar se a bola colide com as cargas
+                        
+                        pos_c1 = c1.get_pos()
+                        r1 = c1.get_radius()
+                        pos_c2 = c2.get_pos()
+                        r2 = c2.get_radius()
+                        pos_c3 = c3.get_pos()
+                        r3 = c3.get_radius()
+    
+                        
+                        if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
+                            defeat(level3)
+
+
+
                            
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
@@ -733,21 +842,28 @@ def level4():
 	s = shoot()
 
 
+
+
+
+        time=0
+
+
         # Criacao de cargas ########################
 
         c1 = elec_charge()
         c2 = elec_charge()
         c3 = elec_charge()
 
-        c1.create_charge(screen,800,display_width/2-150,display_height/2-100,DARK_RED)
-        c2.create_charge(screen,-1000,display_width/2-200,display_height/2+100,DARK_BLUE)
-        c3.create_charge(screen,-2000,display_width/2+100,display_height/2-20,DARK_BLUE)
+        c2.create_charge(screen,800,display_width/2-150,display_height/2-100,DARK_RED)
+        c1.create_charge(screen,-1000,display_width/2-200,display_height/2+100,DARK_BLUE)
+        c3.create_charge(screen,-3000,display_width/2+100,display_height/2-20,DARK_BLUE)
 
 
         ###############################################
 
 	shooter_angle=0
 	ball_on_screen=False
+        second_shoot=False
 
 	# Loop until the user clicks the close button.
 	done = False
@@ -780,6 +896,7 @@ def level4():
 				elif event.key == pygame.K_s:
 					shot=True
 					ball_on_screen=True
+                                        second_shoot=True
                                 elif event.key == pygame.K_b:
                                         B=-B
 			if event.type == pygame.KEYUP:
@@ -792,6 +909,11 @@ def level4():
 
                 if ball_on_screen == False:
                     screen.fill(BLACK)
+
+                if second_shoot == True:
+                    screen.fill(BLACK)
+                    second_shoot=False
+                    
 
 
   
@@ -836,6 +958,7 @@ def level4():
 
 
 		# --- Criar efectivamente as cargas no screen ######
+
                 c1.erase_charge(screen)
 
                 font = pygame.font.SysFont("freesans", 30)
@@ -846,9 +969,12 @@ def level4():
                 screen.blit(text, textpos)
 
                 ##mover a carga
-                c1.move_charge(-0.09,0.09)
+                x = 180*cos(time)
+                c1.set_pos(100,250+x)
                 # Desenhar a carga e o sinal - depois de movidos
                 c1.draw_charge(screen)
+                
+                time+=0.005
 
                 font = pygame.font.SysFont("freesans", 30)
                 text = font.render("-", 1, WHITE)
@@ -862,20 +988,20 @@ def level4():
                 #apagar o desenho da carga anterior e da fonte(sinal -)
                 c2.erase_charge(screen)
 
-                font = pygame.font.SysFont("freesans", 30)
-                text = font.render("-", 1, BLACK)
+                font = pygame.font.SysFont("freesans", 20)
+                text = font.render("+", 1, BLACK)
                 textpos = text.get_rect()
                 c2_pos=c2.get_pos()
                 textpos.center = c2_pos
                 screen.blit(text, textpos)
-
+                
                 ##mover a carga
-                c2.move_charge(0.01,0.005)
+                c2.set_pos(300,250-x)
                 # Desenhar a carga e o sinal - depois de movidos
                 c2.draw_charge(screen)
-
-                font = pygame.font.SysFont("freesans", 30)
-                text = font.render("-", 1, WHITE)
+                
+                font = pygame.font.SysFont("freesans", 20)
+                text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
                 c2_pos=c2.get_pos()
                 textpos.center = c2_pos
@@ -890,19 +1016,41 @@ def level4():
 
                 ########################################################################################################################
             
+                c3.erase_charge(screen)
+
+                font = pygame.font.SysFont("freesans", 30)
+                text = font.render("-", 1, BLACK)
+                textpos = text.get_rect()
+                c3_pos=c3.get_pos()
+                textpos.center = c3_pos
+                screen.blit(text, textpos)
+                
+                ##mover a carga
+                c3.set_pos(500,250+x)
+                # Desenhar a carga e o sinal - depois de movidos
                 c3.draw_charge(screen)
-                font = pygame.font.SysFont("freesans", 50)
+                
+                font = pygame.font.SysFont("freesans", 30)
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((display_width/2+100),(display_height/2-22))
+                c3_pos=c3.get_pos()
+                textpos.center = c3_pos
                 screen.blit(text, textpos)
+                ####################################################
+
+
 
 
                 c_vec=[]
                 c_vec.append(c1)
                 c_vec.append(c2)
                 c_vec.append(c3)
-                ####################################################
+
+
+
+
+
+
 
 		# Desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
@@ -926,6 +1074,20 @@ def level4():
                         if display_width/2+230<pos[0]<display_width/2+250 and display_height/2-22<pos[1]<display_height/2-20:
                             victory(level4)
                         
+
+                        #Verificar se a bola colide com as cargas
+                        
+                        pos_c1 = c1.get_pos()
+                        r1 = c1.get_radius()
+                        pos_c2 = c2.get_pos()
+                        r2 = c2.get_radius()
+                        pos_c3 = c3.get_pos()
+                        r3 = c3.get_radius()
+    
+                        
+                        if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
+                            defeat(level4)
+
 
 			
                         # verificar se a bola esta dentro do ecra  
