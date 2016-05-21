@@ -172,11 +172,11 @@ def level1():
 				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True
-                                elif event.key == pygame.K_a:
+                                elif event.key == pygame.K_d:
                                         B=14
                                 elif event.key == pygame.K_s:
                                         B=0
-                                elif event.key == pygame.K_d:
+                                elif event.key == pygame.K_a:
                                         B=-14
                                 elif event.key == pygame.K_e:
                                         Ex=-Ex
@@ -404,11 +404,11 @@ def level2():
 				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True
-                                elif event.key == pygame.K_a:
+                                elif event.key == pygame.K_d:
                                         B=14
                                 elif event.key == pygame.K_s:
                                         B=0
-                                elif event.key == pygame.K_d:
+                                elif event.key == pygame.K_a:
                                         B=-14
                                 elif event.key == pygame.K_e:
                                         Ex=-Ex
@@ -759,6 +759,20 @@ def level3():
 	done = False
 	while not done:
 
+                keys = pygame.key.get_pressed()  #checking pressed keys
+                if keys[pygame.K_LEFT]:
+                    Ex -= 70
+                if keys[pygame.K_RIGHT]:
+                    Ex += 70
+                if keys[pygame.K_DOWN]:
+                    Ey -= 70
+                if keys[pygame.K_UP]:
+                    Ey += 70
+                if keys[pygame.K_a]:
+                    B -= 2
+                if keys[pygame.K_d]:
+                    B += 2
+
 		# --- Event Processing
 		for event in pygame.event.get():
 
@@ -767,25 +781,19 @@ def level3():
                             quit()	
 
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_UP:
+				if event.key == pygame.K_o:
 					shooter_angle = shooter_angle+0.2
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_l:
 					shooter_angle = shooter_angle-0.2
 				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True
-                                elif event.key == pygame.K_a:
-                                        B=14
                                 elif event.key == pygame.K_s:
                                         B=0
-                                elif event.key == pygame.K_d:
-                                        B=-14
-                                elif event.key == pygame.K_e:
-                                        Ex=-Ex
                                 elif event.key == pygame.K_p:
                                     pause =  True
                                     paused(level3)
-                                        
+
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					shooter_angle=shooter_angle
@@ -880,7 +888,7 @@ def level3():
                 pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
                
                 #objectivo e leitor
-                x=150
+                x=90
                 y=5
                 rad=7
                 w=385
@@ -900,6 +908,39 @@ def level3():
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
+                x=490
+                y=5
+                rad=7
+                w=100
+                h=30
+        
+                pygame.draw.rect(screen, GOLD,(x,y,w,h))
+                pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+
+                pygame.draw.rect(screen, BLACK,(525,9,12,21))
+
+                pygame.draw.rect(screen, DSBLUE,(526,10,10,5))
+                pygame.draw.rect(screen, DSBLUE,(526,16,10,5))
+                pygame.draw.rect(screen, DSBLUE,(526,22,10,5))
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("Ex ", smallText)
+                textRect.center = ( (x-30+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
+
+                pygame.draw.rect(screen, BLACK,(570,9,12,21))
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("Ey ", smallText)
+                textRect.center = ( (x+15+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
 
                 x=600
                 y=5
@@ -915,11 +956,11 @@ def level3():
                 pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
                 
-                if B==14:
+                if B>0:
                     pygame.draw.circle(screen, BLACK, [650,20],10)
                     pygame.draw.circle(screen, WHITE, [650,20],8)
                     pygame.draw.circle(screen, BLACK, [650,20],3)
-                elif B==-14:
+                elif B<0:
                     pygame.draw.circle(screen, BLACK, [650,20],10)
                     pygame.draw.circle(screen, WHITE, [650,20],8)
                     smallText2 = pygame.font.SysFont("freesans",18)
