@@ -38,8 +38,9 @@ pause = False
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
 
-def text_objects(text, font):
-    textSurface = font.render(text, True, BLACK)
+
+def text_objects(text, font,color):
+    textSurface = font.render(text, True, color)
     return textSurface, textSurface.get_rect()
 
 wait_for_response=1  #se nao houver clique, fica-se a espera de um - wait_for_response=1! Isto indica que se click[0]=1, ou seja, se houver um clique, realiza-se a action(). Como so queremos realiza-la uma vez por clique, quando a action() e chamada poe-se imediatamente wait_for_response=0. Assim, so quando o user deixar de premir o botao e que se entra outra vez neste if, aguardando nova resposta (wait_for_response=1, novamente)
@@ -79,7 +80,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
 
     smallText = pygame.font.SysFont("freesans",20)
     #smallText = pygame.font.SysFont("Verdana",20)
-    textSurf, textRect = text_objects(msg, smallText)
+    textSurf, textRect = text_objects(msg, smallText,BLACK)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     screen.blit(textSurf, textRect)
 
@@ -97,12 +98,12 @@ def game_welcome():
 
                 
         screen.fill(WHITE)
-        #img = pygame.image.load("image216.jpg")                
-        #screen.blit(img, (0, 0))
+        img = pygame.image.load("em.jpg")                
+        screen.blit(img, (0, 0))
 
-        largeText = pygame.font.SysFont("freesans",60)
-        TextSurf, TextRect = text_objects("Are you", largeText)
-        TextSurf2, TextRect2 = text_objects("ready?", largeText)
+        largeText = pygame.font.SysFont("freesans",60,BLACK)
+        TextSurf, TextRect = text_objects("A Pila", largeText,DSBLUE)
+        TextSurf2, TextRect2 = text_objects("Mutante", largeText,DSBLUE)
         TextRect.center = ((display_width/2),100)
         TextRect2.center = ((display_width/2),180)
         screen.blit(TextSurf, TextRect)
@@ -128,7 +129,7 @@ def game_intro():
                 
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("The golden path", largeText)
+        TextSurf, TextRect = text_objects("The golden path", largeText,BLACK)
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
@@ -1805,7 +1806,7 @@ def level7():
 
         #### Posicoes dos obstaculos
         ob1x=200
-        ob1y=50
+        ob1y=-7
 
 
         ###Origem do referencial
@@ -2259,7 +2260,7 @@ def level7():
                     ob1y += 5
                 else:
                     ob1x=200#reset dos valores quando ele sai da tela
-                    ob1y=50  
+                    ob1y=-7  
                     obs1_entrance=True
 
                 if ob1x-10<s.get_wave_pos()[0]<ob1x+10 and ob1y<s.get_wave_pos()[1]<ob1y+100 and obs1_entrance==True:
