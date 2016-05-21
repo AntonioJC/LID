@@ -126,7 +126,7 @@ def game_intro():
 
         button("Level 1",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
         button("Level 2",(display_width/2)+10,200,100,50,GOLD,GRAY,level2)
-        button("Level 3",(display_width/2)-110,260,100,50,GOLD,GRAY,level1)
+        button("Level 3",(display_width/2)-110,260,100,50,GOLD,GRAY,level3)
         button("Level 4",(display_width/2)+10,260,100,50,GOLD,GRAY,level2)
         button("Take me back, I don't want to be amazing",0,0,400,40,WHITE,GRAY,game_welcome)
         #button("Level 3",(display_width/2)-50,380,100,50,GREEN,RED,level3)
@@ -174,7 +174,7 @@ def level1():
 					ball_on_screen=True
                                 elif event.key == pygame.K_a:
                                         B=14
-                                elif event.key == pygame.K_n:
+                                elif event.key == pygame.K_s:
                                         B=0
                                 elif event.key == pygame.K_d:
                                         B=-14
@@ -384,7 +384,7 @@ def level2():
 	shooter_angle=0
 	ball_on_screen=False
         global pause
-        e_test=False
+
 	# Loop until the user clicks the close button.
 	done = False
 	while not done:
@@ -406,7 +406,7 @@ def level2():
 					ball_on_screen=True
                                 elif event.key == pygame.K_a:
                                         B=14
-                                elif event.key == pygame.K_n:
+                                elif event.key == pygame.K_s:
                                         B=0
                                 elif event.key == pygame.K_d:
                                         B=-14
@@ -555,8 +555,6 @@ def level2():
                 textRect.center = ( (350+(28/2)), (350+(40/2)) )
                 screen.blit(textSurf, textRect)
 
-                #pygame.draw.rect(screen, GOLD,(380,215,40,42))
-
                 x=387
                 y=215
                 rad=7
@@ -578,6 +576,8 @@ def level2():
                 textSurf, textRect = text_objects("E right", smallText)
                 textRect.center = ( (387+(26/2)), (215+(42/2)) )
                 screen.blit(textSurf, textRect)
+
+                #pygame.draw.polygon(screen, BLACK, ((387+10, 215+7+10), (387+10, 215+10+10), (387+10+10, 215+10+10), (387+10+10, 215+13+10), (387+15+10, 215+7.5+10), (387+10+10, 215+13), (387+10+10, 215+7+10)))
 
                 x=150
                 y=350
@@ -601,6 +601,283 @@ def level2():
                 textRect.center = ( (150+(28/2)), (350+(40/2)) )
                 screen.blit(textSurf, textRect)
 
+               
+                #objectivo e leitor
+                x=150
+                y=5
+                rad=7
+                w=385
+                h=30
+        
+                pygame.draw.rect(screen, GOLD,(x,y,w,h))
+                pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("Objective: Reach the upper right corner!", smallText)
+                textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
+
+
+                x=600
+                y=5
+                rad=7
+                w=80
+                h=30
+        
+                pygame.draw.rect(screen, GOLD,(x,y,w,h))
+                pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+                
+                if B==14:
+                    pygame.draw.circle(screen, BLACK, [650,20],10)
+                    pygame.draw.circle(screen, WHITE, [650,20],8)
+                    pygame.draw.circle(screen, BLACK, [650,20],3)
+                elif B==-14:
+                    pygame.draw.circle(screen, BLACK, [650,20],10)
+                    pygame.draw.circle(screen, WHITE, [650,20],8)
+                    smallText2 = pygame.font.SysFont("freesans",18)
+                    textSurf2, textRect2 = text_objects("X", smallText2)
+                    textRect2.center = ( (650), (20) )
+                    screen.blit(textSurf2, textRect2)
+                elif B==0:
+                    smallText2 = pygame.font.SysFont("freesans",20)
+                    textSurf2, textRect2 = text_objects(" = 0", smallText2)
+                    textRect2.center = ( (650), (20) )
+                    screen.blit(textSurf2, textRect2)
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("B ", smallText)
+                textRect.center = ( (x-10+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
+
+
+		# desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                # Desenhar patamar 
+		pygame.draw.rect(screen,RED,(620,40,2,70))
+
+                if ball_on_screen==True:
+                       
+                        detect=True
+                        s.electromagkutta(screen,shot,B,Ex,Ey)
+                        
+			shot = False
+                        tempo = s.counter(shot,detect)
+                        countdown = 120-tempo
+
+                        x=0
+                        y=55
+                        rad=7
+                        w=80
+                        h=30
+
+                        cor=GOLD
+
+                        if countdown < 60:
+                            cor = ORANGE
+                        if countdown < 30:
+                            cor = RED
+
+                        pygame.draw.rect(screen, cor,(x,y,w,h))
+                        pygame.draw.circle(screen, cor, [x, y+rad], rad)
+                        pygame.draw.circle(screen, cor, [x+w, y+h-rad], rad)
+                        pygame.draw.circle(screen, cor, [x, y+h-rad], rad)
+                        pygame.draw.circle(screen, cor, [x+w, y+rad], rad)
+                        pygame.draw.rect(screen, cor,(x-rad,y+rad,rad,h-2*rad))
+                        pygame.draw.rect(screen, cor,(x+w,y+rad,rad,h-2*rad))
+                     
+                        smallText = pygame.font.SysFont("freesans",20)
+                        #smallText = pygame.font.SysFont("Verdana",20)
+                        textSurf, textRect = text_objects(str(countdown), smallText)
+                        textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                        screen.blit(textSurf, textRect)
+
+			pos = s.get_ball_pos()
+                        vel = s.get_ball_vel()
+
+                        if 615<pos[0]<625 and 38<pos[1]<112:
+                            victory(level2)   
+
+                        Ey=0
+                        if (266+42)<pos[0]<(266+84) and 150<pos[1]<180:
+                            Ey=70
+                        elif 143<pos[0]<(143+42) and 350<pos[1]<390:
+                            Ey=-60
+
+                        Ex=0
+                        if 380<pos[0]<410 and 215<pos[1]<(215+52):
+                            Ex=80
+                        elif 343<pos[0]<(343+42) and 350<pos[1]<390:
+                            Ex=-70
+
+                        if countdown == 0:
+                            defeat(level2)
+
+                        if (0<pos[0]<106 and 290<pos[1]<306) or (204<pos[0]<516 and 320<pos[1]<336) or (250<pos[0]<266 and 114<pos[1]<426) or (100<pos[0]<116 and 0<pos[1]<206) or (380<pos[0]<470 and 420<pos[1]<520) or (350<pos[0]<440 and 15<pos[1]<200) or (530<pos[0]<700 and 120<pos[1]<170) or (660<pos[0]<695 and 120<pos[1]<260):
+                            defeat(level2)
+                        
+
+			if 0<pos[0]< display_width and  0<pos[1]<display_height:
+				ball_on_screen=True
+			else:
+				ball_on_screen=False
+                                defeat(level2)
+
+		# --- Wrap-ups
+		# Limit to 60 frames per second
+		clock.tick(60)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+def level3():
+    
+        pygame.key.set_repeat(1,10)
+
+	#Variaveis importantes 
+        B=0   #campo magnetico default
+        Ex=0;
+        Ey=0;
+	s = shoot()
+	shooter_angle=0
+	ball_on_screen=False
+        global pause
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_UP:
+					shooter_angle = shooter_angle+0.2
+				elif event.key == pygame.K_DOWN:
+					shooter_angle = shooter_angle-0.2
+				elif event.key == pygame.K_SPACE:
+					shot=True
+					ball_on_screen=True
+                                elif event.key == pygame.K_a:
+                                        B=14
+                                elif event.key == pygame.K_s:
+                                        B=0
+                                elif event.key == pygame.K_d:
+                                        B=-14
+                                elif event.key == pygame.K_e:
+                                        Ex=-Ex
+                                elif event.key == pygame.K_p:
+                                    pause =  True
+                                    paused(level3)
+                                        
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+ 
+		# --- Drawing
+                
+		# Set the screen background
+		#screen.fill(BLACK)
+                bg = pygame.image.load("bg.png")                
+                screen.blit(bg, (0, 0))
+                
+                button("Menu",0,0,50,30,GRAY,GREEN,game_intro)
+               
+                #desenhar caminho
+                rad=8
+                pygame.draw.rect(screen, DSBLUE,(0,290,100,16))
+                pygame.draw.circle(screen, DSBLUE, [100,290+rad],rad)
+
+                rad=8
+                x=210
+                y=320
+                pygame.draw.rect(screen, DSBLUE,(x,y,300,16))
+                pygame.draw.circle(screen, DSBLUE, [x,y+rad],rad)
+                pygame.draw.circle(screen, DSBLUE, [x+300,y+rad],rad)
+
+                x=250
+                y=120
+                pygame.draw.rect(screen, DSBLUE,(x,y,16,300))
+                pygame.draw.circle(screen, DSBLUE, [x+rad,y],rad)
+                pygame.draw.circle(screen, DSBLUE, [x+rad,y+300],rad)
+
+                x=100
+                y=0
+                pygame.draw.rect(screen, DSBLUE,(x,y,16,200))
+                pygame.draw.circle(screen, DSBLUE, [x+rad,y+200],rad)
+
+                x=400
+                y=420
+                rad=20
+                w=50
+                h=100
+        
+                pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
+                pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
+
+                x=370
+                y=15
+                rad=20
+                w=50
+                h=200
+
+                pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
+                pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
+
+                x=550
+                y=120
+                rad=20
+                w=150
+                h=50
+        
+                pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
+                pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
+
+                x=680
+                y=120
+                rad=20
+                w=15
+                h=140
+        
+                pygame.draw.rect(screen, DSBLUE,(x,y,w,h))
+                pygame.draw.circle(screen, DSBLUE, [x, y+rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, DSBLUE, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, DSBLUE,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, DSBLUE,(x+w,y+rad,rad,h-2*rad))
                
                 #objectivo e leitor
                 x=150
@@ -726,14 +1003,14 @@ def level2():
                           #  defeat(level2)
 
                         if (0<pos[0]<106 and 290<pos[1]<306) or (204<pos[0]<516 and 320<pos[1]<336) or (250<pos[0]<266 and 114<pos[1]<426) or (100<pos[0]<116 and 0<pos[1]<206) or (380<pos[0]<470 and 420<pos[1]<520) or (350<pos[0]<440 and 15<pos[1]<200) or (530<pos[0]<700 and 120<pos[1]<170) or (660<pos[0]<695 and 120<pos[1]<260):
-                            defeat(level2)
+                            defeat(level3)
                         
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
-                                defeat(level2)
+                                defeat(level3)
 
 		# --- Wrap-ups
 		# Limit to 60 frames per second
@@ -741,6 +1018,7 @@ def level2():
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
+
 
 def defeat(level):
     
