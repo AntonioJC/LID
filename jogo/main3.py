@@ -4,6 +4,8 @@ from math import sqrt,cos,sin,tan,atan,acos,asin
 from shooter2 import shoot
 from charge import elec_charge
 
+import time
+
 #cores
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -342,18 +344,7 @@ def stage3_tut():
 
 
                 if(tut_complete1==True and tut_complete2==True):
-                    tutorial_sucess(stage1_tut,stage1)
-
-                ##Informacao sobre o angulo de inclinacao
-                """
-                pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
-                font = pygame.font.SysFont("freesans", 20)
-                info_shooter_angle= "Angle: " + str(shooter_angle)
-                text = font.render(info_shooter_angle, 1, BLACK)
-                textpos = text.get_rect()
-                textpos.center = (display_width/2+200,30)
-                screen.blit(text, textpos)
-                """
+                    tutorial_sucess(stage1_tut,game_intro)
 
                 ###Origem do referencial
                 Ox=display_width/2
@@ -1080,7 +1071,7 @@ def level3():
         time=0
         
         c2 = elec_charge()
-        c2.create_charge(screen,1200,display_width/2-150,display_height/2-100,AQUA)
+        c2.create_charge(screen,1200,display_width/2-150,display_height/2-100,BROWN)
 
 	# Loop until the user clicks the close button.
 	done = False
@@ -1344,8 +1335,8 @@ def level3():
                 
                 time+=0.01
 
-                font = pygame.font.SysFont("freesans", 15)
-                text = font.render("+", 1, WHITE)
+                font = pygame.font.SysFont("freesans", 25)
+                text = font.render("+", 1, BLACK)
                 textpos = text.get_rect()
                 c2_pos=c2.get_pos()
                 textpos.center = c2_pos
@@ -1581,6 +1572,71 @@ def paused(level):
 
         pygame.display.update()
         clock.tick(25)  
+
+def tutorial_sucess(level,stage):
+    
+    win = True 
+
+    while win:
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+        """
+        pygame.draw.rect(screen,AQUA,((display_width/2)-100,(display_height/2)-50,200,50))
+        font = pygame.font.Font(None, 50)
+        text = font.render("   You won!   ", 1, (20, 20, 20))
+        textpos = text.get_rect()
+        textpos.center = ((display_width/2),(display_height/2)-20)
+        screen.blit(text, textpos)
+        button("Restart",(display_width/2)-100,(display_height/2),100,50,WHITE,GREEN,level)
+        button("Menu",(display_width/2),(display_height/2),100,50,WHITE,GREEN,game_intro)
+        """
+        x=(display_width/2-170)
+        y=(display_height/2-120)
+        rad=14
+        w=350
+        h=200
+
+        pygame.draw.rect(screen, WHITE,(x,y,w,h))
+        pygame.draw.circle(screen, WHITE, [x, y+rad], rad)
+        pygame.draw.circle(screen, WHITE, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, WHITE, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, WHITE, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, WHITE,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, WHITE,(x+w,y+rad,rad,h-2*rad))
+
+        x=(display_width/2-150)
+        y=(display_height/2-100)
+        rad=14
+        w=300
+        h=50
+
+        pygame.draw.rect(screen, GOLD,(x,y,w,h))
+        pygame.draw.circle(screen, GOLD, [x, y+rad], rad)
+        pygame.draw.circle(screen, GOLD, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, GOLD, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, GOLD, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
+       
+       
+        smallText = pygame.font.SysFont("freesans",20)
+        #smallText = pygame.font.SysFont("Verdana",20)
+        textSurf, textRect = text_objects("You have completed the tutorial!", smallText,BLACK)
+        textRect.center = ( (x+(w/2)), (y+(h/2)) )
+        screen.blit(textSurf, textRect)
+
+        #screen.blit(text, textpos)
+        button("Restart",(display_width/2)-120,(display_height/2),110,50,WHITE,GRAY,level)
+        button("Levels",(display_width/2)+10,(display_height/2),110,50,WHITE,GRAY,stage)
+
+
+
+        pygame.display.update()
+        clock.tick(25)  
+
 
 def about():
 
