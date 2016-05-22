@@ -223,7 +223,7 @@ def stage1():
 
         button("Back",0,0,80,40,WHITE,GRAY,game_intro)
 
-        button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
+        button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,stage1_tut)
         button("Level 1",(display_width/2)+10,200,100,50,GOLD,GRAY,level2)
         button("Level 2",(display_width/2)-110,260,100,50,GOLD,GRAY,level3)
         button("Level 3",(display_width/2)+10,260,100,50,GOLD,GRAY,level4)
@@ -439,6 +439,332 @@ def level1():
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
+
+
+
+
+
+def stage1_tut():
+
+	pygame.key.set_repeat(1,15)
+
+	#Variaveis importantes 
+        B=-5 #campo magnetico default
+        Ex=4
+        Ey=0.
+        vel=0
+	s = shoot()
+
+
+        # Criacao de cargas ########################
+
+        c1 = elec_charge()
+
+        ###Origem do referencial
+        Ox=display_width/2
+        Oy=display_height/2
+
+
+        # --- Criar efectivamente as cargas no screen ######
+        c1.create_charge(screen,-1000,Ox,Oy,BLUE)
+
+
+        c_vec=[]
+        c_vec.append(c1)
+
+        
+
+
+        #c1.create_charge(screen,1000,Ox,Oy,DARK_RED)
+        #c2.create_charge(screen,-1000,Ox,Oy,DARK_BLUE)
+        #c3.create_charge(screen,-2000,Ox,Oy,DARK_BLUE)
+
+
+
+        ###############################################
+
+	shooter_angle=0
+	ball_on_screen=False
+
+
+
+        ### flags do tutorial
+
+        move_shooter = False #flag para saber se o user ja movimentou o shooter
+        first_touch_up=False
+        first_touch_down=False
+        complete1 = False
+        tut_complete1 = False # indica se a primeira parte do tutorial (mexer o shooter) esta completa
+
+
+        shoot_particle=False
+        first_shoot=False
+        complete2=False
+        tut_complete2=False
+
+
+        charge_collision=False
+
+
+
+	# Loop until the user clicks the close button.
+	done = False
+	while not done:
+
+		# --- Event Processing
+		for event in pygame.event.get():
+
+                        if event.type == pygame.QUIT:
+                            pygame.quit()
+                            quit()	
+
+			if event.type == pygame.KEYDOWN:
+
+				if event.key == pygame.K_UP:
+
+                                    if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
+					shooter_angle = shooter_angle+0.05	
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+                                    if(first_touch_up==False and first_touch_down==False):
+                                        move_shooter=True
+                                        first_touch_up=True
+
+				elif event.key == pygame.K_DOWN:
+
+                                    if(ball_on_screen==False and shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
+                                    else:
+                                        vel=0
+                                        ball_on_screen=False #para fazer nova jogada
+                                    if(first_touch_down==False and first_touch_up==False):
+                                        move_shooter=True
+                                        first_touch_down=True
+
+				elif event.key == pygame.K_SPACE:
+					shot=True
+					ball_on_screen=True
+                                        if(first_shoot==False):
+                                            shoot_particle=True
+                                            first_shoot=True
+
+                                elif event.key == pygame.K_b:
+                                        B=-B
+			if event.type == pygame.KEYUP:
+				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+					shooter_angle=shooter_angle
+					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
+
+                # Set the screen background
+                if ball_on_screen == False:
+                    bg = pygame.image.load("bg.png") 
+                    screen.blit(bg, (0, 0)) 
+
+
+                if(move_shooter==False and complete1==False):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the UP or DOWN keys to move the thrower", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+
+                elif move_shooter==True:
+                    complete1=True
+
+
+                if(complete1==True and move_shooter==True):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the UP or DOWN keys to move the thrower", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+
+                ###Depois deste if esta complete1=True e move_shooter=False para sempre (VER fim do codigo desta funcao)
+
+
+                if(tut_complete1==True and complete2==False):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge and try to hit the red threshold ", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+                                        
+
+                #if(shoot_particle==True):
+                    #complete2 = True
+
+
+                if(tut_complete1==True and shoot_particle==False and complete2==True):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge and try to hit the red threshold ", smallText,BLACK)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge and try to hit the red threshold ", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    screen.blit(textSurf, textRect)
+
+
+
+                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+
+
+                if(tut_complete1==True and tut_complete2==True):
+                    tutorial_sucess(stage1_tut,stage1)
+
+                ##Informacao sobre o angulo de inclinacao
+                """
+                pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
+                font = pygame.font.SysFont("freesans", 20)
+                info_shooter_angle= "Angle: " + str(shooter_angle)
+                text = font.render(info_shooter_angle, 1, BLACK)
+                textpos = text.get_rect()
+                textpos.center = (display_width/2+200,30)
+                screen.blit(text, textpos)
+                """
+
+                ###Origem do referencial
+                Ox=display_width/2
+                Oy=display_height/2
+
+
+		# --- Criar efectivamente as cargas no screen ######
+                c1.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(30))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]-5))
+                screen.blit(text, textpos)
+                
+
+		# Desenhar o shooter
+		s.draw_shooter(screen,shooter_angle)
+
+                # Desenhar patamar 
+                pos_patamar=(Ox+220,Oy-20)
+                width_patamar=50
+		pygame.draw.rect(screen,RED,(pos_patamar[0],pos_patamar[1],width_patamar,2))
+
+
+                ###VER ISTO!!!!!###############
+                """
+                if ball_on_screen==False:
+                    pos = s.get_ball_pos()
+                    prev_pos=(pos[0],pos[1])
+                    print prev_pos
+                """		
+
+		if ball_on_screen==True:
+			#s.draw_ball(screen,shot)
+                        #s.kutta(screen,shot,B,Ex,Ey)
+                    
+                        vel = 10
+
+                        s.motion_in_field(screen,shot,c_vec,vel)
+
+			shot = False
+			
+			pos = s.get_ball_pos()
+
+                        # verificar se a bola acertou no patamar pretendido
+                        if pos_patamar[0]<pos[0]<pos_patamar[0]+width_patamar and pos_patamar[1]-2<pos[1]<pos_patamar[1]+2:
+                            complete2=True
+                            #victory(level2)
+
+
+                        #Verificar se a bola colide com as cargas
+                        
+                        pos_c1 = c1.get_pos()
+                        r1 = c1.get_radius()
+    
+
+                        # verificar se a bola esta dentro do ecra  
+			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
+				ball_on_screen=True
+			else:
+				ball_on_screen=False
+
+
+                        if pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1:
+                            ball_on_screen=False#defeat(level2)
+
+                            x=display_width/2 - 300
+                            y=display_height/2-80
+                            rad=7
+                            w=620
+                            h=30
+                        
+                            smallText = pygame.font.SysFont("freesans",20)
+                            #smallText = pygame.font.SysFont("Verdana",20)
+                            textSurf, textRect = text_objects("You have to avoid colliding with the - charge!", smallText,RED)
+                            textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                            screen.blit(textSurf, textRect)
+
+                            charge_collision=True
+
+                        
+
+ 
+		# --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
+
+
+                if(complete1==True and move_shooter==True):
+                    move_shooter=False
+                    tut_complete1 = True # primeira parte do tutorial completa
+                    time.sleep(0.5)
+
+
+                if(complete2==True and shoot_particle==True):
+                    shoot_particle=False
+                    time.sleep(0.5)
+
+                if(tut_complete1==True and shoot_particle==False and complete2==True):
+                    tut_complete2=True
+
+                if charge_collision==True:
+                    time.sleep(2) #para mostrar a mensagem de que nao se pode colidir com a carga -
+                    charge_collision=False
+
 
 
 
@@ -1067,7 +1393,7 @@ def level4():
                     c2_pos=c2_pos # So para ter alguma coisa no if, nao faz nada, pode continuar
                 else:
                     #quer dizer que esta fora do ecra e nao pode continuar
-                    lost(level4)
+                    defeat(level4)
 
                 ########################################################################################################################
             
@@ -1442,6 +1768,9 @@ def stage2_tut():
                     tutorial_sucess(stage2_tut,stage2)
 
 
+                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+
+
                 ##Informacao sobre o angulo de inclinacao
                 #pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
                 #font = pygame.font.SysFont("freesans", 20)
@@ -1510,8 +1839,10 @@ def stage2_tut():
                         c3_pos=c3.get_pos()
                         #c4_pos=c4.get_pos()
 
+                        color_test = s.get_wave_color()
 
-                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
+
+                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c1_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1519,7 +1850,7 @@ def stage2_tut():
                             first_entrance2=False
 
 
-                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True:
+                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c2_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1527,7 +1858,7 @@ def stage2_tut():
                             first_entrance2=False
 
 
-                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True:
+                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c3_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1547,7 +1878,7 @@ def stage2_tut():
 
                         if(collision==False):
                             angle = s.get_sh_angle() #angulo da trajectoria da onda
-                        if(collision==True and first_entrance==True):
+                        if(collision==True and first_entrance==True and color_test == (0,0,255)):
                             theta=0.7
                             angle = s.get_sh_angle()+theta
 
@@ -1592,6 +1923,8 @@ def stage2_tut():
                     c1.move_charge(v_c*cos(fi),-v_c*sin(fi))
                 else:
                     f_in1=True
+
+
                         
                 if c2_move==True and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
                     if(collision==True and f_in2==True):
@@ -1604,6 +1937,8 @@ def stage2_tut():
                     c2.move_charge(v_c*cos(fi),-v_c*sin(fi))
                 else:
                     f_in2=True
+
+
 
                 if c3_move==True and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
                     if(collision==True and f_in3==True):
@@ -1618,6 +1953,7 @@ def stage2_tut():
                     f_in3=True
 
  
+
 		# --- Wrap-ups
 		# Limit to 180 frames per second
 		clock.tick(180)
@@ -1869,7 +2205,10 @@ def level5():
                         c4_pos=c4.get_pos()
 
 
-                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True:
+
+                        color_test = s.get_wave_color()
+
+                        if c1_pos[0]-10<pos[0]<c1_pos[0]+10 and c1_pos[1]-10<pos[1]<c1_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c1_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1877,7 +2216,7 @@ def level5():
                             first_entrance2=False
 
 
-                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True:
+                        if c2_pos[0]-10<pos[0]<c2_pos[0]+10 and c2_pos[1]-10<pos[1]<c2_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c2_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1885,7 +2224,7 @@ def level5():
                             first_entrance2=False
 
 
-                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True:
+                        if c3_pos[0]-10<pos[0]<c3_pos[0]+10 and c3_pos[1]-10<pos[1]<c3_pos[1]+10 and first_entrance2==True and color_test==(0,0,255):
 
                             c3_move=True #variavel definida no inicio do codigo do nivel
                             collision=True #variavel definida no inciio do nivel
@@ -1905,7 +2244,7 @@ def level5():
 
                         if(collision==False):
                             angle = s.get_sh_angle() #angulo da trajectoria da onda
-                        if(collision==True and first_entrance==True):
+                        if(collision==True and first_entrance==True and color_test==(0,0,255)):
                             theta=0.7
                             angle = s.get_sh_angle()+theta
 
