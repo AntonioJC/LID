@@ -99,15 +99,15 @@ def game_welcome():
 
                 
         screen.fill(WHITE)
-        #img = pygame.image.load("em.jpg")                
-        #screen.blit(img, (0, 0))
+        img = pygame.image.load("bgg2.png")                
+        screen.blit(img, (0, 0))
 
         x=90
         y=60
         rad=7
         w=520
         h=90
-        cor_title=GRAY
+        cor_title=GOLD
 
         pygame.draw.rect(screen, cor_title,(x,y,w,h))
         pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
@@ -122,7 +122,7 @@ def game_welcome():
         rad=7
         w=510
         h=80
-        cor_title=WHITE
+        cor_title=GOLD
 
         pygame.draw.rect(screen, cor_title,(x,y,w,h))
         pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
@@ -138,7 +138,7 @@ def game_welcome():
         rad=7
         w=500
         h=25
-        cor_title=GRAY
+        cor_title=GOLD
 
         pygame.draw.rect(screen, cor_title,(x,y,w,h))
         pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
@@ -151,8 +151,8 @@ def game_welcome():
 
         largeText = pygame.font.SysFont("freesans",50,BLACK)
         largeText2 = pygame.font.SysFont("freesans",54,BLACK)
-        TextSurf, TextRect = text_objects("Electromagnetism", largeText,GRAY)
-        TextSurf2, TextRect2 = text_objects("Electromagnetism", largeText2,WHITE)
+        TextSurf, TextRect = text_objects("Electromagnetism", largeText,GOLD)
+        TextSurf2, TextRect2 = text_objects("Electromagnetism", largeText2,BLACK)
         #TextSurf3, TextRect3 = text_objects("Electromagnetism", largeText2,WHITE)
         TextRect.center = ((display_width/2),100)
         TextRect2.center = ((display_width/2),100+1)
@@ -466,8 +466,7 @@ def stage1_tut():
 
 
         # --- Criar efectivamente as cargas no screen ######
-        c1.create_charge(screen,-1000,Ox,Oy,BLUE)
-
+        c1.create_charge(screen,-1000,Ox,Oy,DARK_BLUE)
 
         c_vec=[]
         c_vec.append(c1)
@@ -668,7 +667,7 @@ def stage1_tut():
                 font = pygame.font.SysFont("freesans", int(30))
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]-5))
+                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]))
                 screen.blit(text, textpos)
                 
 
@@ -915,10 +914,10 @@ def level2():
 
 		# --- Criar efectivamente as cargas no screen ######
                 c1.draw_charge(screen)
-                font = pygame.font.SysFont("freesans", int(30))
+                font = pygame.font.SysFont("freesans", int(20))
                 text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
-                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]-5))
+                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]-3))
                 screen.blit(text, textpos)
                 
 
