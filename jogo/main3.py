@@ -1,5 +1,6 @@
 import pygame
 import math
+from math import sqrt,cos,sin,tan,atan,acos,asin
 from shooter2 import shoot
 from charge import elec_charge
 
@@ -755,19 +756,24 @@ def level3():
 	ball_on_screen=False
         global pause
 
+        time=0
+        
+        c2 = elec_charge()
+        c2.create_charge(screen,800,display_width/2-150,display_height/2-100,DARK_RED)
+
 	# Loop until the user clicks the close button.
 	done = False
 	while not done:
 
                 keys = pygame.key.get_pressed()  #checking pressed keys
                 if keys[pygame.K_LEFT]:
-                    Ex -= 5
+                    Ex -= 3
                 if keys[pygame.K_RIGHT]:
-                    Ex += 5
+                    Ex += 3
                 if keys[pygame.K_DOWN]:
-                    Ey += 5
+                    Ey += 3
                 if keys[pygame.K_UP]:
-                    Ey -= 5
+                    Ey -= 3
 
 		# --- Event Processing
 		for event in pygame.event.get():
@@ -948,12 +954,12 @@ def level3():
 
                 pygame.draw.rect(screen, BLACK,(575,9,14,21))
 
-                if 0<Ey<=10 or -10<=Ey<0:
+                if 0<Ey<=6 or -6<=Ey<0:
                     pygame.draw.rect(screen, GOLD,(577,23,10,5))
-                elif 10<Ey<=25 or -25<=Ey<-10:
+                elif 6<Ey<=15 or -15<=Ey<-6:
                      pygame.draw.rect(screen, ORANGE,(577,17,10,5))
                      pygame.draw.rect(screen, GOLD,(577,23,10,5))
-                elif Ey>25 or Ey<-25:
+                elif Ey>15 or Ey<-15:
                     pygame.draw.rect(screen, RED,(577,11,10,5))
                     pygame.draw.rect(screen, ORANGE,(577,17,10,5))
                     pygame.draw.rect(screen, GOLD,(577,23,10,5))
@@ -1007,7 +1013,6 @@ def level3():
                 screen.blit(textSurf, textRect)
 
                 #carga
-                """
                 c2.erase_charge(screen)
 
                 font = pygame.font.SysFont("freesans", 20)
@@ -1018,10 +1023,13 @@ def level3():
                 screen.blit(text, textpos)
                 
                 ##mover a carga
+                x = 180*cos(time)
                 c2.set_pos(300,250-x)
                 # Desenhar a carga e o sinal - depois de movidos
                 c2.draw_charge(screen)
                 
+                time+=0.005
+
                 font = pygame.font.SysFont("freesans", 20)
                 text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
@@ -1031,7 +1039,7 @@ def level3():
                 
                 c_vec=[]
                 c_vec.append(c2)
-                """
+                
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
 
@@ -1041,7 +1049,7 @@ def level3():
                 if ball_on_screen==True:
                        
                         detect=True
-                        s.electromagkutta(screen,shot,B,Ex,Ey)
+                        s.electromagkutta_charge(screen,shot,B,Ex,Ey,c_vec)
                         
 			shot = False
                         tempo = s.counter(shot,detect)
@@ -1083,6 +1091,14 @@ def level3():
                         #if countdown == 0:
                           #  defeat(level2)
 
+                        #Verificar se a bola colide com a carga
+                        pos_c2 = c2.get_pos()
+                        r2 = c2.get_radius()
+                        
+                        if (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2):
+                            defeat(level3)
+
+                        #Barreiras
                         if (0<pos[0]<106 and 290<pos[1]<306) or (204<pos[0]<516 and 320<pos[1]<336) or (250<pos[0]<266 and 114<pos[1]<426) or (100<pos[0]<116 and 0<pos[1]<206) or (380<pos[0]<470 and 420<pos[1]<520) or (350<pos[0]<440 and 15<pos[1]<200) or (530<pos[0]<700 and 120<pos[1]<170) or (660<pos[0]<695 and 120<pos[1]<260):
                             defeat(level3)
                         
