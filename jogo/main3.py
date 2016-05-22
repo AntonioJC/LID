@@ -1007,6 +1007,7 @@ def level3():
                 screen.blit(textSurf, textRect)
 
                 #carga
+                """
                 c2.erase_charge(screen)
 
                 font = pygame.font.SysFont("freesans", 20)
@@ -1030,7 +1031,7 @@ def level3():
                 
                 c_vec=[]
                 c_vec.append(c2)
-
+                """
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
 
