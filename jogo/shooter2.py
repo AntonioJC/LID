@@ -653,7 +653,7 @@ class shoot:
                         i = i+1
 
                 # ball's charge
-                qm = self.ball_q/self.ball_m
+                qm = self.ball_q/(2*self.ball_m)
 
 
                 # agora tenho de somar as contribuicoes de cada carga para o campo aplicado na bola
