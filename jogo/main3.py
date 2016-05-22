@@ -761,17 +761,13 @@ def level3():
 
                 keys = pygame.key.get_pressed()  #checking pressed keys
                 if keys[pygame.K_LEFT]:
-                    Ex -= 70
+                    Ex -= 5
                 if keys[pygame.K_RIGHT]:
-                    Ex += 70
+                    Ex += 5
                 if keys[pygame.K_DOWN]:
-                    Ey -= 70
+                    Ey += 5
                 if keys[pygame.K_UP]:
-                    Ey += 70
-                if keys[pygame.K_a]:
-                    B -= 2
-                if keys[pygame.K_d]:
-                    B += 2
+                    Ey -= 5
 
 		# --- Event Processing
 		for event in pygame.event.get():
@@ -788,8 +784,13 @@ def level3():
 				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True
+                                elif event.key == pygame.K_d:
+                                        B=14
                                 elif event.key == pygame.K_s:
                                         B=0
+                                elif event.key == pygame.K_a:
+                                        B=-14
+
                                 elif event.key == pygame.K_p:
                                     pause =  True
                                     paused(level3)
@@ -922,24 +923,50 @@ def level3():
                 pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
 
-                pygame.draw.rect(screen, BLACK,(525,9,12,21))
-
-                pygame.draw.rect(screen, DSBLUE,(526,10,10,5))
-                pygame.draw.rect(screen, DSBLUE,(526,16,10,5))
-                pygame.draw.rect(screen, DSBLUE,(526,22,10,5))
+                pygame.draw.rect(screen, BLACK,(525,9,14,21))
+                
+                if 0<Ex<=10 or -10<=Ex<0:
+                    pygame.draw.rect(screen, GOLD,(527,23,10,5))
+                elif 10<Ex<=25 or -25<=Ex<-10:
+                     pygame.draw.rect(screen, ORANGE,(527,17,10,5))
+                     pygame.draw.rect(screen, GOLD,(527,23,10,5))
+                elif Ex>25 or Ex<-25:
+                    pygame.draw.rect(screen, RED,(527,11,10,5))
+                    pygame.draw.rect(screen, ORANGE,(527,17,10,5))
+                    pygame.draw.rect(screen, GOLD,(527,23,10,5))
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Ex ", smallText)
-                textRect.center = ( (x-30+(w/2)), (y+(h/2)) )
+                if Ex>0:
+                    textSurf, textRect = text_objects("+Ex ", smallText)
+                elif Ex==0:
+                    textSurf, textRect = text_objects("Ex ", smallText)
+                elif Ex<0:
+                    textSurf, textRect = text_objects("-Ex ", smallText)
+                textRect.center = ( (x-32+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
-                pygame.draw.rect(screen, BLACK,(570,9,12,21))
+                pygame.draw.rect(screen, BLACK,(575,9,14,21))
+
+                if 0<Ey<=10 or -10<=Ey<0:
+                    pygame.draw.rect(screen, GOLD,(577,23,10,5))
+                elif 10<Ey<=25 or -25<=Ey<-10:
+                     pygame.draw.rect(screen, ORANGE,(577,17,10,5))
+                     pygame.draw.rect(screen, GOLD,(577,23,10,5))
+                elif Ey>25 or Ey<-25:
+                    pygame.draw.rect(screen, RED,(577,11,10,5))
+                    pygame.draw.rect(screen, ORANGE,(577,17,10,5))
+                    pygame.draw.rect(screen, GOLD,(577,23,10,5))
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Ey ", smallText)
-                textRect.center = ( (x+15+(w/2)), (y+(h/2)) )
+                if Ey>0:
+                    textSurf, textRect = text_objects("-Ey ", smallText)
+                elif Ey==0:
+                    textSurf, textRect = text_objects("Ey ", smallText)
+                elif Ey<0:
+                    textSurf, textRect = text_objects("+Ey ", smallText)
+                textRect.center = ( (x+19+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
                 x=600
@@ -956,11 +983,11 @@ def level3():
                 pygame.draw.rect(screen, GOLD,(x-rad,y+rad,rad,h-2*rad))
                 pygame.draw.rect(screen, GOLD,(x+w,y+rad,rad,h-2*rad))
                 
-                if B>0:
+                if B==14:
                     pygame.draw.circle(screen, BLACK, [650,20],10)
                     pygame.draw.circle(screen, WHITE, [650,20],8)
                     pygame.draw.circle(screen, BLACK, [650,20],3)
-                elif B<0:
+                elif B==-14:
                     pygame.draw.circle(screen, BLACK, [650,20],10)
                     pygame.draw.circle(screen, WHITE, [650,20],8)
                     smallText2 = pygame.font.SysFont("freesans",18)
@@ -979,6 +1006,30 @@ def level3():
                 textRect.center = ( (x-10+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
+                #carga
+                c2.erase_charge(screen)
+
+                font = pygame.font.SysFont("freesans", 20)
+                text = font.render("+", 1, BLACK)
+                textpos = text.get_rect()
+                c2_pos=c2.get_pos()
+                textpos.center = c2_pos
+                screen.blit(text, textpos)
+                
+                ##mover a carga
+                c2.set_pos(300,250-x)
+                # Desenhar a carga e o sinal - depois de movidos
+                c2.draw_charge(screen)
+                
+                font = pygame.font.SysFont("freesans", 20)
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                c2_pos=c2.get_pos()
+                textpos.center = c2_pos
+                screen.blit(text, textpos)
+                
+                c_vec=[]
+                c_vec.append(c2)
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
@@ -1026,19 +1077,7 @@ def level3():
                         vel = s.get_ball_vel()
 
                         if 615<pos[0]<625 and 38<pos[1]<112:
-                            victory(level2)   
-
-                        Ey=0
-                        if (266+42)<pos[0]<(266+84) and 150<pos[1]<180:
-                            Ey=70
-                        elif 143<pos[0]<(143+42) and 350<pos[1]<390:
-                            Ey=-60
-
-                        Ex=0
-                        if 380<pos[0]<410 and 215<pos[1]<(215+52):
-                            Ex=80
-                        elif 343<pos[0]<(343+42) and 350<pos[1]<390:
-                            Ex=-70
+                            victory(level3)   
 
                         #if countdown == 0:
                           #  defeat(level2)
