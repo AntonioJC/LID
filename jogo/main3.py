@@ -1015,20 +1015,13 @@ def level3():
                 #carga
                 c2.erase_charge(screen)
 
-                font = pygame.font.SysFont("freesans", 20)
-                text = font.render("+", 1, BLACK)
-                textpos = text.get_rect()
-                c2_pos=c2.get_pos()
-                textpos.center = c2_pos
-                screen.blit(text, textpos)
-                
                 ##mover a carga
                 x = 180*cos(time)
                 c2.set_pos(300,250-x)
                 # Desenhar a carga e o sinal - depois de movidos
                 c2.draw_charge(screen)
                 
-                time+=0.005
+                time+=0.01
 
                 font = pygame.font.SysFont("freesans", 20)
                 text = font.render("+", 1, WHITE)
@@ -1053,7 +1046,7 @@ def level3():
                         
 			shot = False
                         tempo = s.counter(shot,detect)
-                        countdown = 130-tempo
+                        countdown = 105-tempo
 
                         x=0
                         y=55
@@ -1088,8 +1081,8 @@ def level3():
                         if 615<pos[0]<625 and 38<pos[1]<112:
                             victory(level3)   
 
-                        #if countdown == 0:
-                          #  defeat(level2)
+                        if countdown == 0:
+                            defeat(level3)
 
                         #Verificar se a bola colide com a carga
                         pos_c2 = c2.get_pos()
