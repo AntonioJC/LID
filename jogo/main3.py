@@ -759,7 +759,7 @@ def level3():
         time=0
         
         c2 = elec_charge()
-        c2.create_charge(screen,800,display_width/2-150,display_height/2-100,DARK_RED)
+        c2.create_charge(screen,400,display_width/2-150,display_height/2-100,DARK_RED)
 
 	# Loop until the user clicks the close button.
 	done = False
@@ -767,13 +767,13 @@ def level3():
 
                 keys = pygame.key.get_pressed()  #checking pressed keys
                 if keys[pygame.K_LEFT]:
-                    Ex -= 3
+                    Ex -= 1
                 if keys[pygame.K_RIGHT]:
-                    Ex += 3
+                    Ex += 1
                 if keys[pygame.K_DOWN]:
-                    Ey += 3
+                    Ey += 1
                 if keys[pygame.K_UP]:
-                    Ey -= 3
+                    Ey -= 1
 
 		# --- Event Processing
 		for event in pygame.event.get():
@@ -931,12 +931,12 @@ def level3():
 
                 pygame.draw.rect(screen, BLACK,(525,9,14,21))
                 
-                if 0<Ex<=10 or -10<=Ex<0:
+                if 0<Ex<=2 or -2<=Ex<0:
                     pygame.draw.rect(screen, GOLD,(527,23,10,5))
-                elif 10<Ex<=25 or -25<=Ex<-10:
+                elif 2<Ex<=4 or -4<=Ex<-2:
                      pygame.draw.rect(screen, ORANGE,(527,17,10,5))
                      pygame.draw.rect(screen, GOLD,(527,23,10,5))
-                elif Ex>25 or Ex<-25:
+                elif Ex>4 or Ex<-4:
                     pygame.draw.rect(screen, RED,(527,11,10,5))
                     pygame.draw.rect(screen, ORANGE,(527,17,10,5))
                     pygame.draw.rect(screen, GOLD,(527,23,10,5))
@@ -954,12 +954,12 @@ def level3():
 
                 pygame.draw.rect(screen, BLACK,(575,9,14,21))
 
-                if 0<Ey<=6 or -6<=Ey<0:
+                if 0<Ey<=2 or -2<=Ey<0:
                     pygame.draw.rect(screen, GOLD,(577,23,10,5))
-                elif 6<Ey<=15 or -15<=Ey<-6:
+                elif 2<Ey<=4 or -4<=Ey<-2:
                      pygame.draw.rect(screen, ORANGE,(577,17,10,5))
                      pygame.draw.rect(screen, GOLD,(577,23,10,5))
-                elif Ey>15 or Ey<-15:
+                elif Ey>4 or Ey<-4:
                     pygame.draw.rect(screen, RED,(577,11,10,5))
                     pygame.draw.rect(screen, ORANGE,(577,17,10,5))
                     pygame.draw.rect(screen, GOLD,(577,23,10,5))
