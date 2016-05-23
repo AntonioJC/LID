@@ -33,7 +33,7 @@ display_height = 500
 size = [display_width, display_height]
 screen = pygame.display.set_mode(size)
  
-pygame.display.set_caption("Electromagnetism for dummies")
+pygame.display.set_caption("Electromagnetism for Everybody")
 tcol=4 
 pause = False 
 
@@ -100,7 +100,7 @@ def game_welcome():
 
                 
         screen.fill(BLACK)
-        img = pygame.image.load("bgg2.png")
+        img = pygame.image.load("bgg2.jpg")
         #img = pygame.image.load("bg_white_2.png")
         screen.blit(img, (0, 0))
 
@@ -176,6 +176,7 @@ def game_welcome():
 def game_intro():
 
     intro = True
+    counter = 0
 
     while intro:
         for event in pygame.event.get():
@@ -183,10 +184,19 @@ def game_intro():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-                
+
+        counter += 1
+
+        if(counter<=10):
+            color = BLACK
+        if(10<counter<20):
+            color = GOLD
+        if(counter==20):
+            counter=0
+
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("The golden path", largeText,BLACK)
+        TextSurf, TextRect = text_objects("Choose one stage", largeText,color)
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
@@ -222,7 +232,7 @@ def stage1():
                 
         screen.fill(BLACK)
 
-        img = pygame.image.load("bgg.png")                
+        img = pygame.image.load("bgg.jpg")                
         screen.blit(img, (0, 0))
 
         largeText = pygame.font.SysFont("freesans",50)
@@ -250,7 +260,7 @@ def stage2():
                 
         screen.fill(BLACK)
 
-        img = pygame.image.load("bgg3.png")                
+        img = pygame.image.load("bgg3.jpg")                
         screen.blit(img, (0, 0))
 
         largeText = pygame.font.SysFont("freesans",50)
