@@ -406,7 +406,7 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Null field: 's' ", smallText,RED)
+                    textSurf, textRect = text_objects("Null magnetic field: 's' ", smallText,RED)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
@@ -420,7 +420,7 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Stop the magnetic field: 's' ", smallText,GREEN)
+                    textSurf, textRect = text_objects("Null magnetic field: 's' ", smallText,GREEN)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
@@ -480,6 +480,22 @@ def stage3_tut():
                     textSurf, textRect = text_objects("Hit the up and down arrows to change Ey", smallText,GREEN)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
+
+
+                if(move_shooter==True and throw_charge==True and click_a==True and click_s==True and click_d==True and click_Ex==True and click_Ey==True):
+                    x=trans
+                    y=215
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Keep practicing! Leave the tutorial when ready", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+
 
 
                 
