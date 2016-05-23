@@ -149,43 +149,19 @@ def stage3_tut():
 	pygame.key.set_repeat(1,15)
 
 	#Variaveis importantes 
-        B=-5 #campo magnetico default
-        Ex=4
+        B=0 #campo magnetico default
+        Ex=0
         Ey=0.
         vel=0
 	s = shoot()
-
-
-        # Criacao de cargas ########################
-
-        c1 = elec_charge()
+        shooter_angle=0
+	ball_on_screen=False
 
         ###Origem do referencial
         Ox=display_width/2
         Oy=display_height/2
 
-
-        # --- Criar efectivamente as cargas no screen ######
-        c1.create_charge(screen,-1000,Ox,Oy,DARK_BLUE)
-
-        c_vec=[]
-        c_vec.append(c1)
-
-        
-
-
-        #c1.create_charge(screen,1000,Ox,Oy,DARK_RED)
-        #c2.create_charge(screen,-1000,Ox,Oy,DARK_BLUE)
-        #c3.create_charge(screen,-2000,Ox,Oy,DARK_BLUE)
-
-
-
-        ###############################################
-
-	shooter_angle=0
-	ball_on_screen=False
-
-
+        ##############################################
 
         ### flags do tutorial
 
@@ -195,20 +171,45 @@ def stage3_tut():
         complete1 = False
         tut_complete1 = False # indica se a primeira parte do tutorial (mexer o shooter) esta completa
 
-
         shoot_particle=False
         first_shoot=False
         complete2=False
         tut_complete2=False
 
+        complete3=False #mexer campo magnetico
+        tut_complete3=False
 
-        charge_collision=False
+        complete4=False #mexer campo electrico
+        tut_complete4=False
 
+        b_up=False
+        b_null=False
+        b_down=False
 
+        Ex_down=False
+        Ex_up=False
+        Ey_down=False
+        Ey_up=False
+        Ex_test=False
+        Ey_test=False
 
 	# Loop until the user clicks the close button.
 	done = False
 	while not done:
+
+                keys = pygame.key.get_pressed()  #checking pressed keys
+                if keys[pygame.K_LEFT]:
+                    Ex -= 1
+                    Ex_down=True
+                if keys[pygame.K_RIGHT]:
+                    Ex += 1
+                    Ex_up=True
+                if keys[pygame.K_DOWN]:
+                    Ey += 1
+                    Ey_down=True
+                if keys[pygame.K_UP]:
+                    Ey -= 1
+                    Ey_up=True
 
 		# --- Event Processing
 		for event in pygame.event.get():
@@ -219,10 +220,10 @@ def stage3_tut():
 
 			if event.type == pygame.KEYDOWN:
 
-				if event.key == pygame.K_UP:
+				if event.key == pygame.K_o:
 
                                     if(ball_on_screen==False and shooter_angle<1.5): # tenho de impor esta condicao porque quando a bola e disparada eu nao apago a imagem anterior para se ver a trajectoria e por isso se deixar o user mexer no shooter nessa fase, vao ficar varias imagens da posicao do shooter sobrepostas
-					shooter_angle = shooter_angle+0.05	
+                                        shooter_angle = shooter_angle+0.05	
                                     else:
                                         vel=0
                                         ball_on_screen=False #para fazer nova jogada
@@ -230,7 +231,7 @@ def stage3_tut():
                                         move_shooter=True
                                         first_touch_up=True
 
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_l:
 
                                     if(ball_on_screen==False and shooter_angle>=0):
 					shooter_angle = shooter_angle-0.05
@@ -247,18 +248,25 @@ def stage3_tut():
                                         if(first_shoot==False):
                                             shoot_particle=True
                                             first_shoot=True
+                                elif event.key == pygame.K_d:
+                                        B=14
+                                        b_up = True
+                                elif event.key == pygame.K_s:
+                                        B=0
+                                        b_null=True
+                                elif event.key == pygame.K_a:
+                                        B=-14
+                                        b_down=True
 
-                                elif event.key == pygame.K_b:
-                                        B=-B
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					shooter_angle=shooter_angle
 					#nao acontece nada ao angulo quando as teclas sao premidas ao mesmo tempo		
 
                 # Set the screen background
-                if ball_on_screen == False:
-                    bg = pygame.image.load("bg.png") 
-                    screen.blit(bg, (0, 0)) 
+                #if ball_on_screen == False:
+                bg = pygame.image.load("bg.png") 
+                screen.blit(bg, (0, 0)) 
 
 
                 if(move_shooter==False and complete1==False):
@@ -271,8 +279,8 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the UP or DOWN keys to move the thrower", smallText,RED)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    textSurf, textRect = text_objects("Hit the 'o' (UP) or 'l' (DOWN) keys to move the thrower", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
 
@@ -290,15 +298,14 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the UP or DOWN keys to move the thrower", smallText,GREEN)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    textSurf, textRect = text_objects("Hit the 'o' (UP) or 'l' (DOWN) keys to move the thrower", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
-
 
                 ###Depois deste if esta complete1=True e move_shooter=False para sempre (VER fim do codigo desta funcao)
 
 
-                if(tut_complete1==True and complete2==False):
+                if(tut_complete1==True and complete2==False and complete3==False and complete4==False):
 
                     x=65
                     y=5
@@ -308,8 +315,8 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge and try to hit the red threshold ", smallText,RED)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
                                         
@@ -318,7 +325,21 @@ def stage3_tut():
                     #complete2 = True
 
 
-                if(tut_complete1==True and shoot_particle==False and complete2==True):
+                if(tut_complete1==True and shoot_particle==False and complete2==True and complete3==False and complete4==False):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+                if(tut_complete1==True and tut_complete2==True and complete3==False and complete4==False):
 
                     x=65
                     y=5
@@ -328,54 +349,198 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge and try to hit the red threshold ", smallText,BLACK)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    textSurf, textRect = text_objects("Hit the 'a', 's' and 'd'  keys to change the magnetic field. See what happens!", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
+
+                if(tut_complete1==True and shoot_particle==False and tut_complete2==True and complete3==True and complete4==False):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
 
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge and try to hit the red threshold ", smallText,GREEN)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
+                    textSurf, textRect = text_objects("Hit the 'a', 's' and 'd'  keys to change the magnetic field. See what happens!", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
+                if(tut_complete1==True and tut_complete2==True and tut_complete3==True and complete4==False):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the left and right arrows to change Exand hit the up and down arrows to change Ey!", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+                if(tut_complete1==True and shoot_particle==False and tut_complete2==True and tut_complete3==True and complete4==True):
+
+                    x=65
+                    y=5
+                    rad=7
+                    w=620
+                    h=30
+                        
+
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the left and right arrows to change Exand hit the up and down arrows to change Ey!", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+                
+                
 
 
                 button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
-
-
-                if(tut_complete1==True and tut_complete2==True):
-                    tutorial_sucess(stage1_tut,game_intro)
 
                 ###Origem do referencial
                 Ox=display_width/2
                 Oy=display_height/2
 
-
-		# --- Criar efectivamente as cargas no screen ######
-                c1.draw_charge(screen)
-                font = pygame.font.SysFont("freesans", int(30))
-                text = font.render("-", 1, WHITE)
-                textpos = text.get_rect()
-                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]))
-                screen.blit(text, textpos)
-                
-
 		# Desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
+                
+                x=490-10
+                y=5
+                rad=7
+                w=50
+                h=30
+                test_color_Ex=RED
+                
+                if Ex_down==False or Ex_up==False:
+                    test_color_Ex=RED
+                else:
+                    test_color_Ex=GREEN
+                    Ex_test=True
 
-                # Desenhar patamar 
-                pos_patamar=(Ox+220,Oy-20)
-                width_patamar=50
-		pygame.draw.rect(screen,RED,(pos_patamar[0],pos_patamar[1],width_patamar,2))
+                pygame.draw.rect(screen, test_color_Ex,(x,y,w,h))
+                pygame.draw.circle(screen, test_color_Ex, [x, y+rad], rad)
+                pygame.draw.circle(screen, test_color_Ex, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, test_color_Ex, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, test_color_Ex, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, test_color_Ex,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, test_color_Ex,(x+w,y+rad,rad,h-2*rad))
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                if Ex>0:
+                    textSurf, textRect = text_objects("+Ex ", smallText)
+                elif Ex==0:
+                    textSurf, textRect = text_objects("Ex ", smallText)
+                elif Ex<0:
+                    textSurf, textRect = text_objects("-Ex ", smallText)
+                textRect.center = ( (x-10+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
+
+                x=490+50
+                y=5
+                rad=7
+                w=50
+                h=30
+                test_color_Ey=RED
+                
+                if Ey_up==False or Ey_down==False:
+                    test_color_Ey=RED
+                else:
+                    test_color_Ey=GREEN
+                    Ey_test=True
+
+                pygame.draw.rect(screen, test_color_Ey,(x,y,w,h))
+                pygame.draw.circle(screen, test_color_Ey, [x, y+rad], rad)
+                pygame.draw.circle(screen, test_color_Ey, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, test_color_Ey, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, test_color_Ey, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, test_color_Ey,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, test_color_Ey,(x+w,y+rad,rad,h-2*rad))
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                if Ey>0:
+                    textSurf, textRect = text_objects("-Ey ", smallText)
+                elif Ey==0:
+                    textSurf, textRect = text_objects("Ey ", smallText)
+                elif Ey<0:
+                    textSurf, textRect = text_objects("+Ey ", smallText)
+                textRect.center = ( (x-10+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
 
 
-                ###VER ISTO!!!!!###############
-                """
-                if ball_on_screen==False:
-                    pos = s.get_ball_pos()
-                    prev_pos=(pos[0],pos[1])
-                    print prev_pos
-                """		
+                pygame.draw.rect(screen, BLACK,(525-10,9,14,21))
+                
+                if 0<Ex<=2 or -2<=Ex<0:
+                    pygame.draw.rect(screen, GOLD,(527-10,23,10,5))
+                elif 2<Ex<=4 or -4<=Ex<-2:
+                     pygame.draw.rect(screen, ORANGE,(527-10,17,10,5))
+                     pygame.draw.rect(screen, GOLD,(527-10,23,10,5))
+                elif Ex>4 or Ex<-4:
+                    pygame.draw.rect(screen, RED,(527-10,11,10,5))
+                    pygame.draw.rect(screen, ORANGE,(527-10,17,10,5))
+                    pygame.draw.rect(screen, GOLD,(527-10,23,10,5))
+
+                pygame.draw.rect(screen, BLACK,(575,9,14,21))
+
+                if 0<Ey<=2 or -2<=Ey<0:
+                    pygame.draw.rect(screen, GOLD,(577,23,10,5))
+                elif 2<Ey<=4 or -4<=Ey<-2:
+                     pygame.draw.rect(screen, ORANGE,(577,17,10,5))
+                     pygame.draw.rect(screen, GOLD,(577,23,10,5))
+                elif Ey>4 or Ey<-4:
+                    pygame.draw.rect(screen, RED,(577,11,10,5))
+                    pygame.draw.rect(screen, ORANGE,(577,17,10,5))
+                    pygame.draw.rect(screen, GOLD,(577,23,10,5))
+
+                x=600
+                y=5
+                rad=7
+                w=80
+                h=30
+
+                if b_null==False or b_up==False or b_down==False:
+                    test_color_B=RED
+                else:
+                    test_color_B=GREEN
+
+                pygame.draw.rect(screen, test_color_B,(x,y,w,h))
+                pygame.draw.circle(screen, test_color_B, [x, y+rad], rad)
+                pygame.draw.circle(screen, test_color_B, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, test_color_B, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, test_color_B, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, test_color_B,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, test_color_B,(x+w,y+rad,rad,h-2*rad))
+                
+                if B==14:
+                    pygame.draw.circle(screen, BLACK, [650,20],10)
+                    pygame.draw.circle(screen, WHITE, [650,20],8)
+                    pygame.draw.circle(screen, BLACK, [650,20],3)
+                elif B==-14:
+                    pygame.draw.circle(screen, BLACK, [650,20],10)
+                    pygame.draw.circle(screen, WHITE, [650,20],8)
+                    smallText2 = pygame.font.SysFont("freesans",18)
+                    textSurf2, textRect2 = text_objects("X", smallText2)
+                    textRect2.center = ( (650), (20) )
+                    screen.blit(textSurf2, textRect2)
+                elif B==0:
+                    smallText2 = pygame.font.SysFont("freesans",20)
+                    textSurf2, textRect2 = text_objects(" = 0", smallText2)
+                    textRect2.center = ( (650), (20) )
+                    screen.blit(textSurf2, textRect2)
+
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects("B ", smallText)
+                textRect.center = ( (x-10+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
+
+
 
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
@@ -383,58 +548,60 @@ def stage3_tut():
                     
                         vel = 10
 
-                        s.motion_in_field(screen,shot,c_vec,vel)
+                        s.electromagkutta(screen,shot,B,Ex,Ey)
 
 			shot = False
+                        complete2=True
+
+                        """
+                        tempo = s.counter(shot,detect)
+                        countdown = 120-tempo
+
+                        x=0
+                        y=55
+                        rad=7
+                        w=80
+                        h=30
+
+                        cor=GOLD
+
+                        if countdown < 60:
+                            cor = ORANGE
+                        if countdown < 30:
+                            cor = RED
+
+                        pygame.draw.rect(screen, cor,(x,y,w,h))
+                        pygame.draw.circle(screen, cor, [x, y+rad], rad)
+                        pygame.draw.circle(screen, cor, [x+w, y+h-rad], rad)
+                        pygame.draw.circle(screen, cor, [x, y+h-rad], rad)
+                        pygame.draw.circle(screen, cor, [x+w, y+rad], rad)
+                        pygame.draw.rect(screen, cor,(x-rad,y+rad,rad,h-2*rad))
+                        pygame.draw.rect(screen, cor,(x+w,y+rad,rad,h-2*rad))
+                     
+                        smallText = pygame.font.SysFont("freesans",20)
+                        #smallText = pygame.font.SysFont("Verdana",20)
+                        textSurf, textRect = text_objects(str(countdown), smallText)
+                        textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                        screen.blit(textSurf, textRect)
+                        """
 			
 			pos = s.get_ball_pos()
 
                         # verificar se a bola acertou no patamar pretendido
-                        if pos_patamar[0]<pos[0]<pos_patamar[0]+width_patamar and pos_patamar[1]-2<pos[1]<pos_patamar[1]+2:
-                            complete2=True
-                            #victory(level2)
-
-
-                        #Verificar se a bola colide com as cargas
-                        
-                        pos_c1 = c1.get_pos()
-                        r1 = c1.get_radius()
-    
+                        #if pos_patamar[0]<pos[0]<pos_patamar[0]+width_patamar and pos_patamar[1]-2<pos[1]<pos_patamar[1]+2:
 
                         # verificar se a bola esta dentro do ecra  
 			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
+                                
+                
+                if  b_null==True and b_up==True and b_down==True:
+                            complete3=True
 
-
-                        if pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1:
-                            ball_on_screen=False#defeat(level2)
-
-                            x=display_width/2 - 300
-                            y=display_height/2-80
-                            rad=7
-                            w=620
-                            h=30
-                        
-                            smallText = pygame.font.SysFont("freesans",20)
-                            #smallText = pygame.font.SysFont("Verdana",20)
-                            textSurf, textRect = text_objects("You have to avoid colliding with the - charge!", smallText,RED)
-                            textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
-                            screen.blit(textSurf, textRect)
-
-                            charge_collision=True
-
-                        
-
- 
-		# --- Wrap-ups
-		# Limit to 180 frames per second
-		clock.tick(180)
- 
-		# Go ahead and update the screen with what we've drawn.
-		pygame.display.flip()
-
+                if  Ex_test==True and Ey_test==True:
+                            complete4=True
 
                 if(complete1==True and move_shooter==True):
                     move_shooter=False
@@ -446,12 +613,24 @@ def stage3_tut():
                     shoot_particle=False
                     time.sleep(0.5)
 
-                if(tut_complete1==True and shoot_particle==False and complete2==True):
+                if(tut_complete1==True and shoot_particle==False and complete2==True and complete3==False and complete4==False):
                     tut_complete2=True
 
-                if charge_collision==True:
-                    time.sleep(2) #para mostrar a mensagem de que nao se pode colidir com a carga -
-                    charge_collision=False
+                if(tut_complete1==True and shoot_particle==False and complete2==True and complete3==True and complete4==False):
+                    tut_complete3=True
+                
+                if(tut_complete1==True and shoot_particle==False and complete2==True and complete3==True and complete4==True):
+                    tut_complete4=True
+
+                if(tut_complete1==True and tut_complete2==True and tut_complete3==True and tut_complete4==True):
+                    tutorial_sucess(stage3_tut,game_intro)
+
+                # --- Wrap-ups
+		# Limit to 180 frames per second
+		clock.tick(180)
+ 
+		# Go ahead and update the screen with what we've drawn.
+		pygame.display.flip()
 
 def level1():
     
@@ -478,9 +657,9 @@ def level1():
                             quit()	
 
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_UP:
+				if event.key == pygame.K_o:
 					shooter_angle = shooter_angle+0.2
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_l:
 					shooter_angle = shooter_angle-0.2
 				elif event.key == pygame.K_SPACE:
 					shot=True
@@ -710,9 +889,9 @@ def level2():
                             quit()	
 
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_UP:
+				if event.key == pygame.K_o:
 					shooter_angle = shooter_angle+0.2
-				elif event.key == pygame.K_DOWN:
+				elif event.key == pygame.K_l:
 					shooter_angle = shooter_angle-0.2
 				elif event.key == pygame.K_SPACE:
 					shot=True
