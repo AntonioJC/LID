@@ -220,7 +220,7 @@ def stage1():
                 pygame.quit()
                 quit()
                 
-        screen.fill(WHITE)
+        screen.fill(BLACK)
 
         img = pygame.image.load("bgg.png")                
         screen.blit(img, (0, 0))
@@ -230,7 +230,7 @@ def stage1():
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
-        button("Back",0,0,80,40,WHITE,GRAY,game_intro)
+        button("Back",0,0,80,40,DARK_GRAY,GRAY,game_intro)
 
         button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,stage1_tut)
         button("Level 1",(display_width/2)+10,200,100,50,GOLD,GRAY,level2)
@@ -248,7 +248,7 @@ def stage2():
                 pygame.quit()
                 quit()
                 
-        screen.fill(WHITE)
+        screen.fill(BLACK)
 
         img = pygame.image.load("bgg3.png")                
         screen.blit(img, (0, 0))
@@ -258,7 +258,7 @@ def stage2():
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
-        button("Back",0,0,80,40,WHITE,GRAY,game_intro)
+        button("Back",0,0,80,40,DARK_GRAY,GRAY,game_intro)
 
         button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,stage2_tut)
         button("Level 1",(display_width/2)+10,200,100,50,GOLD,GRAY,level5)
@@ -276,13 +276,34 @@ def stage3():
                 pygame.quit()
                 quit()
                 
-        screen.fill(WHITE)
+        screen.fill(BLACK)
+        
+        img = pygame.image.load("bg_maze.png")                
+        screen.blit(img, (0, 0))
+
+        x=display_width/2-110
+        y=90
+        rad=7
+        w=220
+        h=80
+        cor_title=BLACK
+
+        pygame.draw.rect(screen, cor_title,(x,y,w,h))
+        pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
+        pygame.draw.circle(screen, cor_title, [x+w, y+h-rad], rad)
+        pygame.draw.circle(screen, cor_title, [x, y+h-rad], rad)
+        pygame.draw.circle(screen, cor_title, [x+w, y+rad], rad)
+        pygame.draw.rect(screen, cor_title,(x-rad,y+rad,rad,h-2*rad))
+        pygame.draw.rect(screen, cor_title,(x+w,y+rad,rad,h-2*rad))
+        
+
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("Stage 3", largeText,BLACK)
-        TextRect.center = ((display_width/2),120)
+        TextSurf, TextRect = text_objects("Stage 3", largeText,GOLD)
+        TextRect.center = ((display_width/2),130)
         screen.blit(TextSurf, TextRect)
 
-        button("Back",0,0,80,40,WHITE,GRAY,game_intro)
+
+        button("Back",0,0,80,40,DARK_GRAY,GRAY,game_intro)
 
         button("Tutorial ",(display_width/2)-110,200,100,50,GOLD,GRAY,level1)
         button("Level 1",(display_width/2)+10,200,100,50,GOLD,GRAY,level5)
