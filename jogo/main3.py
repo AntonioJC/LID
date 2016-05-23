@@ -659,12 +659,12 @@ def stage3_tut():
                 textRect3.center = ( (pos_meita), (yyy+20) )
                 screen.blit(textSurf3, textRect3)
                 smallText3 = pygame.font.SysFont("freesans",18)
-                textSurf3, textRect3 = text_objects("Into the computer", smallText3,WHITE)
-                textRect3.center = ( (pos_meita+90), (yyy) )
+                textSurf3, textRect3 = text_objects("Out of the computer", smallText3,WHITE)
+                textRect3.center = ( (pos_meita+100), (yyy) )
                 screen.blit(textSurf3, textRect3)
                 smallText3 = pygame.font.SysFont("freesans",18)
-                textSurf3, textRect3 = text_objects("Out of the computer", smallText3,WHITE)
-                textRect3.center = ( (pos_meita+100), (yyy+20) )
+                textSurf3, textRect3 = text_objects("Into the computer", smallText3,WHITE)
+                textRect3.center = ( (pos_meita+90), (yyy+20) )
                 screen.blit(textSurf3, textRect3)
 
 
