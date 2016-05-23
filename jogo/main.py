@@ -40,7 +40,7 @@ pause = False
 clock = pygame.time.Clock()
 
 
-def text_objects(text, font,color):
+def text_objects(text, font,color=BLACK):
     textSurface = font.render(text, True, color)
     return textSurface, textSurface.get_rect()
 
@@ -216,8 +216,12 @@ def stage1():
                 quit()
                 
         screen.fill(WHITE)
+
+        img = pygame.image.load("bgg.png")                
+        screen.blit(img, (0, 0))
+
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("Stage 1", largeText,BLACK)
+        TextSurf, TextRect = text_objects("Stage 1", largeText,GOLD)
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
@@ -240,8 +244,12 @@ def stage2():
                 quit()
                 
         screen.fill(WHITE)
+
+        img = pygame.image.load("bgg3.png")                
+        screen.blit(img, (0, 0))
+
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("Stage 2", largeText,BLACK)
+        TextSurf, TextRect = text_objects("Stage 2", largeText,GOLD)
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
@@ -337,7 +345,7 @@ def level1():
                 bg = pygame.image.load("bg.png")                
                 screen.blit(bg, (0, 0))
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage1)
                 """
                 pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
@@ -640,7 +648,7 @@ def stage1_tut():
 
 
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage1)
 
 
                 if(tut_complete1==True and tut_complete2==True):
@@ -862,7 +870,7 @@ def level2():
                     screen.blit(bg, (0, 0)) 
 
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage1)
                 """
                 pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
@@ -1083,7 +1091,7 @@ def level3():
                     bg = pygame.image.load("bg.png")                
                     screen.blit(bg, (0, 0))
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage1)
                 """
                 pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
@@ -1297,7 +1305,7 @@ def level4():
 
 
   
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage1)
                 """
                 pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
@@ -1767,7 +1775,7 @@ def stage2_tut():
                     tutorial_sucess(stage2_tut,stage2)
 
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage2)
 
 
                 ##Informacao sobre o angulo de inclinacao
@@ -2104,7 +2112,7 @@ def level5():
 
                 # Explicacao do objectivo ##########################
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage2)
                 """
                 pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
@@ -2150,10 +2158,34 @@ def level5():
 
 
 		# --- Criar efectivamente as cargas no screen ######
+		# --- Criar efectivamente as cargas no screen ######
                 c1.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c2.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c2.get_pos()[0]),(c2.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c3.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c3.get_pos()[0]),(c3.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c4.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(30))
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c4.get_pos()[0]),(c4.get_pos()[1]))
+                screen.blit(text, textpos)
 
 
                 c_vec=[]
@@ -2509,7 +2541,7 @@ def level6():
 
                 # Explicacao do objectivo ##########################
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage2)
                 """
                 pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
@@ -2555,10 +2587,34 @@ def level6():
 
 
 		# --- Criar efectivamente as cargas no screen ######
+		# --- Criar efectivamente as cargas no screen ######
                 c1.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c2.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c2.get_pos()[0]),(c2.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c3.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c3.get_pos()[0]),(c3.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c4.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(30))
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c4.get_pos()[0]),(c4.get_pos()[1]))
+                screen.blit(text, textpos)
 
 
                 c_vec=[]
@@ -2971,7 +3027,7 @@ def level7():
 
                 # Explicacao do objectivo ##########################
 
-                button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
+                button("Menu",0,5,50,20,GRAY,WHITE,stage2)
                 """
                 pygame.draw.rect(screen,GOLD,(150,15,385,30))
                 font = pygame.font.SysFont("freesans", 20)
@@ -3017,10 +3073,34 @@ def level7():
 
 
 		# --- Criar efectivamente as cargas no screen ######
+		# --- Criar efectivamente as cargas no screen ######
                 c1.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c1.get_pos()[0]),(c1.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c2.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c2.get_pos()[0]),(c2.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c3.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(23))
+                text = font.render("-", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c3.get_pos()[0]),(c3.get_pos()[1]))
+                screen.blit(text, textpos)
+
                 c4.draw_charge(screen)
+                font = pygame.font.SysFont("freesans", int(30))
+                text = font.render("+", 1, WHITE)
+                textpos = text.get_rect()
+                textpos.center = ((c4.get_pos()[0]),(c4.get_pos()[1]))
+                screen.blit(text, textpos)
 
 
                 c_vec=[]
