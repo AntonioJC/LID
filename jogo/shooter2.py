@@ -115,6 +115,8 @@ class shoot:
         def reset_wavepos(self):
                 self.wave_pos_x=0
 		self.wave_pos_y=0
+                self.wave_pos_vx=0
+		self.wave_pos_vy=0
                 self.xrot=0
                 self.yrot=0
                 self.wave_init=0
