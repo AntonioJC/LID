@@ -2507,21 +2507,21 @@ def level6():
 
 
         ####Condicoes iniciais do movimento das cargas
-        v=9
+        v=9.5
         alfa=atan((c1.get_pos()[1]-c4.get_pos()[1])/(c1.get_pos()[0]-c4.get_pos()[0]))
         v0x=-v*sin(alfa)
         v0y=v*cos(alfa)
         c1.set_vel(v0x,v0y)
 
 
-        v=9
+        v=9.5
         alfa=atan((c2.get_pos()[1]-c4.get_pos()[1])/(c2.get_pos()[0]-c4.get_pos()[0]))
         v0x=-v*sin(alfa)
         v0y=v*cos(alfa)
         c2.set_vel(v0x,v0y)
 
 
-        v=9
+        v=9.5
         alfa=atan((c3.get_pos()[1]-c4.get_pos()[1])/(c3.get_pos()[0]-c4.get_pos()[0]))
         v0x=-v*sin(alfa)
         v0y=v*cos(alfa)
@@ -2999,8 +2999,8 @@ def level7():
 
         # --- Criar efectivamente as cargas no screen ######
         c1.create_charge(screen,-700,Ox-100,Oy-180,DARK_BLUE)
-        c2.create_charge(screen,-700,Ox,Oy+200,DARK_BLUE)
-        c3.create_charge(screen,-700,Ox+180,Oy-90,DARK_BLUE)
+        c2.create_charge(screen,-700,Ox-49,Oy+200,DARK_BLUE)
+        c3.create_charge(screen,-700,Ox+200,Oy-49,DARK_BLUE)
         c4.create_charge(screen,3000,Ox,Oy,RED)
 
         c1_pos=c1.get_pos()
@@ -3012,6 +3012,34 @@ def level7():
         c_vec.append(c1)
         c_vec.append(c2)
         c_vec.append(c3)
+
+
+        ####Condicoes iniciais do movimento das cargas
+        v=9.5
+        alfa=atan((c1.get_pos()[1]-c4.get_pos()[1])/(c1.get_pos()[0]-c4.get_pos()[0]))
+        v0x=-v*sin(alfa)
+        v0y=v*cos(alfa)
+        c1.set_vel(v0x,v0y)
+
+
+        v=9.5
+        alfa=atan((c2.get_pos()[1]-c4.get_pos()[1])/(c2.get_pos()[0]-c4.get_pos()[0]))
+        v0x=-v*sin(alfa)
+        v0y=v*cos(alfa)
+        c2.set_vel(v0x,v0y)
+
+
+        v=9.5
+        alfa=atan((c3.get_pos()[1]-c4.get_pos()[1])/(c3.get_pos()[0]-c4.get_pos()[0]))
+        v0x=-v*sin(alfa)
+        v0y=v*cos(alfa)
+        c3.set_vel(v0x,v0y)
+
+
+
+        
+        tempo=0 ###para o countdown
+
 
 
 
@@ -3110,7 +3138,47 @@ def level7():
                 # Set the screen background
                 #if ball_on_screen == False:
                 bg = pygame.image.load("bg.png") 
-                screen.blit(bg, (0, 0))           
+                screen.blit(bg, (0, 0))
+
+
+
+
+                tempo += 1
+                countdown = 800-tempo
+
+
+                x=0
+                y=100
+                rad=7
+                w=80
+                h=30
+
+                cor=GOLD
+
+                if countdown < 60:
+                    cor = ORANGE
+                if countdown < 30:
+                    cor = RED
+                        
+                pygame.draw.rect(screen, cor,(x,y,w,h))
+                pygame.draw.circle(screen, cor, [x, y+rad], rad)
+                pygame.draw.circle(screen, cor, [x+w, y+h-rad], rad)
+                pygame.draw.circle(screen, cor, [x, y+h-rad], rad)
+                pygame.draw.circle(screen, cor, [x+w, y+rad], rad)
+                pygame.draw.rect(screen, cor,(x-rad,y+rad,rad,h-2*rad))
+                pygame.draw.rect(screen, cor,(x+w,y+rad,rad,h-2*rad))
+                     
+                smallText = pygame.font.SysFont("freesans",20)
+                #smallText = pygame.font.SysFont("Verdana",20)
+                textSurf, textRect = text_objects(str(countdown), smallText)
+                textRect.center = ( (x+(w/2)), (y+(h/2)) )
+                screen.blit(textSurf, textRect)
+
+                if countdown == 0:
+                    defeat(level6)       
+
+
+           
 
 
 
@@ -3342,31 +3410,35 @@ def level7():
                     defeat(level7)
 
 
+                field_lower=50
+
+
                 if c1_move==False and -8<c1.get_pos()[0]< display_width+8 and  -8<c1.get_pos()[1]<display_height+8: 
                     Ec=c4.get_E_field(c1.get_pos()[0],c1.get_pos()[1])
                     Ex=Ec[0]
                     Ey=Ec[1]
-                    step=0.04
-                    c1vx = c1.get_charge()*Ex*step
-                    c1vy = c1.get_charge()*Ey*step
+                    step=0.08
+                    c1vx = c1.get_vel()[0]+c1.get_charge()/field_lower*Ex*step 
+                    c1vy = c1.get_vel()[1]+c1.get_charge()/field_lower*Ey*step 
+                    c1.set_vel(c1vx,c1vy)
                     c1x = step*c1vx
                     c1y = step*c1vy
                     c1.move_charge(c1x,c1y)
 
-                    d14 = sqrt((c1.get_pos()[0]-c4.get_pos()[0])*(c1.get_pos()[0]-c4.get_pos()[0]) + (c1.get_pos()[1]-c4.get_pos()[1])*(c1.get_pos()[1]-c4.get_pos()[1]))
-                    x = d14*cos(time)+c4.get_pos()[0]
-                    y = d14*sin(time)+c4.get_pos()[1]
-                    c1.set_pos(x,y)
-
+                    #d14 = sqrt((c1.get_pos()[0]-c4.get_pos()[0])*(c1.get_pos()[0]-c4.get_pos()[0]) + (c1.get_pos()[1]-c4.get_pos()[1])*(c1.get_pos()[1]-c4.get_pos()[1]))
+                    #x = d14*cos(time)+c4.get_pos()[0]
+                    #y = d14*sin(time)+c4.get_pos()[1]
+                    #c1.set_pos(x,y)
 
 
                 if c2_move==False and -8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8: 
                     Ec=c4.get_E_field(c2.get_pos()[0],c2.get_pos()[1])
                     Ex=Ec[0]
                     Ey=Ec[1]
-                    step=0.04
-                    c2vx = c2.get_charge()*Ex*step
-                    c2vy = c2.get_charge()*Ey*step
+                    step=0.08
+                    c2vx = c2.get_vel()[0]+c2.get_charge()/field_lower*Ex*step
+                    c2vy = c2.get_vel()[1]+c2.get_charge()/field_lower*Ey*step
+                    c2.set_vel(c2vx,c2vy)
                     c2x = step*c2vx
                     c2y = step*c2vy
                     c2.move_charge(c2x,c2y)
@@ -3374,31 +3446,32 @@ def level7():
 
 
 
-                    d24 = sqrt((c2.get_pos()[0]-c4.get_pos()[0])*(c2.get_pos()[0]-c4.get_pos()[0]) + (c2.get_pos()[1]-c4.get_pos()[1])*(c2.get_pos()[1]-c4.get_pos()[1]))
-                    x = d24*cos(time-2.5)+c4.get_pos()[0]
-                    y = d24*sin(time-2.5)+c4.get_pos()[1]
-                    c2.set_pos(x,y)
+                    #d24 = sqrt((c2.get_pos()[0]-c4.get_pos()[0])*(c2.get_pos()[0]-c4.get_pos()[0]) + (c2.get_pos()[1]-c4.get_pos()[1])*(c2.get_pos()[1]-c4.get_pos()[1]))
+                    #x = d24*cos(time-2.5)+c4.get_pos()[0]
+                    #y = d24*sin(time-2.5)+c4.get_pos()[1]
+                    #c2.set_pos(x,y)
+
 
 
                 if c3_move==False and -8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8: 
                     Ec=c4.get_E_field(c3.get_pos()[0],c3.get_pos()[1])
                     Ex=Ec[0]
                     Ey=Ec[1]
-                    step=0.04
-                    c3vx = c3.get_charge()*Ex*step
-                    c3vy = c3.get_charge()*Ey*step
+                    step=0.08
+                    c3vx = c3.get_vel()[0]+c3.get_charge()/field_lower*Ex*step
+                    c3vy = c3.get_vel()[1]+c3.get_charge()/field_lower*Ey*step
+                    c3.set_vel(c3vx,c3vy)
                     c3x = step*c3vx
                     c3y = step*c3vy
                     c3.move_charge(c3x,c3y)
 
-                    d34 = sqrt((c3.get_pos()[0]-c4.get_pos()[0])*(c3.get_pos()[0]-c4.get_pos()[0]) + (c3.get_pos()[1]-c4.get_pos()[1])*(c3.get_pos()[1]-c4.get_pos()[1]))
-                    x = d34*cos(time-4)+c4.get_pos()[0]
-                    y = d34*sin(time-4)+c4.get_pos()[1]
-                    c3.set_pos(x,y)
+                    #d34 = sqrt((c3.get_pos()[0]-c4.get_pos()[0])*(c3.get_pos()[0]-c4.get_pos()[0]) + (c3.get_pos()[1]-c4.get_pos()[1])*(c3.get_pos()[1]-c4.get_pos()[1]))
+                    #x = d34*cos(time-4)+c4.get_pos()[0]
+                    #y = d34*sin(time-4)+c4.get_pos()[1]
+                    #c3.set_pos(x,y)
 
 
                 time+=0.02
-
 
 
                 #if counter==3 and c3.get_pos()[0]<-8 and c3.get_pos()[0] > display_width+8 and  c3.get_pos()[1]<-8 and c3.get_pos()[1] > display_height+8 and c2.get_pos()[0]<-8 and c2.get_pos()[0] > display_width+8 and  c2.get_pos()[1]<-8 and c2.get_pos()[1] > display_height+8 and c1.get_pos()[0]<-8 and c1.get_pos()[0] > display_width+8 and  c1.get_pos()[1]<-8 and c1.get_pos()[1] > display_height+8 and flag_obs_win==True:
@@ -3505,25 +3578,29 @@ def level7():
                             Ex=Ec[0]
                             Ey=Ec[1]
                             step=0.04
-                            cvx = c_obs[i].get_charge()*Ex*step
-                            cvy = c_obs[i].get_charge()*Ey*step
+                            cvx = c_obs[i].get_vel()[0]+c_obs[i].get_charge()/field_lower*Ex*step 
+                            cvy = c_obs[i].get_vel()[1]+c_obs[i].get_charge()/field_lower*Ey*step 
+                            c_obs[i].set_vel(cvx,cvy)
                             cx = step*cvx
                             cy = step*cvy
                             c_obs[i].move_charge(cx,cy)
 
+                        
                             posx=c_obs[i].get_pos()[0]
                             posy = c_obs[i].get_pos()[1]
                             c4x = c4.get_pos()[0]
                             c4y = c4.get_pos()[1]
                             
                             d = sqrt((posx-c4x)*(posx-c4x) + (posy-c4y)*(posy-c4y))
-
+                            
                             if(obs_draw_first_entrance==True and i==c_obs_counter-1):
                                 collision=True
                                 first_entrance=True
-                                phase.append(-acos((posx-c4x)/d))
+                                #phase.append(-acos((posx-c4x)/d))
+                                c_obs[i].set_vel(5,-5)
+                                
 
-
+                            """
                             x = d*cos(-time_obs[i]+phase[i])+c4x
                             y = -d*sin(-time_obs[i]+phase[i])+c4y
 
@@ -3531,6 +3608,8 @@ def level7():
 
                             if(c_obs_collision[i]==False):
                                 c_obs[i].set_pos(x,y)
+                            """
+
                             time_obs[i]+=0.02
 
 
