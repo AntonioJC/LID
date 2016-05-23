@@ -181,10 +181,12 @@ def level1():
 
 
         # --- Criar efectivamente as cargas no screen ######
+        DARK_BLUE=DSBLUE
+        DARK_RED=RED
 
         c2.create_charge(screen,-1000,Ox+80,Oy,DARK_BLUE)
         c3.create_charge(screen,-1500,Ox-120,Oy,DARK_BLUE)
-        c4.create_charge(screen,-1000,Ox,Oy+120,DARK_BLUE)
+        c4.create_charge(screen,1000,Ox,Oy+120,DARK_RED)
         c1.create_charge(screen,1000,600,400,DARK_RED)
         c5.create_charge(screen,1000,620,250,DARK_RED)
         c6.create_charge(screen,1000,300,100,DARK_RED)
@@ -269,11 +271,11 @@ def level1():
 
                 # Set the screen background
                 if ball_on_screen == False:
-                    if srx==1:
-                        bg = pygame.image.load("bg.png") 
-                        screen.blit(bg, (0, 0)) 
-                    else:
-                        screen.fill(BLACK)
+                    #if srx==1:
+                      #  bg = pygame.image.load("bg.png") 
+                     #   screen.blit(bg, (0, 0)) 
+                    #else:
+                    screen.fill(WHITE)
                     #bg = pygame.image.load("bg.png")                
                     #screen.blit(bg, (0, 0))
 
@@ -328,7 +330,7 @@ def level1():
 
                 c4.draw_charge(screen)
                 font = pygame.font.SysFont("comicsansms", int(srx*30))
-                text = font.render("-", 1, WHITE)
+                text = font.render("+", 1, WHITE)
                 textpos = text.get_rect()
                 textpos.center = ((c4.get_pos()[0]),(c4.get_pos()[1]))
                 screen.blit(text, textpos)

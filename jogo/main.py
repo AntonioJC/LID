@@ -23,6 +23,7 @@ GOLD = (255,215,0)
 DARK_RED = (178,34,34)
 CORN_BLUE = (100,149,237)
 DARK_BLUE = (72,61,139)
+DARK_GRAY=(131,139,139)
 
 pygame.init()
  
@@ -98,8 +99,9 @@ def game_welcome():
                 quit()
 
                 
-        screen.fill(WHITE)
-        img = pygame.image.load("bgg2.png")                
+        screen.fill(BLACK)
+        img = pygame.image.load("bgg2.png")
+        #img = pygame.image.load("bg_white_2.png")
         screen.blit(img, (0, 0))
 
         x=90
@@ -107,7 +109,8 @@ def game_welcome():
         rad=7
         w=520
         h=90
-        cor_title=GOLD
+        #cor_title=DARK_GRAY
+        cor_title=GRAY
 
         pygame.draw.rect(screen, cor_title,(x,y,w,h))
         pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
@@ -122,7 +125,8 @@ def game_welcome():
         rad=7
         w=510
         h=80
-        cor_title=GOLD
+        #cor_title=WHITE
+        cor_title=BLACK
 
         pygame.draw.rect(screen, cor_title,(x,y,w,h))
         pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
@@ -138,7 +142,7 @@ def game_welcome():
         rad=7
         w=500
         h=25
-        cor_title=GOLD
+        cor_title=DARK_GRAY
 
         pygame.draw.rect(screen, cor_title,(x,y,w,h))
         pygame.draw.circle(screen, cor_title, [x, y+rad], rad)
@@ -150,19 +154,20 @@ def game_welcome():
         
 
         largeText = pygame.font.SysFont("freesans",50,BLACK)
-        largeText2 = pygame.font.SysFont("freesans",54,BLACK)
-        TextSurf, TextRect = text_objects("Electromagnetism", largeText,GOLD)
-        TextSurf2, TextRect2 = text_objects("Electromagnetism", largeText2,BLACK)
-        #TextSurf3, TextRect3 = text_objects("Electromagnetism", largeText2,WHITE)
-        TextRect.center = ((display_width/2),100)
-        TextRect2.center = ((display_width/2),100+1)
-        #TextRect3.center = ((display_width/2),100)
+        largeText2 = pygame.font.SysFont("freesans",50,BLACK)
+        TextSurf, TextRect = text_objects("Electromagnetism", largeText,DARK_GRAY)
+        TextSurf2, TextRect2 = text_objects("Electromagnetism", largeText2,(244,238,224))
+        #TextSurf3, TextRect3 = text_objects("Electromagnetism", largeText2,GRAY)
+        TextRect.center = ((display_width/2)+5,100-2)
+        TextRect2.center = ((display_width/2),100)
+        #TextRect3.center = ((display_width/2)-1,100)
         screen.blit(TextSurf, TextRect)
-        screen.blit(TextSurf2, TextRect2)
         #screen.blit(TextSurf3, TextRect3)
+        screen.blit(TextSurf2, TextRect2)
+        
 
-        button("Begin",(display_width/2-150),250,100,50,GOLD,GRAY,game_intro)
-        button("About",(display_width/2+50),250,100,50,GOLD,GRAY,about)
+        button("Begin",(display_width/2-150),280,100,50,GOLD,GRAY,game_intro)
+        button("About",(display_width/2+50),280,100,50,GOLD,GRAY,about)
 
         pygame.display.update()
         clock.tick(15)
