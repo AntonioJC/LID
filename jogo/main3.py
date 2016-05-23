@@ -406,7 +406,7 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Stop the magnetic field: 's' ", smallText,RED)
+                    textSurf, textRect = text_objects("Null field: 's' ", smallText,RED)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
@@ -743,9 +743,11 @@ def level1():
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_o:
-					shooter_angle = shooter_angle+0.2
+                                    if(shooter_angle<1.5):
+					shooter_angle = shooter_angle+0.05
 				elif event.key == pygame.K_l:
-					shooter_angle = shooter_angle-0.2
+                                    if(shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
 				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True
@@ -975,9 +977,11 @@ def level2():
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_o:
-					shooter_angle = shooter_angle+0.2
+                                    if(shooter_angle<1.5):
+					shooter_angle = shooter_angle+0.05
 				elif event.key == pygame.K_l:
-					shooter_angle = shooter_angle-0.2
+                                    if(shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
 				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True
@@ -1360,9 +1364,11 @@ def level3():
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_o:
-					shooter_angle = shooter_angle+0.2
+                                    if(shooter_angle<1.5):
+					shooter_angle = shooter_angle+0.05
 				elif event.key == pygame.K_l:
-					shooter_angle = shooter_angle-0.2
+                                    if(shooter_angle>=0):
+					shooter_angle = shooter_angle-0.05
 				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True

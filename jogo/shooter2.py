@@ -525,8 +525,8 @@ class shoot:
                         self.ball_pos_x = self.ball_pos_x0
                         self.ball_pos_y = self.ball_pos_y0
                         self.ball_vx = vel*cos(self.sh_angle)
-                        #self.ball_vy = vel*sin(self.sh_angle)
-                        self.ball_vy=0
+                        self.ball_vy = -vel*sin(self.sh_angle)
+                        #self.ball_vy=0
 			self.t=0
 			
 		pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 5, 5)
@@ -565,8 +565,8 @@ class shoot:
                         self.ball_pos_x = self.ball_pos_x0
                         self.ball_pos_y = self.ball_pos_y0
                         self.ball_vx = vel*cos(self.sh_angle)
-                        #self.ball_vy = vel*sin(self.sh_angle)
-                        self.ball_vy=0
+                        self.ball_vy = -vel*sin(self.sh_angle)
+                        #self.ball_vy=0
 			self.t=0
 			
 		pygame.draw.circle(screen, GREEN, (int(self.ball_pos_x), int(self.ball_pos_y)), 5, 5)
