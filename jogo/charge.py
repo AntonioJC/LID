@@ -23,6 +23,8 @@ class elec_charge:
 
         self.pos_x = 0
         self.pos_y = 0
+        self.vx = 0
+        self.vy = 0
         self.q = 1000
         self.radius=0
         self.mass=1
@@ -63,6 +65,13 @@ class elec_charge:
 
     def get_pos(self):
         return (self.pos_x,self.pos_y)
+
+    def get_vel(self):
+        return(self.vx,self.vy)
+
+    def set_vel(self,vx,vy):
+        self.vx = vx
+        self.vy = vy
 
     def set_pos(self,x,y):
         self.pos_x = x
