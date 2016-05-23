@@ -165,22 +165,13 @@ def stage3_tut():
 
         ### flags do tutorial
 
-        move_shooter = False #flag para saber se o user ja movimentou o shooter
-        first_touch_up=False
-        first_touch_down=False
-        complete1 = False
-        tut_complete1 = False # indica se a primeira parte do tutorial (mexer o shooter) esta completa
-
-        shoot_particle=False
-        first_shoot=False
-        complete2=False
-        tut_complete2=False
-
-        complete3=False #mexer campo magnetico
-        tut_complete3=False
-
-        complete4=False #mexer campo electrico
-        tut_complete4=False
+        move_shooter=False
+        throw_charge=False
+        click_a=False
+        click_s=False
+        click_d=False
+        click_Ex=False
+        click_Ey=False
 
         b_up=False
         b_null=False
@@ -201,15 +192,23 @@ def stage3_tut():
                 if keys[pygame.K_LEFT]:
                     Ex -= 1
                     Ex_down=True
+                    if(ball_on_screen==True):
+                        click_Ex = True
                 if keys[pygame.K_RIGHT]:
                     Ex += 1
                     Ex_up=True
+                    if(ball_on_screen==True):
+                        click_Ex = True
                 if keys[pygame.K_DOWN]:
                     Ey += 1
                     Ey_down=True
+                    if(ball_on_screen==True):
+                        click_Ey = True
                 if keys[pygame.K_UP]:
                     Ey -= 1
                     Ey_up=True
+                    if(ball_on_screen==True):
+                        click_Ey = True
 
 		# --- Event Processing
 		for event in pygame.event.get():
@@ -227,9 +226,9 @@ def stage3_tut():
                                     else:
                                         vel=0
                                         ball_on_screen=False #para fazer nova jogada
-                                    if(first_touch_up==False and first_touch_down==False):
-                                        move_shooter=True
-                                        first_touch_up=True
+
+                                    move_shooter=True
+                    
 
 				elif event.key == pygame.K_l:
 
@@ -238,25 +237,33 @@ def stage3_tut():
                                     else:
                                         vel=0
                                         ball_on_screen=False #para fazer nova jogada
-                                    if(first_touch_down==False and first_touch_up==False):
-                                        move_shooter=True
-                                        first_touch_down=True
+
+                                    move_shooter=True
+
+
 
 				elif event.key == pygame.K_SPACE:
 					shot=True
 					ball_on_screen=True
-                                        if(first_shoot==False):
-                                            shoot_particle=True
-                                            first_shoot=True
+                                        throw_charge=True
                                 elif event.key == pygame.K_d:
                                         B=14
                                         b_up = True
+                                        if(ball_on_screen==True):
+                                            click_d = True
                                 elif event.key == pygame.K_s:
                                         B=0
                                         b_null=True
+
+                                        if(ball_on_screen==True):
+                                            click_s = True
                                 elif event.key == pygame.K_a:
                                         B=-14
                                         b_down=True
+
+                                        if(ball_on_screen==True):
+                                            click_a = True
+
 
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -269,9 +276,14 @@ def stage3_tut():
                 screen.blit(bg, (0, 0)) 
 
 
-                if(move_shooter==False and complete1==False):
 
-                    x=65
+
+                trans=-100
+
+                if(move_shooter==False):
+
+
+                    x=trans
                     y=5
                     rad=7
                     w=620
@@ -279,18 +291,12 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the 'o' (UP) or 'l' (DOWN) keys to move the thrower", smallText,RED)
+                    textSurf, textRect = text_objects("Move the thrower: 'o' (UP) or 'l' (DOWN) keys", smallText,RED)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
+                else:
 
-
-                elif move_shooter==True:
-                    complete1=True
-
-
-                if(complete1==True and move_shooter==True):
-
-                    x=65
+                    x=trans
                     y=5
                     rad=7
                     w=620
@@ -298,107 +304,185 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the 'o' (UP) or 'l' (DOWN) keys to move the thrower", smallText,GREEN)
+                    textSurf, textRect = text_objects("Move the thrower: 'o' (UP) or 'l' (DOWN) keys", smallText,GREEN)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
-                ###Depois deste if esta complete1=True e move_shooter=False para sempre (VER fim do codigo desta funcao)
 
+                if(throw_charge==False):
 
-                if(tut_complete1==True and complete2==False and complete3==False and complete4==False):
-
-                    x=65
-                    y=5
+                    x=trans
+                    y=35
                     rad=7
                     w=620
                     h=30
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge", smallText,RED)
+                    textSurf, textRect = text_objects("Throw a + charge: 'SPACE'", smallText,RED)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
-                                        
+                else:
 
-                #if(shoot_particle==True):
-                    #complete2 = True
-
-
-                if(tut_complete1==True and shoot_particle==False and complete2==True and complete3==False and complete4==False):
-
-                    x=65
-                    y=5
-                    rad=7
-                    w=620
-                    h=30
-
-                    smallText = pygame.font.SysFont("freesans",20)
-                    #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the SPACE key to throw a + charge", smallText,GREEN)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
-                    screen.blit(textSurf, textRect)
-
-                if(tut_complete1==True and tut_complete2==True and complete3==False and complete4==False):
-
-                    x=65
-                    y=5
+                    x=trans
+                    y=35
                     rad=7
                     w=620
                     h=30
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the 'a', 's' and 'd'  keys to change the magnetic field. See what happens!", smallText,RED)
+                    textSurf, textRect = text_objects("Throw a + charge: 'SPACE'", smallText,GREEN)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
-                if(tut_complete1==True and shoot_particle==False and tut_complete2==True and complete3==True and complete4==False):
+                if(click_a==False):
 
-                    x=65
-                    y=5
-                    rad=7
-                    w=620
-                    h=30
-                        
-
-                    smallText = pygame.font.SysFont("freesans",20)
-                    #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the 'a', 's' and 'd'  keys to change the magnetic field. See what happens!", smallText,GREEN)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
-                    screen.blit(textSurf, textRect)
-
-                if(tut_complete1==True and tut_complete2==True and tut_complete3==True and complete4==False):
-
-                    x=65
-                    y=5
+                    x=trans
+                    y=65
                     rad=7
                     w=620
                     h=30
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the left and right arrows to change Exand hit the up and down arrows to change Ey!", smallText,RED)
+                    textSurf, textRect = text_objects("Magnetic field pointing out of the computer: 'a' ", smallText,RED)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
-                if(tut_complete1==True and shoot_particle==False and tut_complete2==True and tut_complete3==True and complete4==True):
+                else:
 
-                    x=65
-                    y=5
+                    x=trans
+                    y=65
                     rad=7
                     w=620
                     h=30
                         
-
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the left and right arrows to change Exand hit the up and down arrows to change Ey!", smallText,GREEN)
+                    textSurf, textRect = text_objects("Magnetic field pointing out of the computer: 'a' ", smallText,GREEN)
                     textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
+
+
+                if(click_d==False):
+
+                    x=trans
+                    y=95
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Magnetic field pointing into the computer: 'd' ", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+                else:
+
+                    x=trans
+                    y=95
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Magnetic field pointing into the computer: 'd' ", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+
+
+                if(click_s==False):
+
+                    x=trans
+                    y=125
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Stop the magnetic field: 's' ", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+                else:
+
+                    x=trans
+                    y=125
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Stop the magnetic field: 's' ", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+
+                if(click_Ex==False):
+
+                    x=trans
+                    y=155
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the left and right arrows to change Ex", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+                else:
+
+                    x=trans
+                    y=155
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the left and right arrows to change Ex", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+
+                if(click_Ey==False):
+                    x=trans
+                    y=185
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the up and down arrows to change Ey", smallText,RED)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+                else:
+
+                    x=trans
+                    y=185
+                    rad=7
+                    w=620
+                    h=30
+                        
+                    smallText = pygame.font.SysFont("freesans",20)
+                    #smallText = pygame.font.SysFont("Verdana",20)
+                    textSurf, textRect = text_objects("Hit the up and down arrows to change Ey", smallText,GREEN)
+                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    screen.blit(textSurf, textRect)
+
+
                 
-                
-
 
                 button("Menu",0,5,50,20,GRAY,WHITE,game_intro)
 
@@ -542,6 +626,33 @@ def stage3_tut():
 
 
 
+
+
+
+
+                pos_meita=500
+                yyy=60
+                pygame.draw.circle(screen, BLACK, [pos_meita,yyy],10)
+                pygame.draw.circle(screen, WHITE, [pos_meita,yyy],8)
+                pygame.draw.circle(screen, BLACK, [pos_meita,yyy],3)
+
+                pygame.draw.circle(screen, BLACK, [pos_meita,yyy+20],10)
+                pygame.draw.circle(screen, WHITE, [pos_meita,yyy+20],8)
+                smallText3 = pygame.font.SysFont("freesans",18)
+                textSurf3, textRect3 = text_objects("X", smallText3)
+                textRect3.center = ( (pos_meita), (yyy+20) )
+                screen.blit(textSurf3, textRect3)
+                smallText3 = pygame.font.SysFont("freesans",18)
+                textSurf3, textRect3 = text_objects("Into the computer", smallText3,WHITE)
+                textRect3.center = ( (pos_meita+90), (yyy) )
+                screen.blit(textSurf3, textRect3)
+                smallText3 = pygame.font.SysFont("freesans",18)
+                textSurf3, textRect3 = text_objects("Out of the computer", smallText3,WHITE)
+                textRect3.center = ( (pos_meita+100), (yyy+20) )
+                screen.blit(textSurf3, textRect3)
+
+
+
 		if ball_on_screen==True:
 			#s.draw_ball(screen,shot)
                         #s.kutta(screen,shot,B,Ex,Ey)
@@ -551,7 +662,6 @@ def stage3_tut():
                         s.electromagkutta(screen,shot,B,Ex,Ey)
 
 			shot = False
-                        complete2=True
 
                         """
                         tempo = s.counter(shot,detect)
@@ -596,34 +706,9 @@ def stage3_tut():
 			else:
 				ball_on_screen=False
                                 
-                
-                if  b_null==True and b_up==True and b_down==True:
-                            complete3=True
 
-                if  Ex_test==True and Ey_test==True:
-                            complete4=True
-
-                if(complete1==True and move_shooter==True):
-                    move_shooter=False
-                    tut_complete1 = True # primeira parte do tutorial completa
-                    time.sleep(0.5)
-
-
-                if(complete2==True and shoot_particle==True):
-                    shoot_particle=False
-                    time.sleep(0.5)
-
-                if(tut_complete1==True and shoot_particle==False and complete2==True and complete3==False and complete4==False):
-                    tut_complete2=True
-
-                if(tut_complete1==True and shoot_particle==False and complete2==True and complete3==True and complete4==False):
-                    tut_complete3=True
-                
-                if(tut_complete1==True and shoot_particle==False and complete2==True and complete3==True and complete4==True):
-                    tut_complete4=True
-
-                if(tut_complete1==True and tut_complete2==True and tut_complete3==True and tut_complete4==True):
-                    tutorial_sucess(stage3_tut,game_intro)
+                #if(tut_complete1==True and tut_complete2==True and tut_complete3==True and tut_complete4==True):
+                 #   tutorial_sucess(stage3_tut,game_intro)
 
                 # --- Wrap-ups
 		# Limit to 180 frames per second
