@@ -1032,7 +1032,7 @@ def level2():
  
 		# --- Wrap-ups
 		# Limit to 180 frames per second
-		clock.tick(180)
+		clock.tick(280)
  
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
@@ -3986,8 +3986,8 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the left and right arrows to change Ex", smallText,RED)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    textSurf, textRect = text_objects("Hit the left and right arrows to change Ex (level 3 only)", smallText,RED)
+                    textRect.center = ( (x+30+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
                 else:
@@ -4000,8 +4000,8 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the left and right arrows to change Ex", smallText,GREEN)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    textSurf, textRect = text_objects("Hit the left and right arrows to change Ex (level 3 only)", smallText,GREEN)
+                    textRect.center = ( (x+30+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
 
@@ -4014,8 +4014,8 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the up and down arrows to change Ey", smallText,RED)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    textSurf, textRect = text_objects("Hit the up and down arrows to change Ey (level 3 only)", smallText,RED)
+                    textRect.center = ( (x+30+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
                 else:
@@ -4028,8 +4028,8 @@ def stage3_tut():
                         
                     smallText = pygame.font.SysFont("freesans",20)
                     #smallText = pygame.font.SysFont("Verdana",20)
-                    textSurf, textRect = text_objects("Hit the up and down arrows to change Ey", smallText,GREEN)
-                    textRect.center = ( (x+(w/2)+4), (y+(h/2)+50) )
+                    textSurf, textRect = text_objects("Hit the up and down arrows to change Ey (level 3 only)", smallText,GREEN)
+                    textRect.center = ( (x+30+(w/2)+4), (y+(h/2)+50) )
                     screen.blit(textSurf, textRect)
 
 
