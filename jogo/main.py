@@ -33,7 +33,7 @@ display_height = 500
 size = [display_width, display_height]
 screen = pygame.display.set_mode(size)
  
-pygame.display.set_caption("Electromagnetism for Everybody")
+pygame.display.set_caption("EM Challenge")
 tcol=4 
 pause = False 
 
@@ -155,8 +155,8 @@ def game_welcome():
 
         largeText = pygame.font.SysFont("freesans",50,BLACK)
         largeText2 = pygame.font.SysFont("freesans",50,BLACK)
-        TextSurf, TextRect = text_objects("EM Journey", largeText,DARK_GRAY)
-        TextSurf2, TextRect2 = text_objects("EM Journey", largeText2,(244,238,224))
+        TextSurf, TextRect = text_objects("EM Challenge", largeText,DARK_GRAY)
+        TextSurf2, TextRect2 = text_objects("EM Challenge", largeText2,(244,238,224))
         #TextSurf3, TextRect3 = text_objects("Electromagnetism", largeText2,GRAY)
         TextRect.center = ((display_width/2)+5,100-2)
         TextRect2.center = ((display_width/2),100)
@@ -170,7 +170,7 @@ def game_welcome():
         button("About",(display_width/2+50),280,100,50,GOLD,GRAY,about)
 
         pygame.display.update()
-        clock.tick(15)
+        clock.tick(10)
  
 
 def game_intro():
@@ -185,18 +185,10 @@ def game_intro():
                 pygame.quit()
                 quit()
 
-        counter += 1
-
-        if(counter<=10):
-            color = BLACK
-        if(10<counter<20):
-            color = GOLD
-        if(counter==20):
-            counter=0
 
         screen.fill(WHITE)
         largeText = pygame.font.SysFont("freesans",50)
-        TextSurf, TextRect = text_objects("Choose one stage", largeText,color)
+        TextSurf, TextRect = text_objects("Choose one stage", largeText,BLACK)
         TextRect.center = ((display_width/2),120)
         screen.blit(TextSurf, TextRect)
 
@@ -407,7 +399,7 @@ def level1():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText,BLACK)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold with the + charge!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -474,7 +466,7 @@ def level1():
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
-                                defeat(level1)
+                                defeat(level1,stage1)
  
 
 		# --- Wrap-ups
@@ -747,7 +739,7 @@ def stage1_tut():
                         # verificar se a bola acertou no patamar pretendido
                         if pos_patamar[0]<pos[0]<pos_patamar[0]+width_patamar and pos_patamar[1]-2<pos[1]<pos_patamar[1]+2:
                             complete2=True
-                            #victory(level2)
+                            
 
 
                         #Verificar se a bola colide com as cargas
@@ -764,7 +756,7 @@ def stage1_tut():
 
 
                         if pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1:
-                            ball_on_screen=False#defeat(level2)
+                            ball_on_screen=False
 
                             x=display_width/2 - 300
                             y=display_height/2-80
@@ -855,7 +847,6 @@ def level2():
 
         ###############################################
 
-        n_tries=0 #para contar o nr de tentativas do user
 	shooter_angle=0
 	ball_on_screen=False
 
@@ -878,7 +869,6 @@ def level2():
 					shooter_angle = shooter_angle+0.05	
                                     else:
                                         vel=0
-                                        n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
 
 				elif event.key == pygame.K_DOWN:
@@ -887,7 +877,6 @@ def level2():
 					shooter_angle = shooter_angle-0.05
                                     else:
                                         vel=0
-                                        n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
 				elif event.key == pygame.K_SPACE:
 					shot=True
@@ -916,10 +905,10 @@ def level2():
                 screen.blit(text, textpos)
                 """
 
-                x=150
+                x=120
                 y=5
                 rad=7
-                w=385
+                w=470
                 h=30
         
                 pygame.draw.rect(screen, GOLD,(x,y,w,h))
@@ -932,7 +921,7 @@ def level2():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText,BLACK)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold with the + charge!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -973,7 +962,7 @@ def level2():
                 screen.blit(text, textpos)
 
                 c3.draw_charge(screen)
-                font = pygame.font.SysFont("freesans", int(50))
+                font = pygame.font.SysFont("freesans", int(35))
                 text = font.render("-", 1, WHITE)
                 textpos = text.get_rect()
                 textpos.center = ((c3.get_pos()[0]),(c3.get_pos()[1]))
@@ -1016,11 +1005,8 @@ def level2():
 
                         # verificar se a bola acertou no patamar pretendido
                         if pos_patamar[0]<pos[0]<pos_patamar[0]+width_patamar and pos_patamar[1]-2<pos[1]<pos_patamar[1]+2:
-                            victory(level2)
+                            victory(level2,stage1)
 
-                        # verificar as tentativas efectuadas
-                        if(n_tries==3):
-                            defeat(level2)
 
                         #Verificar se a bola colide com as cargas
                         
@@ -1033,7 +1019,7 @@ def level2():
     
                         
                         if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
-                            defeat(level2)
+                            defeat(level2,stage1)
                         
 
 			
@@ -1041,8 +1027,8 @@ def level2():
 			if 0<pos[0]< display_width and  0<pos[1]<display_height: 
 				ball_on_screen=True
 			else:
-                                n_tries = n_tries+1
 				ball_on_screen=False
+                                defeat(level2,stage1)
  
 		# --- Wrap-ups
 		# Limit to 180 frames per second
@@ -1137,10 +1123,10 @@ def level3():
                 screen.blit(text, textpos)
                 """
 
-                x=150
+                x=120
                 y=5
                 rad=7
-                w=385
+                w=470
                 h=30
         
                 pygame.draw.rect(screen, GOLD,(x,y,w,h))
@@ -1153,9 +1139,10 @@ def level3():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText,BLACK)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold with the + charge!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
+
 
 		# desenhar o shooter
 		s.draw_shooter(screen,shooter_angle)
@@ -1201,7 +1188,7 @@ def level3():
 			pos = s.get_ball_pos()                        
 
                         if display_width/2-20<pos[0]<display_width/2+20 and display_height/2-21<pos[1]<display_height/2 - 19:
-                            victory(level3)                      
+                            victory(level3,stage1)                      
                         
 
                         #Verificar se a bola colide com as cargas
@@ -1215,7 +1202,7 @@ def level3():
     
                         
                         if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
-                            defeat(level3)
+                            defeat(level3,stage1)
 
 
 
@@ -1231,7 +1218,7 @@ def level3():
     
                         
                         if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
-                            defeat(level3)
+                            defeat(level3,stage1)
 
 
 
@@ -1240,7 +1227,7 @@ def level3():
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
-                                defeat(level3)
+                                defeat(level3,stage1)
  
 
 		# --- Wrap-ups
@@ -1351,10 +1338,10 @@ def level4():
                 screen.blit(text, textpos)
                 """
 
-                x=150
+                x=120
                 y=5
                 rad=7
-                w=385
+                w=470
                 h=30
         
                 pygame.draw.rect(screen, GOLD,(x,y,w,h))
@@ -1367,7 +1354,7 @@ def level4():
 
                 smallText = pygame.font.SysFont("freesans",20)
                 #smallText = pygame.font.SysFont("Verdana",20)
-                textSurf, textRect = text_objects("Objective: Reach the red threshold!", smallText,BLACK)
+                textSurf, textRect = text_objects("Objective: Reach the red threshold with the + charge!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
 
@@ -1436,7 +1423,7 @@ def level4():
                     c2_pos=c2_pos # So para ter alguma coisa no if, nao faz nada, pode continuar
                 else:
                     #quer dizer que esta fora do ecra e nao pode continuar
-                    defeat(level4)
+                    defeat(level4,stage1)
 
                 ########################################################################################################################
             
@@ -1496,7 +1483,7 @@ def level4():
 
                         # verificar se a bola acertou no patamar pretendido
                         if display_width/2+230<pos[0]<display_width/2+250 and display_height/2-22<pos[1]<display_height/2-20:
-                            victory(level4)
+                            victory(level4,stage1)
                         
 
                         #Verificar se a bola colide com as cargas
@@ -1509,8 +1496,8 @@ def level4():
                         r3 = c3.get_radius()
     
                         
-                        if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3<pos[0]<pos_c3[0]+r3 and pos_c3[1]-r3<pos[1]<pos_c3[1]+r3)):
-                            defeat(level4)
+                        if((pos_c1[0]-r1<pos[0]<pos_c1[0]+r1 and pos_c1[1]-r1<pos[1]<pos_c1[1]+r1) or (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2) or (pos_c3[0]-r3+2<pos[0]<pos_c3[0]+r3-2 and pos_c3[1]-r3+2<pos[1]<pos_c3[1]+r3-2)):
+                            defeat(level4,stage1)
 
 
 			
@@ -1519,6 +1506,7 @@ def level4():
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
+                                defeat(level4,stage1)
  
 		# --- Wrap-ups
 		# Limit to 180 frames per second
@@ -1584,7 +1572,6 @@ def stage2_tut():
         v_c=0
 
 
-        n_tries=0 #para contar o nr de tentativas do user
 	shooter_angle=0
 	ball_on_screen=False
 
@@ -1650,7 +1637,6 @@ def stage2_tut():
 					shooter_angle = shooter_angle+0.05	
                                     else:
                                         vel=0
-                                        n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
                                     collision=False
                                     if(first_touch_up==False and first_touch_down==False):
@@ -1663,7 +1649,6 @@ def stage2_tut():
 					shooter_angle = shooter_angle-0.05
                                     else:
                                         vel=0
-                                        n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
                                     collision=False
                                     if(first_touch_down==False and first_touch_up==False):
@@ -1944,7 +1929,6 @@ def stage2_tut():
 			if 0<=pos[0]<= display_width and  0<=pos[1]<=display_height: 
 				ball_on_screen=True
 			else:
-                                #n_tries = n_tries+1
 				ball_on_screen=False
 
 
@@ -2076,7 +2060,6 @@ def level5():
         v_c=0
 
 
-        n_tries=0 #para contar o nr de tentativas do user
 	shooter_angle=0
 	ball_on_screen=False
 
@@ -2110,7 +2093,6 @@ def level5():
 					shooter_angle = shooter_angle+0.05	
                                     else:
                                         vel=0
-                                        n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
                                     collision=False
 
@@ -2120,7 +2102,6 @@ def level5():
 					shooter_angle = shooter_angle-0.05
                                     else:
                                         vel=0
-                                        n_tries=n_tries+1
                                         ball_on_screen=False #para fazer nova jogada
                                     collision=False
 
@@ -2177,7 +2158,6 @@ def level5():
                 textSurf, textRect = text_objects("Use Compton scattering to remove the electrons from the + charge field!", smallText,BLACK)
                 textRect.center = ( (x+(w/2)+4), (y+(h/2)) )
                 screen.blit(textSurf, textRect)
-
 
                 ##Informacao sobre o angulo de inclinacao
                 #pygame.draw.rect(screen,AQUA,(display_width/2+100,15,300,30))
@@ -2334,7 +2314,6 @@ def level5():
 			if 0<=pos[0]<= display_width and  0<=pos[1]<=display_height: 
 				ball_on_screen=True
 			else:
-                                #n_tries = n_tries+1
 				ball_on_screen=False
 
 
@@ -2356,7 +2335,7 @@ def level5():
 
                 delta=20
                 if (c4_pos[0]-delta<c1_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c1_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c2_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c2_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c3_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c3_pos[1]<c4_pos[1]+delta):
-                    defeat(level5)
+                    defeat(level5,stage2)
 
 
 
@@ -2404,7 +2383,7 @@ def level5():
                 if counter!=3 or (-8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8) or (-8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8) or (-8<c1.get_pos()[0]< display_width+8 and -8<c1.get_pos()[1]<display_height+8):
                     a=1 #so para por alguma coisa
                 else:
-                    victory(level5)
+                    victory(level5,stage2)
 
 
 
@@ -2644,7 +2623,7 @@ def level6():
                 screen.blit(textSurf, textRect)
 
                 if countdown == 0:
-                    defeat(level6)       
+                    defeat(level6,stage2)       
 
 
 
@@ -2858,7 +2837,7 @@ def level6():
 
                 delta=20
                 if (c4_pos[0]-delta<c1_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c1_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c2_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c2_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c3_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c3_pos[1]<c4_pos[1]+delta):
-                    defeat(level6)
+                    defeat(level6,stage2)
 
 
                 field_lower=50
@@ -2929,7 +2908,7 @@ def level6():
                 if counter!=3 or (-8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8) or (-8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8) or (-8<c1.get_pos()[0]< display_width+8 and -8<c1.get_pos()[1]<display_height+8):
                     a=1 #so para por alguma coisa
                 else:
-                    victory(level6)
+                    victory(level6,stage1)
 
 
 
@@ -3198,7 +3177,7 @@ def level7():
                 screen.blit(textSurf, textRect)
 
                 if countdown == 0:
-                    defeat(level6)       
+                    defeat(level7,stage2)       
 
 
            
@@ -3430,7 +3409,7 @@ def level7():
 
                 delta=20
                 if (c4_pos[0]-delta<c1_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c1_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c2_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c2_pos[1]<c4_pos[1]+delta) or (c4_pos[0]-delta<c3_pos[0]<c4_pos[0]+delta and c4_pos[1]-delta<c3_pos[1]<c4_pos[1]+delta):
-                    defeat(level7)
+                    defeat(level7,stage2)
 
 
                 field_lower=50
@@ -3672,7 +3651,7 @@ def level7():
 
                                 delta=20
                                 if (c4x-delta<posx<c4x+delta and c4y-delta<posy<c4y+delta):
-                                    defeat(level7)
+                                    defeat(level7,stage2)
                                     
                             else:
                                 c_obs_on_screen[i]=False
@@ -3704,7 +3683,7 @@ def level7():
 
 
                 if(flag_win==True and flag_obs_win==True):
-                    victory(level7)
+                    victory(level7,stage2)
 
 
  
@@ -4349,7 +4328,7 @@ def level8():
                                         Ex=-Ex
                                 elif event.key == pygame.K_p:
                                     pause =  True
-                                    paused(level8)
+                                    #paused(level8)
                                         
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -4520,17 +4499,17 @@ def level8():
                         vel = s.get_ball_vel()
 
                         if 675<pos[0]<685 and 338<pos[1]<412:
-                            victory(level8)   
+                            victory(level8,stage3)   
 
                         if (0<pos[0]<186 and 420<pos[1]<436) or (380<pos[0]<400 and 122<pos[1]<520) or (114<pos[0]<390 and 300<pos[1]<316) or (112<pos[0]<128 and 122<pos[1]<308) or (200<pos[0]<280 and 15<pos[1]<185) or (513<pos[0]<550 and 300<pos[1]<400) or (513<pos[0]<820 and 300<pos[1]<320) or (513<pos[0]<620 and 120<pos[1]<200) or (680<pos[0]<682 and 340<pos[1]<410) or (600<pos[0]<680 and 5<pos[1]<35):
-                            defeat(level8)
+                            defeat(level8,stage3)
                         
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
-                                defeat(level8)
+                                defeat(level8,stage3)
 
 		# --- Wrap-ups
 		# Limit to 60 frames per second
@@ -4583,7 +4562,7 @@ def level9():
                                         Ex=-Ex
                                 elif event.key == pygame.K_p:
                                     pause =  True
-                                    paused(level9)
+                                    #paused(level9)
                                         
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -4877,7 +4856,7 @@ def level9():
                         vel = s.get_ball_vel()
 
                         if 615<pos[0]<625 and 38<pos[1]<112:
-                            victory(level9)   
+                            victory(level9,stage3)   
 
                         Ey=0
                         if (266+42)<pos[0]<(266+84) and 150<pos[1]<180:
@@ -4892,17 +4871,17 @@ def level9():
                             Ex=-70
 
                         if countdown == 0:
-                            defeat(level9)
+                            defeat(level9,stage3)
 
                         if (0<pos[0]<106 and 290<pos[1]<306) or (204<pos[0]<516 and 320<pos[1]<336) or (250<pos[0]<266 and 114<pos[1]<426) or (100<pos[0]<116 and 0<pos[1]<206) or (380<pos[0]<470 and 420<pos[1]<520) or (350<pos[0]<440 and 15<pos[1]<200) or (530<pos[0]<700 and 120<pos[1]<170) or (660<pos[0]<695 and 120<pos[1]<260):
-                            defeat(level9)
+                            defeat(level9,stage3)
                         
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
-                                defeat(level9)
+                                defeat(level9,stage3)
 
 		# --- Wrap-ups
 		# Limit to 60 frames per second
@@ -4969,7 +4948,7 @@ def level10():
 
                                 elif event.key == pygame.K_p:
                                     pause =  True
-                                    paused(level10)
+                                    #paused(level10)
 
 			if event.type == pygame.KEYUP:
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -5249,28 +5228,28 @@ def level10():
                         vel = s.get_ball_vel()
 
                         if 615<pos[0]<625 and 38<pos[1]<112:
-                            victory(level10)   
+                            victory(level10,stage3)   
 
                         if countdown == 0:
-                            defeat(level10)
+                            defeat(level10,stage3)
 
                         #Verificar se a bola colide com a carga
                         pos_c2 = c2.get_pos()
                         r2 = c2.get_radius()
                         
                         if (pos_c2[0]-r2<pos[0]<pos_c2[0]+r2 and pos_c2[1]-r2<pos[1]<pos_c2[1]+r2):
-                            defeat(level10)
+                            defeat(level10,stage3)
 
                         #Barreiras
                         if (0<pos[0]<106 and 290<pos[1]<306) or (204<pos[0]<516 and 320<pos[1]<336) or (250<pos[0]<266 and 114<pos[1]<426) or (100<pos[0]<116 and 0<pos[1]<206) or (380<pos[0]<470 and 420<pos[1]<520) or (350<pos[0]<440 and 15<pos[1]<200) or (530<pos[0]<700 and 120<pos[1]<170) or (660<pos[0]<695 and 120<pos[1]<260):
-                            defeat(level10)
+                            defeat(level10,stage3)
                         
 
 			if 0<pos[0]< display_width and  0<pos[1]<display_height:
 				ball_on_screen=True
 			else:
 				ball_on_screen=False
-                                defeat(level10)
+                                defeat(level10,stage3)
 
 		# --- Wrap-ups
 		# Limit to 60 frames per second
@@ -5279,7 +5258,7 @@ def level10():
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()
 
-def defeat(level):
+def defeat(level,stage=game_intro):
     
     lost = True 
 
@@ -5335,12 +5314,12 @@ def defeat(level):
 
         #screen.blit(text, textpos)
         button("Restart",(display_width/2)-120,(display_height/2),110,50,WHITE,GRAY,level)
-        button("Menu",(display_width/2)+10,(display_height/2),110,50,WHITE,GRAY,game_intro)
+        button("Menu",(display_width/2)+10,(display_height/2),110,50,WHITE,GRAY,stage)
 
         pygame.display.update()
         clock.tick(25)  
 
-def victory(level):
+def victory(level,stage=game_intro):
     
     win = True 
 
@@ -5397,7 +5376,7 @@ def victory(level):
 
         #screen.blit(text, textpos)
         button("Restart",(display_width/2)-120,(display_height/2),110,50,WHITE,GRAY,level)
-        button("Menu",(display_width/2)+10,(display_height/2),110,50,WHITE,GRAY,game_intro)
+        button("Menu",(display_width/2)+10,(display_height/2),110,50,WHITE,GRAY,stage)
 
 
 
@@ -5509,19 +5488,21 @@ def about():
 
     while True:
         for event in pygame.event.get():
-            #print(event)
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
                 
         screen.fill(WHITE)
+        
         largeText = pygame.font.SysFont("freesans",90)
         TextSurf, TextRect = text_objects("About", largeText,BLACK)
         TextRect.center = ((display_width/2),80)
-        font = pygame.font.Font(None, 26)
+        font = pygame.font.SysFont("freesans", 20)
+        
 	text = font.render("This is a game that desires to stimulate the", 1, (10, 10, 10))
         text2 = font.render("passion of young people for electromagnetism,", 1, (10, 10, 10))
-        text3 = font.render("using for that purpose a variety of levels.", 1, (10, 10, 10))
+        text3 = font.render("using for that purpose a variety of fun challenges.", 1, (10, 10, 10))
         text4 = font.render("Created by Antonio Costa and Miguel Goncalves", 1, (10, 10, 10))
         textpos = text.get_rect()
         text2pos = text2.get_rect()
@@ -5536,9 +5517,9 @@ def about():
         screen.blit(text2, text2pos)
         screen.blit(text3, text3pos)
         screen.blit(text4, text4pos)
-
+        
         button("Back",0,0,80,40,WHITE,GRAY,game_welcome)
-
+        
         pygame.display.update()
         clock.tick(15)
 

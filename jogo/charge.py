@@ -1,5 +1,5 @@
 import pygame
-from math import cos,sin
+from math import cos,sin,sqrt
 import ctypes 
 from ctypes import *
 
@@ -31,19 +31,20 @@ class elec_charge:
         self.color=BLACK
 
     def create_charge(self,screen,q,x,y,color):
+
         self.pos_x = x
         self.pos_y = y
         self.q = q
         self.color = color
-        self.radius=abs(q*0.01)
+        self.radius=sqrt(abs(q))*0.35
         pygame.draw.circle(screen, color, (int(self.pos_x), int(self.pos_y)), int(self.radius), int(self.radius))
 
 
     def draw_charge(self,screen):
-        pygame.draw.circle(screen, self.color, (int(self.pos_x), int(self.pos_y)), int(abs(self.q*0.01)), int(abs(self.q*0.01)))
+        pygame.draw.circle(screen, self.color, (int(self.pos_x), int(self.pos_y)), int(sqrt(abs(self.q))*0.35), int(sqrt(abs(self.q))*0.35))
 
     def erase_charge(self,screen):
-        pygame.draw.circle(screen, BLACK, (int(self.pos_x), int(self.pos_y)), int(abs(self.q*0.01)), int(abs(self.q*0.01)))
+        pygame.draw.circle(screen, BLACK, (int(self.pos_x), int(self.pos_y)), int(sqrt(abs(self.q))*0.35), int(sqrt(abs(self.q))*0.35))
 
     def get_mass_q(self):
         return (self.mass,self.q)
