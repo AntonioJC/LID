@@ -1540,7 +1540,7 @@ def stage2_tut():
         # --- Criar efectivamente as cargas no screen ######
         c1.create_charge(screen,-700,Ox-100,Oy-160,DARK_BLUE)
         c2.create_charge(screen,-700,Ox,Oy+150,DARK_BLUE)
-        c3.create_charge(screen,-700,Ox+180,Oy-100,DARK_BLUE)
+        c3.create_charge(screen,-700,Ox+180,Oy-90,DARK_BLUE)
         #c4.create_charge(screen,3000,Ox,Oy,RED)
 
         c1_pos=c1.get_pos()
