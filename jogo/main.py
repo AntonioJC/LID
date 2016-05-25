@@ -2908,7 +2908,7 @@ def level6():
                 if counter!=3 or (-8<c3.get_pos()[0]< display_width+8 and  -8<c3.get_pos()[1]<display_height+8) or (-8<c2.get_pos()[0]< display_width+8 and  -8<c2.get_pos()[1]<display_height+8) or (-8<c1.get_pos()[0]< display_width+8 and -8<c1.get_pos()[1]<display_height+8):
                     a=1 #so para por alguma coisa
                 else:
-                    victory(level6,stage1)
+                    victory(level6,stage2)
 
 
 
